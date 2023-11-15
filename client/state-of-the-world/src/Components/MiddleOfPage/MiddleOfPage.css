@@ -1,0 +1,9 @@
+.MiddleOfPageContainer {
+  width: 60svw;
+  max-width: 60svw;
+  background-color: rgb(57, 57, 240);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
