@@ -1,9 +1,1 @@
-.RightSideOfPageContainer {
-  width: 20svw;
-  max-width: 20svw;
-  background-color: rgb(47, 128, 47);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-}
+

@@ -6,7 +6,7 @@ import MiddleOfPage from "./Components/MiddleOfPage/MiddleOfPage";
 function App() {
   return (
     <>
-      <div className="PageContainer">
+      <div className="md:h-screen flex max-md:flex-col">
         <LeftSideOfPage />
         <MiddleOfPage />
         <RightSideOfPage />

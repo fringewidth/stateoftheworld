@@ -6,7 +6,7 @@ import GlobeToggle from "./GlobeToggle/GlobeToggle";
 function MiddleOfPage() {
   return (
     <>
-      <div className="MiddleOfPageContainer">
+      <div className="text-white order-2 max-md:order-1 w-3/5 max-md:w-[100svw] flex items-center justify-center flex-col border-solid border border-white">
         <TitleAndMonth />
         <GlobeRender1 />
         <GlobeToggle />

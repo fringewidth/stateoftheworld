@@ -1,10 +1,19 @@
 body {
   margin: 0;
   padding: 0;
+  background-color: black;
+}
+/* This will affect the scrollbar globally */
+::-webkit-scrollbar {
+  width: 3px;
 }
 
-.PageContainer {
-  height: 100svh;
-  width: 100svw;
-  display: flex;
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #585858;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
