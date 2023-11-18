@@ -104,11 +104,11 @@ function NewsFeedCard(props) {
     <>
       {props.SentimentStatus > 0.5
         ? PositiveGreenCard
-        : props.SentimentStatus > 0
+        : props.SentimentStatus < -0.5
+        ? NegativeRedCard
+        : props.SentimentStatus >= 0 && props.SentimentStatus < 0.5
         ? MildlyPositiveBlueCard
-        : props.SentimentStatus > -0.5
-        ? MildlyNegativeYellowCard
-        : NegativeRedCard}
+        : MildlyNegativeYellowCard}
     </>
   );
 }

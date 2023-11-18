@@ -10,17 +10,54 @@ function Sentiment(props) {
     2
   );
 
+  const PositiveGreenStyle = {
+    margin: "100px",
+    width: "0.001px",
+    height: "0.001px",
+    backgroundColor: "green",
+    borderRadius: "50%",
+    boxShadow: "0 0 500px 100px green",
+  };
+
+  const NegativeRedStyle = {
+    margin: "100px",
+    width: "0.001px",
+    height: "0.001px",
+    backgroundColor: "red",
+    borderRadius: "50%",
+    boxShadow: "0 0 500px 100px red",
+  };
+
+  const OrangeStyle = {
+    margin: "100px",
+    width: "0.001px",
+    height: "0.001px",
+    backgroundColor: "orange",
+    borderRadius: "50%",
+    boxShadow: "0 0 500px 100px orange",
+  };
+
+  const BlueStyle = {
+    margin: "100px",
+    width: "0.001px",
+    height: "0.001px",
+    backgroundColor: "blue",
+    borderRadius: "50%",
+    boxShadow: "0 0 500px 100px blue",
+  };
+
   return (
     <div
       className="absolute top-1 right-6 flex flex-col items-center justify-center"
-      style={{
-        margin: "100px",
-        width: "0.001px",
-        height: "0.001px",
-        backgroundColor: "orange",
-        borderRadius: "50%",
-        boxShadow: "0 0 500px 100px orange", // Increased spread radius
-      }}
+      style={
+        OverallSentiment > 0.5
+          ? PositiveGreenStyle
+          : OverallSentiment < -0.5
+          ? NegativeRedStyle
+          : OverallSentiment >= 0 && OverallSentiment < 0.5
+          ? BlueStyle
+          : OrangeStyle
+      }
     >
       <h1 className=" text-xs whitespace-nowrap mb-8 ml-16 tracking-[3px]">
         OVERALL SENTIMENT
@@ -29,7 +66,13 @@ function Sentiment(props) {
         {OverallSentiment}
       </span>
       <h1 className="text-2xl whitespace-nowrap tracking-[3px]">
-        MILDLY NEGATIVE
+        {OverallSentiment > 0.5
+          ? "POSITIVE"
+          : OverallSentiment < -0.5
+          ? "NEGATIVE"
+          : OverallSentiment >= 0 && OverallSentiment <= 0.5
+          ? "MILDLY POSITIVE"
+          : "MILDLY NEGATIVE"}
       </h1>
     </div>
   );
