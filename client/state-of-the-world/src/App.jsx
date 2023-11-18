@@ -7,10 +7,11 @@ import data from "./assets/StateOfTheWorldData";
 
 function App() {
   const [country, setCountry] = useState("Global");
-  const [countryData] = useState(data[country]);
+  const countryData = data[country];
+
   return (
     <>
-      <div className="md:h-screen flex max-md:flex-col">
+      <div className="md:h-screen flex max-md:flex-col font-trebuchet">
         <LeftSideOfPage countryData={countryData} />
         <MiddleOfPage setCountry={setCountry} />
         <RightSideOfPage countryData={countryData} />

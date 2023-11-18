@@ -5,15 +5,15 @@ body {
 }
 /* This will affect the scrollbar globally */
 ::-webkit-scrollbar {
-  width: 3px;
+  width: 1px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #585858;
+  background: #000000;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #000000;
 }

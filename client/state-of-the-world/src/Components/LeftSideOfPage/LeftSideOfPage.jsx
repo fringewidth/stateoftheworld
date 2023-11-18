@@ -1,10 +1,9 @@
 /* eslint-disable react/prop-types */
 import "./LeftSideOfPage.css";
 import NewsFeedCard from "./NewsFeedCard/NewsFeedCard";
-import { useState } from "react";
 
 function LeftSideOfPage(props) {
-  const [News] = useState(props.countryData.CountryNews);
+  const News = props.countryData.CountryNews;
 
   const EntireNewsFeed = News?.map((News) => (
     <NewsFeedCard
