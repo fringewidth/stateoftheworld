@@ -7,15 +7,17 @@ function InfoCard(props) {
   return (
     <>
       <div className="max-w-sm">
-        <img
-          className="rounded-t-lg"
-          src={props.CountryImage}
-          alt={`${Info?.name} Image`}
-        />
-        <div className="p-5">
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {Info?.name}
-          </h5>
+        <div className="">
+          <img
+            className="rounded-t-lg"
+            src={props.CountryImage}
+            alt={`${Info?.name} Image`}
+          />
+          <div className="p-5">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+              {Info?.name}
+            </h5>
+          </div>
 
           <p className="mb-3 font-normal">
             <strong>Temperature Anomalies:</strong> <br />
