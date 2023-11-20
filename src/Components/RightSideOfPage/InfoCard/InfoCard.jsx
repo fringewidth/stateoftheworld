@@ -43,7 +43,7 @@ function InfoCard(props) {
   return (
     <>
       <div className="max-w-sm">
-        <div className="">
+        <div className="relative">
           {props.country === "Global" ? (
             <PiGlobeStandLight size={200} />
           ) : (
@@ -53,41 +53,44 @@ function InfoCard(props) {
               alt={`${Info?.name} Image`}
             />
           )}
-          <div className="p-5">
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <div className="absolute top-2/4 right-[20%]">
+            <h5
+              style={{ WebkitTextStroke: "1.5px black" }}
+              className="mb-2 text-4xl font-bold tracking-[4px] text-gray-900 dark:text-white"
+            >
               {Info?.name}
             </h5>
           </div>
-
-          <p className="mb-3 font-normal">
-            <strong>Temperature Anomalies:</strong> <br />
-            <span className="text-orange-500 font-semibold text-2xl">
-              +{Info?.TemperatureAnomalies?.toFixed(2)}°C
-            </span>
-          </p>
-
-          <p className="mb-3 font-normal">
-            <strong>Sea Level Rise:</strong> <br />
-            <span className="text-orange-500 font-semibold text-2xl">
-              {Info?.SeaLevelRise}mm
-            </span>
-          </p>
-
-          <p className="mb-3 font-normal">
-            <strong>Carbon Emissions:</strong> <br />
-            <span className="text-orange-500 font-semibold">
-              <span className="text-2xl">{Info?.CarbonEmissions}</span>million
-              metric tons
-            </span>
-          </p>
-
-          <p className="mb-3 font-normal">
-            <strong>Renewable Energy Production:</strong> <br />
-            <span className="text-green-500 text-2xl ">
-              {Info?.RenewableEnergyProduction}%
-            </span>
-          </p>
         </div>
+
+        <p className="mb-3 font-normal">
+          <strong>Temperature Anomalies:</strong> <br />
+          <span className="text-orange-500 font-semibold text-2xl">
+            +{Info?.TemperatureAnomalies?.toFixed(2)}°C
+          </span>
+        </p>
+
+        <p className="mb-3 font-normal">
+          <strong>Sea Level Rise:</strong> <br />
+          <span className="text-orange-500 font-semibold text-2xl">
+            {Info?.SeaLevelRise}mm
+          </span>
+        </p>
+
+        <p className="mb-3 font-normal">
+          <strong>Carbon Emissions:</strong> <br />
+          <span className="text-orange-500 font-semibold">
+            <span className="text-2xl">{Info?.CarbonEmissions}</span>million
+            metric tons
+          </span>
+        </p>
+
+        <p className="mb-3 font-normal">
+          <strong>Renewable Energy Production:</strong> <br />
+          <span className="text-green-500 text-2xl ">
+            {Info?.RenewableEnergyProduction}%
+          </span>
+        </p>
       </div>
     </>
   );

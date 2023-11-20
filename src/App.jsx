@@ -8,6 +8,7 @@ import data from "./assets/StateOfTheWorldData";
 function App() {
   const [country, setCountry] = useState("Global");
   const countryData = data[country];
+  // console.log(data);
 
   return (
     <>
