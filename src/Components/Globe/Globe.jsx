@@ -1,14 +1,14 @@
 import * as THREE from "three";
-import vertexShader from "../assets/shaders/vertex.glsl.js";
-import fragmentShader from "../assets/shaders/fragment.glsl.js";
-import React, { useEffect, useRef, useState } from "react";
-import atmVertexShader from "../assets/shaders/atmVertex.glsl.js";
-import atmFragmentShader from "../assets/shaders/atmFragment.glsl.js";
+import vertexShader from "../../assets/shaders/vertex.glsl.js";
+import fragmentShader from "../../assets/shaders/fragment.glsl.js";
+import { useEffect, useRef } from "react";
+import atmVertexShader from "../../assets/shaders/atmVertex.glsl.js";
+import atmFragmentShader from "../../assets/shaders/atmFragment.glsl.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const reallyLongString =
   "https://media.canva.com/1/image-resize/1/1400_700_92_JPG_F/czM6Ly9tZWRpYS1wcml2YXRlLmNhbnZhLmNvbS9DMm1tUS9NQUYwdFpDMm1tUS8xL3AuanBn?osig=AAAAAAAAAAAAAAAAAAAAAKGttqUoyNPy4vmp0_T6hqSTlhlkoey9qwy4XhoAmEWQ&exp=1700502173&x-canva-quality=screen_2x&csig=AAAAAAAAAAAAAAAAAAAAACoIurdcXkVpreH374EV3YPZXzQoj1aVxAYJLT-Ae5pE";
-export default function Globe(Props) {
+export default function Globe() {
   const refContainer = useRef(null);
   useEffect(() => {
     const scene = new THREE.Scene();
@@ -24,6 +24,8 @@ export default function Globe(Props) {
     refContainer.current.appendChild(renderer.domElement);
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
+    controls.enableZoom = false;
+    controls.enablePan = false;
     controls.dampingFactor = 0.2;
     controls.update();
     const sphere = new THREE.Mesh(

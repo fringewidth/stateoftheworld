@@ -1,10 +1,12 @@
 import "./GlobeRender1.css";
+import Globe from "../../../Globe/Globe";
+import { motion } from "framer-motion";
 
 function GlobeRender1() {
   return (
-    <div>
-      <h1>GlobeRender1</h1>
-    </div>
+    <motion.div drag>
+      <Globe />
+    </motion.div>
   );
 }
 
