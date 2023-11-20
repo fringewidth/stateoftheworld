@@ -1,7 +1,7 @@
-function generateCountryData(countryName, index) {
+function generateCountryData(countryName, index, countryNamesMap) {
   return {
     CountryInfo: {
-      name: `${countryName}`,
+      name: `${countryNamesMap[countryName]}`,
       TemperatureAnomalies: 0.6 + index * 0.1,
       SeaLevelRise: `+${4 + index}`,
       CarbonEmissions: `${300 + index * 50}`,
@@ -37,10 +37,34 @@ const countries = [
   "Mexico",
 ];
 
+const countryNames = [
+  "GLOBAL",
+  "AUSTRALIA",
+  "BRAZIL",
+  "CANADA",
+  "GERMANY",
+  "JAPAN",
+  "INDIA",
+  "CHINA",
+  "ITALY",
+  "UNITED KINGDOM",
+  "SPAIN",
+  "RUSSIA",
+  "FRANCE",
+  "UNITED STATES",
+  "SOUTH KOREA",
+  "MEXICO",
+];
+
+const countryNamesMap = {};
+countries.forEach((country, index) => {
+  countryNamesMap[country] = countryNames[index];
+});
+
 const countriesData = {};
 
 countries.forEach((country, index) => {
-  countriesData[country] = generateCountryData(country, index);
+  countriesData[country] = generateCountryData(country, index, countryNamesMap);
 });
 
 export default countriesData;

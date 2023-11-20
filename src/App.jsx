@@ -14,7 +14,7 @@ function App() {
       <div className="md:h-screen flex max-md:flex-col font-trebuchet">
         <LeftSideOfPage countryData={countryData} />
         <MiddleOfPage setCountry={setCountry} />
-        <RightSideOfPage countryData={countryData} />
+        <RightSideOfPage countryData={countryData} country={country} />
       </div>
     </>
   );

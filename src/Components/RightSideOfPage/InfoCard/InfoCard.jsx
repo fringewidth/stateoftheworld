@@ -1,18 +1,58 @@
 /* eslint-disable react/prop-types */
 import "./InfoCard.css";
+import { PiGlobeStandLight } from "react-icons/pi";
+import Australia from "../../../assets/countries-white/au.png";
+import Brazil from "../../../assets/countries-white/br.png";
+import Canada from "../../../assets/countries-white/ca.png";
+import China from "../../../assets/countries-white/cn.png";
+import Germany from "../../../assets/countries-white/de.png";
+import Spain from "../../../assets/countries-white/es.png";
+import France from "../../../assets/countries-white/fr.png";
+import UK from "../../../assets/countries-white/gb.png";
+import India from "../../../assets/countries-white/in.png";
+import Italy from "../../../assets/countries-white/it.png";
+import Japan from "../../../assets/countries-white/jp.png";
+import SouthKorea from "../../../assets/countries-white/kr.png";
+import Mexico from "../../../assets/countries-white/mx.png";
+import Russia from "../../../assets/countries-white/ru.png";
+import USA from "../../../assets/countries-white/us.png";
 
 function InfoCard(props) {
   const Info = props.countryData.CountryInfo;
+
+  const countryToImage = {
+    Australia,
+    Brazil,
+    Canada,
+    China,
+    Germany,
+    Spain,
+    France,
+    UK,
+    India,
+    Italy,
+    Japan,
+    SouthKorea,
+    Mexico,
+    Russia,
+    USA,
+  };
+
+  const imageLink = countryToImage[props.country];
 
   return (
     <>
       <div className="max-w-sm">
         <div className="">
-          <img
-            className="rounded-t-lg"
-            src={props.CountryImage}
-            alt={`${Info?.name} Image`}
-          />
+          {props.country === "Global" ? (
+            <PiGlobeStandLight size={200} />
+          ) : (
+            <img
+              className="max-md:h-[40vh]"
+              src={imageLink}
+              alt={`${Info?.name} Image`}
+            />
+          )}
           <div className="p-5">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               {Info?.name}

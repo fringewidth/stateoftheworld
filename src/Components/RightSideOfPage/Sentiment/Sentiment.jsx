@@ -34,7 +34,7 @@ function Sentiment(props) {
     height: "0.001px",
     backgroundColor: "orange",
     borderRadius: "50%",
-    boxShadow: "0 0 500px 100px orange",
+    boxShadow: "0 0 5000px 100px orange",
   };
 
   const BlueStyle = {
@@ -47,34 +47,37 @@ function Sentiment(props) {
   };
 
   return (
-    <div
-      className="absolute top-1 right-6 flex flex-col items-center justify-center"
-      style={
-        OverallSentiment > 0.5
-          ? PositiveGreenStyle
-          : OverallSentiment < -0.5
-          ? NegativeRedStyle
-          : OverallSentiment >= 0 && OverallSentiment < 0.5
-          ? BlueStyle
-          : OrangeStyle
-      }
-    >
-      <h1 className=" text-xs whitespace-nowrap mb-8 ml-16 tracking-[3px]">
-        OVERALL SENTIMENT
-      </h1>
-      <span className="text-[40px] font-bold mb-8 tracking-[3px]">
-        {OverallSentiment}
-      </span>
-      <h1 className="text-2xl whitespace-nowrap tracking-[3px]">
-        {OverallSentiment > 0.5
-          ? "POSITIVE"
-          : OverallSentiment < -0.5
-          ? "NEGATIVE"
-          : OverallSentiment >= 0 && OverallSentiment <= 0.5
-          ? "MILDLY POSITIVE"
-          : "MILDLY NEGATIVE"}
-      </h1>
-    </div>
+    <>
+      <div
+        className="absolute -z-10 top-0 right-0"
+        style={
+          OverallSentiment > 0.5
+            ? PositiveGreenStyle
+            : OverallSentiment < -0.5
+            ? NegativeRedStyle
+            : OverallSentiment >= 0 && OverallSentiment < 0.5
+            ? BlueStyle
+            : OrangeStyle
+        }
+      />
+      <div className="flex flex-col text-right justify-end mt-4">
+        <h1 className=" text-sm font-medium whitespace-nowrap tracking-[3px] mr-[-25px]">
+          OVERALL SENTIMENT
+        </h1>
+        <span className="text-[45px] m-2 font-bold tracking-[3px]">
+          {OverallSentiment}
+        </span>
+        <h1 className="text-2xl whitespace-nowrap font-bold tracking-[3px]">
+          {OverallSentiment > 0.5
+            ? "POSITIVE"
+            : OverallSentiment < -0.5
+            ? "NEGATIVE"
+            : OverallSentiment >= 0 && OverallSentiment <= 0.5
+            ? "MILDLY POSITIVE"
+            : "MILDLY NEGATIVE"}
+        </h1>
+      </div>
+    </>
   );
 }
 
