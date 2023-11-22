@@ -46,14 +46,9 @@ export default function Globe(props) {
       refContainer.current.removeChild(refContainer.current.firstChild);
     }
     scene.current = new THREE.Scene();
-    camera.current = new THREE.PerspectiveCamera(
-      50,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    );
+    camera.current = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(650, 650);
 
     renderer.setPixelRatio(window.devicePixelRatio);
     refContainer.current.appendChild(renderer.domElement);
