@@ -1,11 +1,12 @@
+/* eslint-disable react/prop-types */
 import "./GlobeRender1.css";
 import Globe from "../../../Globe/Globe";
 
-function GlobeRender1() {
+function GlobeRender1(props) {
   return (
-    <div>
-      <Globe />
-    </div>
+    <>
+      <Globe UVMap={props.UVMap} />
+    </>
   );
 }
 

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import * as THREE from "three";
 import vertexShader from "../../assets/shaders/vertex.glsl.js";
 import fragmentShader from "../../assets/shaders/fragment.glsl.js";
@@ -6,24 +7,18 @@ import atmVertexShader from "../../assets/shaders/atmVertex.glsl.js";
 import atmFragmentShader from "../../assets/shaders/atmFragment.glsl.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
-const reallyLongString =
-  "https://miro.medium.com/v2/resize:fit:720/format:webp/0*F9GANogspBRfY3sR.jpg";
-
-export default function Globe() {
-  console.log("Component rendered");
+export default function Globe(props) {
   const refContainer = useRef(null);
 
   useEffect(() => {
-    console.log("useEffect is running");
-
     if (refContainer.current.firstChild) {
       refContainer.current.removeChild(refContainer.current.firstChild);
     }
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     // Set the size of the renderer
-    renderer.setSize(500, 500);
+    renderer.setSize(650, 650);
 
     renderer.setPixelRatio(window.devicePixelRatio);
     refContainer.current.appendChild(renderer.domElement);
@@ -41,7 +36,7 @@ export default function Globe() {
         fragmentShader,
         uniforms: {
           globeTexture: {
-            value: new THREE.TextureLoader().load(reallyLongString),
+            value: new THREE.TextureLoader().load(props.UVMap),
           },
         },
       })
@@ -64,7 +59,6 @@ export default function Globe() {
     scene.add(bigAtmosphere);
 
     function animate() {
-      console.log("Animating");
       requestAnimationFrame(animate);
       renderer.render(scene, camera);
       sphere.rotation.y += 0.001;
