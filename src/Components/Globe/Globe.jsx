@@ -7,19 +7,24 @@ import atmFragmentShader from "../../assets/shaders/atmFragment.glsl.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const reallyLongString =
-  "https://media.canva.com/1/image-resize/1/1400_700_92_JPG_F/czM6Ly9tZWRpYS1wcml2YXRlLmNhbnZhLmNvbS9DMm1tUS9NQUYwdFpDMm1tUS8xL3AuanBn?osig=AAAAAAAAAAAAAAAAAAAAAKGttqUoyNPy4vmp0_T6hqSTlhlkoey9qwy4XhoAmEWQ&exp=1700502173&x-canva-quality=screen_2x&csig=AAAAAAAAAAAAAAAAAAAAACoIurdcXkVpreH374EV3YPZXzQoj1aVxAYJLT-Ae5pE";
+  "https://miro.medium.com/v2/resize:fit:720/format:webp/0*F9GANogspBRfY3sR.jpg";
+
 export default function Globe() {
+  console.log("Component rendered");
   const refContainer = useRef(null);
+
   useEffect(() => {
+    console.log("useEffect is running");
+
+    if (refContainer.current.firstChild) {
+      refContainer.current.removeChild(refContainer.current.firstChild);
+    }
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    );
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    // Set the size of the renderer
+    renderer.setSize(500, 500);
+
     renderer.setPixelRatio(window.devicePixelRatio);
     refContainer.current.appendChild(renderer.domElement);
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -28,6 +33,7 @@ export default function Globe() {
     controls.enablePan = false;
     controls.dampingFactor = 0.2;
     controls.update();
+
     const sphere = new THREE.Mesh(
       new THREE.SphereGeometry(5, 50, 50),
       new THREE.ShaderMaterial({
@@ -35,7 +41,6 @@ export default function Globe() {
         fragmentShader,
         uniforms: {
           globeTexture: {
-            //value: new THREE.TextureLoader().load(Props.UVMap)
             value: new THREE.TextureLoader().load(reallyLongString),
           },
         },
@@ -51,12 +56,15 @@ export default function Globe() {
         side: THREE.BackSide,
       })
     );
+
     sphere.rotation.x = -0.2;
     sphere.rotation.y = 0.175;
     camera.position.z = -15;
     scene.add(sphere);
     scene.add(bigAtmosphere);
+
     function animate() {
+      console.log("Animating");
       requestAnimationFrame(animate);
       renderer.render(scene, camera);
       sphere.rotation.y += 0.001;
@@ -65,5 +73,6 @@ export default function Globe() {
 
     animate();
   }, []);
+
   return <div ref={refContainer} />;
 }
