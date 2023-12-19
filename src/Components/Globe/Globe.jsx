@@ -17,9 +17,10 @@ export default function Globe(props) {
   const scene = useRef();
   const sphere = useRef();
 
+  //handle clicks to globe
   const onClick = useCallback(
     (event) => {
-      // wrap onClick with useCallback
+      // normalise mouse coordinates
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -31,9 +32,10 @@ export default function Globe(props) {
         if (intersects[i].object === sphere.current) {
           const uv = intersects[i].uv;
           // console.log(uv);
-          const lon = uv.x * 360 - 180;
-          const lat = uv.y * 180 - 90;
-          console.log("Longitude: ", lon, "Latitude:", lat);
+          //calculate longitude and latitude with regression calibrated values
+          const lat = 180.21295 * uv.y - 85.11953;
+          const lon = 350.26059 * uv.x - 171.95619;
+          console.log(lat.toFixed(7), lon.toFixed(7));
         }
       }
     },
@@ -93,7 +95,7 @@ export default function Globe(props) {
     function animate() {
       requestAnimationFrame(animate);
       renderer.render(scene.current, camera.current);
-      sphere.current.rotation.y += 0.0001;
+      sphere.current.rotation.y += 0.0002;
       controls.update();
     }
 

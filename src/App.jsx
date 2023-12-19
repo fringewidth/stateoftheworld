@@ -9,7 +9,7 @@ function App() {
   const [country, setCountry] = useState("Global");
   const countryData = data[country];
   const reallyLongString =
-    "https://miro.medium.com/v2/resize:fit:720/format:webp/0*F9GANogspBRfY3sR.jpg";
+    "https://miro.medium.com/v2/resize:fit:1400/format:webp/0*F9GANogspBRfY3sR.jpg";
 
   return (
     <>
