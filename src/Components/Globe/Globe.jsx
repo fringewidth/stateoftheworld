@@ -7,6 +7,7 @@ import { useEffect, useRef, useCallback } from "react";
 import atmVertexShader from "../../assets/shaders/atmVertex.glsl.js";
 import atmFragmentShader from "../../assets/shaders/atmFragment.glsl.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import GeoJsonGeometriesLookup from "geojson-geometries-lookup";
 
 export default function Globe(props) {
   const refContainer = useRef(null);
@@ -35,7 +36,21 @@ export default function Globe(props) {
           //calculate longitude and latitude with regression calibrated values
           const lat = 180.21295 * uv.y - 85.11953;
           const lon = 350.26059 * uv.x - 171.95619;
-          console.log(lat.toFixed(7), lon.toFixed(7));
+          //console.log(lat.toFixed(7), lon.toFixed(7));
+          fetch("src/assets/geojson/countries.geojson")
+            .then((response) => response.json())
+            .then((geojson) => {
+              const glookup = new GeoJsonGeometriesLookup(geojson);
+              const click = { type: "Point", coordinates: [lon, lat] };
+              const whereYouClicked = glookup.getContainers(click).features;
+              if (whereYouClicked.length > 0) {
+                console.log(
+                  "You clicked on " + whereYouClicked[0].properties.name
+                );
+              } else {
+                console.log("You clicked on Global");
+              }
+            });
         }
       }
     },
