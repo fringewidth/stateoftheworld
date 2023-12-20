@@ -9,13 +9,16 @@ function App() {
   const [country, setCountry] = useState("Global");
   const countryData = data[country];
   const reallyLongString =
-    "https://miro.medium.com/v2/resize:fit:1400/format:webp/0*F9GANogspBRfY3sR.jpg";
+    "https://miro.medium.com/v2/resize:fit:720/format:webp/0*F9GANogspBRfY3sR.jpg";
 
   return (
     <>
       <div className="md:h-screen w-screen flex max-md:flex-col font-trebuchet">
         <LeftSideOfPage countryData={countryData} />
-        <MiddleOfPage setCountry={setCountry} UVMap={reallyLongString} />
+        <MiddleOfPage
+          setCountry={setCountry}
+          UVMap={"src/assets/textures/earth4k.jpg"}
+        />
         <RightSideOfPage countryData={countryData} country={country} />
       </div>
     </>

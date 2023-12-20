@@ -34,8 +34,10 @@ export default function Globe(props) {
           const uv = intersects[i].uv;
           // console.log(uv);
           //calculate longitude and latitude with regression calibrated values
-          const lat = 180.21295 * uv.y - 85.11953;
-          const lon = 350.26059 * uv.x - 171.95619;
+          //const lat = 180.21295 * uv.y - 85.11953;
+          //const lon = 350.26059 * uv.x - 171.95619;
+          const lat = 180 * uv.y - 90;
+          const lon = 360 * uv.x - 180;
           //console.log(lat.toFixed(7), lon.toFixed(7));
           fetch("src/assets/geojson/countries.geojson")
             .then((response) => response.json())
