@@ -46,18 +46,45 @@ export default function Globe(props) {
               const click = { type: "Point", coordinates: [lon, lat] };
               const whereYouClicked = glookup.getContainers(click).features;
               if (whereYouClicked.length > 0) {
-                console.log(
-                  "You clicked on " + whereYouClicked[0].properties.name
-                );
+                const countryName = whereYouClicked[0].properties.name;
+                switch (countryName) {
+                  case "India":
+                  case "France":
+                  case "Canada":
+                  case "Spain":
+                  case "Japan":
+                  case "Italy":
+                  case "China":
+                  case "Mexico":
+                  case "Australia":
+                  case "Russia":
+                  case "Brazil":
+                  case "Germany":
+                    props.setCountry(countryName);
+                    break;
+                  case "United Kingdom":
+                    props.setCountry("UK");
+                    break;
+                  case "United States":
+                    props.setCountry("USA");
+                    break;
+                  case "South Korea":
+                    props.setCountry("SouthKorea");
+                    break;
+                  default:
+                    props.setCountry("Global");
+                    break;
+                }
               } else {
-                console.log("You clicked on Global");
+                props.setCountry("Global");
               }
             });
         }
       }
     },
 
-    [mouse, raycaster]
+    // [mouse, raycaster] wrong dependency array
+    [camera, scene, sphere, props.setCountry]
   );
 
   useEffect(() => {

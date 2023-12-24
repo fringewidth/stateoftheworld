@@ -5,7 +5,7 @@ import Globe from "../../../Globe/Globe";
 function GlobeRender2(props) {
   return (
     <>
-      <Globe UVMap={props.UVMap} />
+      <Globe UVMap={props.UVMap} setCountry={props.setCountry} />
     </>
   );
 }

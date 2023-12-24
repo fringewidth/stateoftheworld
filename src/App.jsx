@@ -8,8 +8,8 @@ import data from "./assets/StateOfTheWorldData";
 function App() {
   const [country, setCountry] = useState("Global");
   const countryData = data[country];
-  const reallyLongString =
-    "https://miro.medium.com/v2/resize:fit:720/format:webp/0*F9GANogspBRfY3sR.jpg";
+  // const reallyLongString =
+  //   "https://miro.medium.com/v2/resize:fit:720/format:webp/0*F9GANogspBRfY3sR.jpg";
 
   return (
     <>
