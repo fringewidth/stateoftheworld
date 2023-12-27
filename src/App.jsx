@@ -17,7 +17,7 @@ function App() {
         <LeftSideOfPage countryData={countryData} />
         <MiddleOfPage
           setCountry={setCountry}
-          UVMap={"src/assets/textures/earth4k.jpg"}
+          UVMap={"src/assets/textures/earth_2k.jpg"}
         />
         <RightSideOfPage countryData={countryData} country={country} />
       </div>
