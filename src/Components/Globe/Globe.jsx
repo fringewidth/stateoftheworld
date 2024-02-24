@@ -88,9 +88,9 @@ export default function Globe(props) {
   );
 
   useEffect(() => {
-    if (refContainer.current.firstChild) {
-      refContainer.current.removeChild(refContainer.current.firstChild);
-    }
+    // if (refContainer.current.firstChild) {
+    //   refContainer.current.removeChild(refContainer.current.firstChild);
+    // }
     scene.current = new THREE.Scene();
     camera.current = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
