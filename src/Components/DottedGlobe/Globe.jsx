@@ -1,20 +1,14 @@
 import * as THREE from "three";
 import React, { useRef, useEffect, useState } from "react";
 import GeoJsonGeometriesLookup from "geojson-geometries-lookup";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import Camera from "../../utils/camera.js";
 import Renderer from "../../utils/renderer.js";
 import BaseGlobe from "../../utils/baseGlobe.js";
 import orbitControls from "../../utils/orbitControls.js";
 
 export default function Globe() {
-  const [mounted, setMounted] = useState(0);
   const refDiv = useRef(null);
   useEffect(() => {
-    if (refDiv.current.firstChild) {
-      refDiv.current.removeChild(refDiv.current.firstChild);
-      console.log("removed");
-    }
     //global constants
     const SCALE = 5;
     const GLOBE_RADIUS = 1;
@@ -78,7 +72,7 @@ export default function Globe() {
         const dotMaterialSpec = globeMaterial.clone();
         dotMaterialSpec.color = new THREE.Color(0xffffff);
         dotMaterialSpec.emissive = new THREE.Color(0xffffff);
-        dotMaterialSpec.emissiveIntensity = 0.3;
+        dotMaterialSpec.emissiveIntensity = 0.6;
 
         for (let lat = -90; lat <= 90; lat += 180 / rows) {
           const radius = Math.cos(lat * DEG2RAD) * GLOBE_RADIUS * SCALE;
@@ -87,7 +81,7 @@ export default function Globe() {
 
           //define normal dots
           const normaldots = new THREE.InstancedMesh(
-            new THREE.SphereGeometry(circumference / dotsPerLat / 4, 5, 5),
+            new THREE.SphereGeometry(circumference / dotsPerLat / 4, 2, 2),
             dotMaterialNorm,
             //new THREE.MeshBasicMaterial({ color: 0xffffff }),
             dotsPerLat
@@ -95,7 +89,7 @@ export default function Globe() {
 
           //define special dots
           const specialdots = new THREE.InstancedMesh(
-            new THREE.SphereGeometry(circumference / dotsPerLat / 4, 5, 5),
+            new THREE.SphereGeometry(circumference / dotsPerLat / 4, 2, 2),
             dotMaterialSpec,
             //new THREE.MeshBasicMaterial({ color: 0xffffff }),
             dotsPerLat
@@ -126,22 +120,15 @@ export default function Globe() {
               scene.add(specialdots);
             }
           }
-          //   scene.add(normaldots);
-          //   scene.add(specialdots);
         }
 
         // create orbit controls
-        const controls = new OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-        controls.enableZoom = false;
-        controls.enablePan = false;
-        controls.dampingFactor = 0.2;
-        controls.update();
+        const controls = orbitControls(camera, renderer);
 
         function animate() {
           requestAnimationFrame(animate);
           renderer.render(scene, camera);
-          controls.update(); // update orbit controls
+          controls.update();
           scene.rotation.y += 0.001;
         }
 
@@ -149,10 +136,5 @@ export default function Globe() {
       });
   }, []);
 
-  return (
-    <div
-      ref={refDiv}
-      //   style={{ width: "100%", height: "100%", position: "absolute" }}
-    />
-  );
+  return <div ref={refDiv} />;
 }

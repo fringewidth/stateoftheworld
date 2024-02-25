@@ -6,11 +6,11 @@ import fragmentShader from "../../assets/shaders/fragment.glsl.js";
 import { useEffect, useRef, useCallback } from "react";
 import atmVertexShader from "../../assets/shaders/atmVertex.glsl.js";
 import atmFragmentShader from "../../assets/shaders/atmFragment.glsl.js";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import GeoJsonGeometriesLookup from "geojson-geometries-lookup";
 import Camera from "../../utils/camera.js";
 import Renderer from "../../utils/renderer.js";
 import BaseGlobe from "../../utils/baseGlobe.js";
+import orbitControls from "../../utils/orbitControls.js";
 
 export default function Globe(props) {
   const refContainer = useRef(null);
@@ -37,12 +37,11 @@ export default function Globe(props) {
           const uv = intersects[i].uv;
           // console.log(uv);
           //calculate longitude and latitude with regression calibrated values
-          //const lat = 180.21295 * uv.y - 85.11953;
-          //const lon = 350.26059 * uv.x - 171.95619;
-          const lat = 180 * uv.y - 90;
+          // const lat = 180.21295 * uv.y - 85.11953;
+          // const lon = 350.26059 * uv.x - 171.95619;
+          const lat = 0.9411 * (180 * uv.y - 90) + 8.65778;
           const lon = 360 * uv.x - 180;
-          //console.log(lat.toFixed(7), lon.toFixed(7));
-          fetch("src/assets/geojson/countries.geojson")
+          fetch("src/assets/geojson/c.geojson")
             .then((response) => response.json())
             .then((geojson) => {
               const glookup = new GeoJsonGeometriesLookup(geojson);
@@ -98,12 +97,7 @@ export default function Globe(props) {
     camera.current = Camera();
     const renderer = Renderer();
     refContainer.current.appendChild(renderer.domElement);
-    const controls = new OrbitControls(camera.current, renderer.domElement);
-    controls.enableDamping = true;
-    controls.enableZoom = false;
-    controls.enablePan = false;
-    controls.dampingFactor = 0.2;
-    controls.update();
+    const controls = orbitControls(camera.current, renderer);
 
     window.addEventListener("click", onClick);
 
