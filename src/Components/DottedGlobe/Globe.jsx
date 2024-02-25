@@ -2,15 +2,15 @@ import * as THREE from "three";
 import React, { useRef, useEffect, useState } from "react";
 import GeoJsonGeometriesLookup from "geojson-geometries-lookup";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import atmVertexShader from "../../assets/shaders/atmVertex.glsl.js";
-import atmFragmentShader from "../../assets/shaders/atmFragment.glsl.js";
+import Camera from "../../utils/camera.js";
+import Renderer from "../../utils/renderer.js";
+import BaseGlobe from "../../utils/baseGlobe.js";
+import orbitControls from "../../utils/orbitControls.js";
 
 export default function Globe() {
   const [mounted, setMounted] = useState(0);
   const refDiv = useRef(null);
   useEffect(() => {
-    setMounted(mounted + 1);
-    console.log("mounted", mounted);
     if (refDiv.current.firstChild) {
       refDiv.current.removeChild(refDiv.current.firstChild);
       console.log("removed");
@@ -28,16 +28,10 @@ export default function Globe() {
         const glookup = new GeoJsonGeometriesLookup(geojson);
 
         //create camera
-        const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
-        camera.position.z = 15;
+        const camera = Camera();
 
         //create renderer
-        const renderer = new THREE.WebGLRenderer({
-          antialias: true,
-          alpha: true,
-        });
-        renderer.setSize(650, 650);
-        renderer.setPixelRatio(window.devicePixelRatio);
+        const renderer = Renderer();
         refDiv.current.appendChild(renderer.domElement);
 
         //create scene
@@ -53,10 +47,8 @@ export default function Globe() {
         globeMaterial.reflectivity = 0.5;
 
         //create globe
-        const globe = new THREE.Mesh(
-          new THREE.SphereGeometry(GLOBE_RADIUS * SCALE, 50, 50),
-          globeMaterial
-        );
+        const globe = BaseGlobe();
+        globe.material = globeMaterial;
         scene.add(globe);
 
         // Define ambient light

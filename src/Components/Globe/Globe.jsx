@@ -8,6 +8,9 @@ import atmVertexShader from "../../assets/shaders/atmVertex.glsl.js";
 import atmFragmentShader from "../../assets/shaders/atmFragment.glsl.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import GeoJsonGeometriesLookup from "geojson-geometries-lookup";
+import Camera from "../../utils/camera.js";
+import Renderer from "../../utils/renderer.js";
+import BaseGlobe from "../../utils/baseGlobe.js";
 
 export default function Globe(props) {
   const refContainer = useRef(null);
@@ -92,11 +95,8 @@ export default function Globe(props) {
     //   refContainer.current.removeChild(refContainer.current.firstChild);
     // }
     scene.current = new THREE.Scene();
-    camera.current = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(650, 650);
-
-    renderer.setPixelRatio(window.devicePixelRatio);
+    camera.current = Camera();
+    const renderer = Renderer();
     refContainer.current.appendChild(renderer.domElement);
     const controls = new OrbitControls(camera.current, renderer.domElement);
     controls.enableDamping = true;
@@ -107,18 +107,16 @@ export default function Globe(props) {
 
     window.addEventListener("click", onClick);
 
-    sphere.current = new THREE.Mesh(
-      new THREE.SphereGeometry(5, 50, 50),
-      new THREE.ShaderMaterial({
-        vertexShader,
-        fragmentShader,
-        uniforms: {
-          globeTexture: {
-            value: new THREE.TextureLoader().load(props.UVMap),
-          },
+    sphere.current = BaseGlobe();
+    sphere.current.material = new THREE.ShaderMaterial({
+      vertexShader,
+      fragmentShader,
+      uniforms: {
+        globeTexture: {
+          value: new THREE.TextureLoader().load(props.UVMap),
         },
-      })
-    );
+      },
+    });
 
     const bigAtmosphere = new THREE.Mesh(
       new THREE.SphereGeometry(6.5, 50, 50),
@@ -132,14 +130,13 @@ export default function Globe(props) {
 
     sphere.current.rotation.x = -0.2;
     sphere.current.rotation.y = 0.175;
-    camera.current.position.z = -15;
     scene.current.add(sphere.current);
     scene.current.add(bigAtmosphere);
 
     function animate() {
       requestAnimationFrame(animate);
       renderer.render(scene.current, camera.current);
-      sphere.current.rotation.y += 0.0002;
+      sphere.current.rotation.y += 0.001;
       controls.update();
     }
 
