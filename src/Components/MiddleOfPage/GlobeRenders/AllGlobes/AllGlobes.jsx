@@ -6,7 +6,7 @@ import GlobeRender2 from "../GlobeRender2/GlobeRender2";
 import { useState } from "react";
 
 function AllGlobes(props) {
-  const [Globe, setGlobe] = useState("Globe1"); // Move to middle of page
+  const [Globe, setGlobe] = useState("Globe2"); // Move to middle of page
   return (
     <div className=" max-[515px]:scale-75 max-[380px]:scale-[0.65]">
       {Globe === "Globe1" && (
