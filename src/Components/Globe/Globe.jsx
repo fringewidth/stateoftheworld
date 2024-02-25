@@ -116,7 +116,7 @@ export default function Globe(props) {
       new THREE.SphereGeometry(6.5, 50, 50),
       new THREE.ShaderMaterial({
         vertexShader: atmVertexShader,
-        fragmentShader: atmFragmentShader,
+        fragmentShader: atmFragmentShader(0.1, 0.6, 1.0, 1.0),
         blending: THREE.AdditiveBlending,
         side: THREE.BackSide,
       })

@@ -5,6 +5,8 @@ import Camera from "../../utils/camera.js";
 import Renderer from "../../utils/renderer.js";
 import BaseGlobe from "../../utils/baseGlobe.js";
 import orbitControls from "../../utils/orbitControls.js";
+import atmVertexShader from "../../assets/shaders/atmVertex.glsl.js";
+import atmFragmentShader from "../../assets/shaders/atmFragment.glsl.js";
 
 export default function Globe() {
   const refDiv = useRef(null);
@@ -121,6 +123,16 @@ export default function Globe() {
             }
           }
         }
+        const bigAtmosphere = new THREE.Mesh(
+          new THREE.SphereGeometry(6.5, 50, 50),
+          new THREE.ShaderMaterial({
+            vertexShader: atmVertexShader,
+            fragmentShader: atmFragmentShader(0.65, 0.65, 0.69, 0.65),
+            blending: THREE.AdditiveBlending,
+            side: THREE.BackSide,
+          })
+        );
+        scene.add(bigAtmosphere);
 
         // create orbit controls
         const controls = orbitControls(camera, renderer);
