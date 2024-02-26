@@ -6,7 +6,6 @@ import GlobeRender2 from "../GlobeRender2/GlobeRender2";
 import { useState } from "react";
 
 function AllGlobes(props) {
-  const [Globe, setGlobe] = useState(true); // Move to middle of page
   return (
     <>
       <button
@@ -17,10 +16,10 @@ function AllGlobes(props) {
         Toggle
       </button>
       <div className=" max-[515px]:scale-75 max-[380px]:scale-[0.65]">
-        {Globe === true && (
+        {props.globe === 0 && (
           <GlobeRender1 UVMap={props.UVMap} setCountry={props.setCountry} />
         )}
-        {Globe === false && <GlobeRender2 />}
+        {props.globe === 1 && <GlobeRender2 />}
         {/* <GlobeRender3 UVMap={props.UVMap} />
         <GlobeRender4 UVMap={props.UVMap} /> */}
       </div>

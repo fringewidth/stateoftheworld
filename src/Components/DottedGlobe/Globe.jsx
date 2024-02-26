@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import GeoJsonGeometriesLookup from "geojson-geometries-lookup";
 import Camera from "../../utils/camera.js";
 import Renderer from "../../utils/renderer.js";
@@ -10,6 +10,7 @@ import atmFragmentShader from "../../assets/shaders/atmFragment.glsl.js";
 
 export default function Globe() {
   const refDiv = useRef(null);
+
   useEffect(() => {
     //global constants
     const SCALE = 5;
@@ -104,8 +105,9 @@ export default function Globe() {
             const isInCountry =
               glookup.getContainers(point).features.length > 0;
             if (!isInCountry) continue;
-            const countryType =
-              glookup.getContainers(point).features[0].properties.featurecla;
+            const properties =
+              glookup.getContainers(point).features[0].properties;
+            const countryType = properties.featurecla;
             // console.log(countryType);
             const dot = new THREE.Object3D();
             dot.position.set(
@@ -113,6 +115,7 @@ export default function Globe() {
               Math.sin(lat * DEG2RAD) * GLOBE_RADIUS * SCALE,
               Math.cos(lon * DEG2RAD) * radius
             );
+            dot.country = properties.soverignt;
             dot.updateMatrix();
             if (countryType == "Admin-0 country") {
               normaldots.setMatrixAt(x, dot.matrix);

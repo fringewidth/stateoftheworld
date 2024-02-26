@@ -135,7 +135,7 @@ export default function Globe(props) {
     }
 
     animate();
-  }, [props.UVMap, onClick]);
+  }, []);
 
   return <div ref={refContainer} />;
 }

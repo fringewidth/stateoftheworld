@@ -1,0 +1,55 @@
+.globetoggle{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.globetoggle *{
+    transition: 0,2s;
+}
+.togglebar{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.5rem;
+}
+
+.togglebar img{
+    height: 2rem;
+    filter: invert(1);
+}
+
+.togglebar caption{
+    font-size: 0.9rem;
+    color: white;
+    font-weight: 900;    
+}
+
+.togglebar>.inactive>caption{
+    display: none;
+}
+
+.togglebar>.active>caption{
+    display: block;
+}
+
+.togglebar>.active{
+    background-color: rgba(173, 173, 173, 0.25);
+}
+
+.togglebar>div{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    border-radius: 2rem;
+    padding: 0.1rem 0.5rem;
+    transition: 0.1s;
+}
+
+.togglebar>div:hover{
+    background-color: rgba(173, 173, 173, 0.25);
+}
+
+.togglebar caption:focus{
+    display: block;
+}
