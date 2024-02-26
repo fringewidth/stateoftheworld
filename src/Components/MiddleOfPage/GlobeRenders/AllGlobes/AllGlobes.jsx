@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
+import GlobeRender0 from "../GlobeRender0/GlobeRender0";
 import GlobeRender1 from "../GlobeRender1/GlobeRender1";
-import GlobeRender2 from "../GlobeRender2/GlobeRender2";
 // import GlobeRender3 from "../GlobeRender3/GlobeRender3";
 // import GlobeRender4 from "../GlobeRender4/GlobeRender4";
 import { useState } from "react";
@@ -8,18 +8,11 @@ import { useState } from "react";
 function AllGlobes(props) {
   return (
     <>
-      <button
-        onClick={() => {
-          setGlobe(!Globe);
-        }}
-      >
-        Toggle
-      </button>
       <div className=" max-[515px]:scale-75 max-[380px]:scale-[0.65]">
         {props.globe === 0 && (
-          <GlobeRender1 UVMap={props.UVMap} setCountry={props.setCountry} />
+          <GlobeRender0 UVMap={props.UVMap} setCountry={props.setCountry} />
         )}
-        {props.globe === 1 && <GlobeRender2 />}
+        {props.globe === 1 && <GlobeRender1 />}
         {/* <GlobeRender3 UVMap={props.UVMap} />
         <GlobeRender4 UVMap={props.UVMap} /> */}
       </div>

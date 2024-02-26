@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 import "./GlobeRender1.css";
-import Globe from "../../../Globe/Globe";
+// import Globe from "../../../Globe/Globe";s
+import DottedGlobe from "../../../DottedGlobe/Globe";
 
-function GlobeRender1(props) {
+export default function GlobeRender1() {
   return (
     <>
-      <Globe UVMap={props.UVMap} setCountry={props.setCountry} />
+      {/* <Globe UVMap={props.UVMap} setCountry={props.setCountry} /> */}
+      <DottedGlobe />
     </>
   );
 }
-
-export default GlobeRender1;
