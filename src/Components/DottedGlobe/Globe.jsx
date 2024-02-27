@@ -9,7 +9,7 @@ import atmVertexShader from "../../assets/shaders/atmVertex.glsl.js";
 import atmFragmentShader from "../../assets/shaders/atmFragment.glsl.js";
 import countriesData from "../../assets/StateOfTheWorldData.jsx";
 
-export default function Globe() {
+export default function Globe(props) {
   //maps function from (0,1) to (red, blue) hexcodes
   const colorMap = (value) => {
     const r = value < 0.5 ? 1 : 1 - (value - 0.5) * 2;
@@ -17,6 +17,12 @@ export default function Globe() {
     const b = value > 0.5 ? 1 : value * 2;
     return new THREE.Color(r, g, b);
   };
+  const statistics = [
+    "",
+    { title: "CarbonEmissions", min: 300, max: 1050 },
+    { title: "SeaLevelRise", min: 4, max: 19 },
+    { title: "TemperatureAnomalies", min: 0.6, max: 2.1 },
+  ];
 
   //global constants
   const SCALE = 5;
@@ -32,7 +38,7 @@ export default function Globe() {
     fetch("src/assets/geojson/c.geojson")
       .then((response) => response.json())
       .then((geojson) => buildGlobe(geojson));
-  }, []);
+  }, [props.globe]);
 
   const buildGlobe = async (geojson) => {
     const glookup = new GeoJsonGeometriesLookup(geojson);
@@ -74,7 +80,7 @@ export default function Globe() {
     //dot materials
     //normal dot material
     const dotMaterialNorm = globeMaterial.clone();
-    dotMaterialNorm.color = new THREE.Color(0x9a9a9a);
+    dotMaterialNorm.color = new THREE.Color(0xffffff);
 
     //dot material for special countries
     const dotMaterialSpec = globeMaterial.clone();
@@ -106,10 +112,12 @@ export default function Globe() {
       const countryDots = {};
       Object.entries(countriesData).forEach(([country, data]) => {
         const mat = globeMaterial.clone();
-        let co2Emissions = data["CountryInfo"]["CarbonEmissions"];
-        co2Emissions = (co2Emissions - 300) / (1050 - 300);
-        co2Emissions = colorMap(co2Emissions);
-        mat.emissive = new THREE.Color(co2Emissions);
+        let statistic = data["CountryInfo"][statistics[props.globe].title];
+        statistic =
+          (statistic - statistics[props.globe].min) /
+          (statistics[props.globe].max - statistics[props.globe].min);
+        statistic = colorMap(statistic);
+        mat.emissive = new THREE.Color(statistic);
         countryDots[country] = new THREE.InstancedMesh(
           new THREE.SphereGeometry(circumference / dotsPerLat / 4, 2, 2),
           mat,
@@ -125,7 +133,6 @@ export default function Globe() {
         if (!isInCountry) continue;
         const properties = glookup.getContainers(point).features[0].properties;
         const countryType = properties.featurecla;
-        // console.log(countryType);
         const dot = new THREE.Object3D();
         dot.position.set(
           Math.sin(lon * DEG2RAD) * radius,
@@ -138,10 +145,8 @@ export default function Globe() {
           normaldots.setMatrixAt(x, dot.matrix);
           scene.add(normaldots);
         } else {
-          // countryDots[country].setMatrixAt(x, dot.matrix);
           countryDots[countryName].setMatrixAt(x, dot.matrix);
           scene.add(countryDots[countryName]);
-          // console.log(countryName, countryDots[countryName]);
         }
       }
     }
