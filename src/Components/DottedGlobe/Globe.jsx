@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import React, { useRef, useEffect, useMemo } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import GeoJsonGeometriesLookup from "geojson-geometries-lookup";
 import Camera from "../../utils/camera.js";
 import Renderer from "../../utils/renderer.js";
@@ -8,8 +8,10 @@ import orbitControls from "../../utils/orbitControls.js";
 import atmVertexShader from "../../assets/shaders/atmVertex.glsl.js";
 import atmFragmentShader from "../../assets/shaders/atmFragment.glsl.js";
 import countriesData from "../../assets/StateOfTheWorldData.jsx";
+import globeLoading from "../../assets/images/globe-loading.gif";
 
 export default function Globe(props) {
+  const [isLoading, setisLoading] = useState(true);
   //maps function from (0,1) to (red, blue) hexcodes
   const colorMap = (value) => {
     const r = value < 0.5 ? 1 : 1 - (value - 0.5) * 2;
@@ -37,7 +39,10 @@ export default function Globe(props) {
     //initialise geojson lookup
     fetch("src/assets/geojson/c.geojson")
       .then((response) => response.json())
-      .then((geojson) => buildGlobe(geojson));
+      .then((geojson) => {
+        setisLoading(false);
+        buildGlobe(geojson);
+      });
   }, [props.globe]);
 
   const buildGlobe = async (geojson) => {
@@ -48,7 +53,7 @@ export default function Globe(props) {
 
     //create renderer
     const renderer = Renderer();
-    refDiv.current.appendChild(renderer.domElement);
+    refDiv.current?.appendChild(renderer.domElement);
 
     //create scene
     const scene = new THREE.Scene();
@@ -163,16 +168,24 @@ export default function Globe(props) {
 
     // create orbit controls
     const controls = orbitControls(camera, renderer);
-
     function animate() {
       requestAnimationFrame(animate);
       renderer.render(scene, camera);
       controls.update();
       scene.rotation.y += 0.001;
     }
-
     animate();
   };
 
-  return <div ref={refDiv} />;
+  // return <div ref={refDiv} />
+  return (
+    <>
+      {isLoading && (
+        <>
+          <img src={globeLoading} style={{ width: "20rem" }} />
+        </>
+      )}
+      <div ref={refDiv} />
+    </>
+  );
 }
