@@ -3,7 +3,12 @@ import co2 from "../../../assets/svg/co2.svg";
 import globe from "../../../assets/svg/globe.svg";
 import sealevel from "../../../assets/svg/sealevel.svg";
 import thermometer from "../../../assets/svg/thermometer.svg";
-import { useState } from "react";
+import PropTypes from "prop-types";
+
+GlobeToggle.propTypes = {
+  globe: PropTypes.number, // 'globe' is a number
+  setGlobe: PropTypes.func, // 'setGlobe' is a function
+};
 
 function GlobeToggle(props) {
   const changeGlobe = (index) => {
@@ -17,6 +22,7 @@ function GlobeToggle(props) {
   ].map((button, index) => {
     return (
       <div
+        key={index}
         onClick={() => changeGlobe(index)}
         className={props.globe === index ? "active" : "inactive"}
       >

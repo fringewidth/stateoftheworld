@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/prop-types */
 import * as THREE from "three";
 import { useRef, useEffect, useState } from "react";
 import GeoJsonGeometriesLookup from "geojson-geometries-lookup";
@@ -12,6 +11,11 @@ import atmVertexShader from "../../assets/shaders/atmVertex.glsl.js";
 import atmFragmentShader from "../../assets/shaders/atmFragment.glsl.js";
 import countriesData from "../../assets/StateOfTheWorldData.jsx";
 import globeLoading from "../../assets/images/globe-loading.gif";
+import PropTypes from "prop-types";
+
+Globe.propTypes = {
+  globe: PropTypes.number, // 'globe' is a number
+};
 
 export default function Globe(props) {
   const [isLoading, setisLoading] = useState(true);
@@ -40,7 +44,8 @@ export default function Globe(props) {
         setisLoading(false);
         buildGlobe(geojson);
       });
-  }, [props.globe]);
+  }, []);
+  // }, [props.globe]);
 
   const buildGlobe = async (geojson) => {
     const glookup = new GeoJsonGeometriesLookup(geojson);

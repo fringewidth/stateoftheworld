@@ -3,7 +3,6 @@ import GlobeRender0 from "../GlobeRender0/GlobeRender0";
 import GlobeRender1 from "../GlobeRender1/GlobeRender1";
 // import GlobeRender3 from "../GlobeRender3/GlobeRender3";
 // import GlobeRender4 from "../GlobeRender4/GlobeRender4";
-import { useState } from "react";
 
 function AllGlobes(props) {
   return (
@@ -12,7 +11,9 @@ function AllGlobes(props) {
         {props.globe === 0 && (
           <GlobeRender0 UVMap={props.UVMap} setCountry={props.setCountry} />
         )}
-        {props.globe != 0 && <GlobeRender1 globe={props.globe} />}
+        {props.globe == 1 && <GlobeRender1 globe={props.globe} />}
+        {props.globe == 2 && <GlobeRender1 globe={props.globe} />}
+        {props.globe == 3 && <GlobeRender1 globe={props.globe} />}
       </div>
     </>
   );

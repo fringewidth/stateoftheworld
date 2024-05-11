@@ -4,11 +4,13 @@ import RightSideOfPage from "./Components/RightSideOfPage/RightSideOfPage";
 import MiddleOfPage from "./Components/MiddleOfPage/MiddleOfPage";
 import { useState } from "react";
 import data from "./assets/StateOfTheWorldData";
+// import WeatherData from "./assets/CountryLatnLongData";
 
 function App() {
   const [country, setCountry] = useState("Global");
   const countryData = data[country];
-  console.log(data);
+  // const [Monthlyagg, setMonthlyagg] = useState([]);
+
   // const reallyLongString =
   //   "https://miro.medium.com/v2/resize:fit:720/format:webp/0*F9GANogspBRfY3sR.jpg";
 
