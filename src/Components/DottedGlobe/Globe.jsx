@@ -1,9 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/prop-types */
 import * as THREE from "three";
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import GeoJsonGeometriesLookup from "geojson-geometries-lookup";
 import Camera from "../../utils/camera.js";
 import Renderer from "../../utils/renderer.js";
 import BaseGlobe from "../../utils/baseGlobe.js";
+import colorMap from "../../utils/colorMap.js";
 import orbitControls from "../../utils/orbitControls.js";
 import atmVertexShader from "../../assets/shaders/atmVertex.glsl.js";
 import atmFragmentShader from "../../assets/shaders/atmFragment.glsl.js";
@@ -13,12 +16,6 @@ import globeLoading from "../../assets/images/globe-loading.gif";
 export default function Globe(props) {
   const [isLoading, setisLoading] = useState(true);
   //maps function from (0,1) to (red, blue) hexcodes
-  const colorMap = (value) => {
-    const r = value < 0.5 ? 1 : 1 - (value - 0.5) * 2;
-    const g = value < 0.5 ? value * 2 : 1;
-    const b = value > 0.5 ? 1 : value * 2;
-    return new THREE.Color(r, g, b);
-  };
   const statistics = [
     "",
     { title: "CarbonEmissions", min: 300, max: 1050 },
@@ -106,13 +103,13 @@ export default function Globe(props) {
         dotsPerLat
       );
 
-      //define special dots
-      const specialdots = new THREE.InstancedMesh(
-        new THREE.SphereGeometry(circumference / dotsPerLat / 4, 2, 2),
-        dotMaterialSpec,
-        //new THREE.MeshBasicMaterial({ color: 0xffffff }),
-        dotsPerLat
-      );
+      // //define special dots
+      // const specialdots = new THREE.InstancedMesh(
+      //   new THREE.SphereGeometry(circumference / dotsPerLat / 4, 2, 2),
+      //   dotMaterialSpec,
+      //   //new THREE.MeshBasicMaterial({ color: 0xffffff }),
+      //   dotsPerLat
+      // );
 
       const countryDots = {};
       Object.entries(countriesData).forEach(([country, data]) => {
@@ -121,7 +118,8 @@ export default function Globe(props) {
         statistic =
           (statistic - statistics[props.globe].min) /
           (statistics[props.globe].max - statistics[props.globe].min);
-        statistic = colorMap(statistic);
+        const [r, g, b] = colorMap(statistic);
+        statistic = new THREE.Color(r, g, b);
         mat.emissive = new THREE.Color(statistic);
         countryDots[country] = new THREE.InstancedMesh(
           new THREE.SphereGeometry(circumference / dotsPerLat / 4, 2, 2),
