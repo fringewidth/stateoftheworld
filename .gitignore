@@ -2,7 +2,7 @@ frontend/yarn-error.log*
 frontend/pnpm-debug.log*
 frontend/lerna-debug.log*
 
-frontend/node_modules
+*/node_modules
 frontend/dist
 frontend/dist-ssr
 frontend/*.local
@@ -14,3 +14,4 @@ frontend/.idea
 frontend/.DS_Store
 frontend/*.suo
 frontend/*.ntvs*
+*/.env
