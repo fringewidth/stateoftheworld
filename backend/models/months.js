@@ -10,6 +10,8 @@ const monthsSchema = new mongoose.Schema({
       tempAnomaly: Number,
       coconc: Number,
       no2conc: Number,
+      o3conc: Number,
+      so2conc: Number,
       news: [
         {
           headline: String,
