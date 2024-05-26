@@ -18,39 +18,40 @@ import Russia from "../../../assets/countries-white/ru.png";
 import USA from "../../../assets/countries-white/us.png";
 
 function InfoCard(props) {
-  const Info = props.countryData.CountryInfo;
+  const Info = props.newCountryData;
+  console.log(props.newCountryData);
 
   const countryToImage = {
-    Australia,
-    Brazil,
-    Canada,
-    China,
-    Germany,
-    Spain,
-    France,
-    UK,
-    India,
-    Italy,
-    Japan,
-    SouthKorea,
-    Mexico,
-    Russia,
-    USA,
+    au: Australia,
+    br: Brazil,
+    ca: Canada,
+    cn: China,
+    de: Germany,
+    es: Spain,
+    fr: France,
+    gb: UK,
+    in: India,
+    it: Italy,
+    jp: Japan,
+    kr: SouthKorea,
+    mx: Mexico,
+    ru: Russia,
+    us: USA,
   };
 
-  const imageLink = countryToImage[props.country];
+  const imageLink = countryToImage[Info?.code];
 
   return (
     <>
       <div className="max-w-sm">
         <div className="relative">
-          {props.country === "Global" ? (
+          {Info?.code === "global" ? (
             <PiGlobeStandLight size={200} />
           ) : (
             <img
               className="max-md:h-[40vh]"
               src={imageLink}
-              alt={`${Info?.name} Image`}
+              alt={`${Info?.country} Image`}
             />
           )}
           <div className="absolute top-2/4 right-[20%]">
@@ -58,7 +59,7 @@ function InfoCard(props) {
               style={{ WebkitTextStroke: "1.5px black" }}
               className="mb-2 text-4xl font-bold tracking-[4px] text-gray-900 dark:text-white"
             >
-              {Info?.name}
+              {Info?.country}
             </h5>
           </div>
         </div>
@@ -66,29 +67,35 @@ function InfoCard(props) {
         <p className="mb-3 font-normal">
           <strong>Temperature Anomalies:</strong> <br />
           <span className="text-orange-500 font-semibold text-2xl">
-            +{Info?.TemperatureAnomalies?.toFixed(2)}°C
+            +{Info?.tempAnomaly?.toFixed(2)}°C
           </span>
         </p>
 
         <p className="mb-3 font-normal">
-          <strong>Sea Level Rise:</strong> <br />
+          <strong>CO2 Concentration:</strong> <br />
           <span className="text-orange-500 font-semibold text-2xl">
-            {Info?.SeaLevelRise}mm
+            {Info?.coconc?.toFixed(2)}ppm
           </span>
         </p>
 
         <p className="mb-3 font-normal">
-          <strong>Carbon Emissions:</strong> <br />
-          <span className="text-orange-500 font-semibold">
-            <span className="text-2xl">{Info?.CarbonEmissions}</span>million
-            metric tons
+          <strong>NO2 Concentration:</strong> <br />
+          <span className="text-orange-500 font-semibold text-2xl">
+            {Info?.no2conc?.toFixed(2)}ppm
           </span>
         </p>
 
         <p className="mb-3 font-normal">
-          <strong>Renewable Energy Production:</strong> <br />
-          <span className="text-green-500 text-2xl ">
-            {Info?.RenewableEnergyProduction}%
+          <strong>O3 Concentration:</strong> <br />
+          <span className="text-orange-500 font-semibold text-2xl">
+            {Info?.o3conc?.toFixed(2)}ppm
+          </span>
+        </p>
+
+        <p className="mb-3 font-normal">
+          <strong>SO2 Concentration:</strong> <br />
+          <span className="text-orange-500 font-semibold text-2xl">
+            {Info?.so2conc?.toFixed(2)}ppm
           </span>
         </p>
       </div>
