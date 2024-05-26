@@ -12,6 +12,25 @@ import Renderer from "../../utils/renderer.js";
 import BaseGlobe from "../../utils/baseGlobe.js";
 import orbitControls from "../../utils/orbitControls.js";
 
+const countryNameToCode = {
+  India: "in",
+  France: "fr",
+  Canada: "ca",
+  Spain: "es",
+  Japan: "jp",
+  Italy: "it",
+  China: "cn",
+  Mexico: "mx",
+  Australia: "au",
+  Russia: "ru",
+  Brazil: "br",
+  Germany: "de",
+  "United Kingdom": "gb",
+  "United States": "us",
+  "South Korea": "kr",
+  Global: "global",
+};
+
 export default function Globe(props) {
   const refContainer = useRef(null);
   const raycaster = new THREE.Raycaster();
@@ -49,33 +68,11 @@ export default function Globe(props) {
               const whereYouClicked = glookup.getContainers(click).features;
               if (whereYouClicked.length > 0) {
                 const countryName = whereYouClicked[0].properties.name;
-                switch (countryName) {
-                  case "India":
-                  case "France":
-                  case "Canada":
-                  case "Spain":
-                  case "Japan":
-                  case "Italy":
-                  case "China":
-                  case "Mexico":
-                  case "Australia":
-                  case "Russia":
-                  case "Brazil":
-                  case "Germany":
-                    props.setCountry(countryName);
-                    break;
-                  case "United Kingdom":
-                    props.setCountry("UK");
-                    break;
-                  case "United States":
-                    props.setCountry("USA");
-                    break;
-                  case "South Korea":
-                    props.setCountry("SouthKorea");
-                    break;
-                  default:
-                    props.setCountry("Global");
-                    break;
+                const countryCode = countryNameToCode[countryName];
+                if (countryCode) {
+                  props.setCountryCode(countryCode);
+                } else {
+                  props.setCountryCode("global");
                 }
               } else {
                 props.setCountry("Global");
