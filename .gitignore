@@ -14,4 +14,7 @@ frontend/.idea
 frontend/.DS_Store
 frontend/*.suo
 frontend/*.ntvs*
+
 */.env
+
+backend/azure/historical/deleteme.js

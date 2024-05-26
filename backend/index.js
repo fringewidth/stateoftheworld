@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
 const cors = require("cors");
-const messageRoute = require("./routes/messages");
+const monthsRoute = require("./routes/monthsRoute");
 
 const app = express();
 const port = 2000;
@@ -20,4 +20,4 @@ app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
 app.use(cors());
-app.use("/messages", messageRoute);
+app.use("/months", monthsRoute);
