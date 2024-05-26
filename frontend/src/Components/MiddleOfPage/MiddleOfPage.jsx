@@ -15,7 +15,7 @@ function MiddleOfPage(props) {
         {/* <CountryToggleButtons setCountry={props.setCountry} /> */}
         <AllGlobes
           UVMap={props.UVMap}
-          setCountry={props.setCountry}
+          setCountryCode={props.setCountryCode}
           globe={globe}
         />
         <GlobeToggle globe={globe} setGlobe={setGlobe} />
