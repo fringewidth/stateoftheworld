@@ -1,18 +1,13 @@
 require("dotenv").config({ path: "../../.env" });
-const { get } = require("mongoose");
 const getMonthRange = require("../utils/getMonthRange");
 const API_KEY = process.env.OWM_API_KEY;
 const countryCity = require("./countryCity.json");
+const geoCoder = require("../utils/geoCoder");
 
 async function getConc(month, year, countryCode) {
+  console.log("Getting concentration data for", countryCode, month, year);
   const city = countryCity[countryCode] + "," + countryCode;
-  const { lat, lon } = await fetch(
-    `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`
-  )
-    .then((response) => response.json())
-    .then((data) => {
-      return { lat: data[0].lat, lon: data[0].lon };
-    });
+  const { lat, lon } = await geoCoder(city);
 
   const { lo, hi } = getMonthRange(month, year);
   return await fetch(
@@ -35,6 +30,14 @@ async function getConc(month, year, countryCode) {
       conc.no2conc /= numEntries;
       conc.o3conc /= numEntries;
       conc.so2conc /= numEntries;
+      console.log(
+        "Done. Returning concentration data for",
+        countryCode,
+        month,
+        year,
+        ":",
+        conc
+      );
       return conc;
     });
 }

@@ -1,20 +1,29 @@
 const countries = require("./countries.json");
 const getTempAnomaly = require("./getTempAnomaly");
-function getCountryData(month, year) {
-  countries.forEach(async (country) => {
-    getTempAnomaly(month, year, country.code).then((anomaly) => {
-      country.tempAnomaly = anomaly;
-    });
-    getConc(month, year, country.code).then((data) => {
-      country.coconc = data.coconc;
-      country.no2conc = data.no2conc;
-      country.o3conc = data.o3conc;
-      country.so2conc = data.so2conc;
-    });
-    getNews(month, year, country.code).then((news) => {
-      country.news = news;
-    });
-  });
-  return countries;
+const getConc = require("./getConc");
+const getNews = require("./getNews");
+async function getCountryData(month, year) {
+  console.log("Getting data for month", month, "year", year);
+  const updatedCountries = await Promise.all(
+    countries.map(async (country) => {
+      const updatedCountry = { ...country };
+      updatedCountry.tempAnomaly = await getTempAnomaly(
+        month,
+        year,
+        country.code
+      );
+      if (isNaN(updatedCountry.tempAnomaly)) {
+        updatedCountry.tempAnomaly = null;
+      }
+      const concData = await getConc(month, year, country.code);
+      updatedCountry.coconc = concData.coconc || null;
+      updatedCountry.no2conc = concData.no2conc || null;
+      updatedCountry.o3conc = concData.o3conc || null;
+      updatedCountry.so2conc = concData.so2conc || null;
+      updatedCountry.news = await getNews(month, year, country.code);
+      return updatedCountry;
+    })
+  );
+  return updatedCountries;
 }
 module.exports = getCountryData;
