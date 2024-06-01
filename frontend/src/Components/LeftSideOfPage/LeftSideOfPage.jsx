@@ -3,16 +3,14 @@ import "./LeftSideOfPage.css";
 import NewsFeedCard from "./NewsFeedCard/NewsFeedCard";
 
 function LeftSideOfPage(props) {
-  const News = props.countryData.CountryNews;
-
-  const EntireNewsFeed = News?.map((News) => (
+  const newNews = props.newCountryData?.news;
+  const EntireNewsFeed = newNews?.map((newNews) => (
     <NewsFeedCard
-      key={News?.NewsTitle}
-      NewsSource={News?.NewsSource}
-      NewsTitle={News?.NewsTitle}
-      NewsLink={News?.NewsLink}
-      SentimentStatus={News?.SentimentStatus}
-      Description={News?.Description}
+      key={newNews?._id}
+      NewsSource={newNews?.headline}
+      NewsTitle={newNews?.content}
+      NewsLink={newNews?.link}
+      SentimentStatus={newNews?.sentiment}
     />
   ));
 
