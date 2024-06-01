@@ -15,10 +15,9 @@ const monthsSchema = new mongoose.Schema({
       news: [
         {
           headline: String,
-          content: String,
-          source: String,
-          sentiment: Number,
           link: String,
+          content: String,
+          sentiment: Number,
         },
       ],
     },

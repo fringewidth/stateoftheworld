@@ -1,43 +1,64 @@
 [
   {
     "country": "Australia",
-    "code": "au"
+    "code": "au",
+    "newsSource": "https://abc.net.au",
+    "keyword": "climate change"
   },
   {
     "country": "Brazil",
-    "code": "br"
+    "code": "br",
+    "newsSource": "https://sbtnews.sbt.com.br",
+    "keyword": "mudanças climáticas"
+
   },
   {
     "country": "Canada",
-    "code": "ca"
+    "code": "ca",
+    "newsSource": "https://cbc.ca",
+    "keyword": "climate change"
   },
   {
     "country": "China",
-    "code": "cn"
+    "code": "cn",
+    "newsSource": "https://www.caixinglobal.com/",
+    "keyword": "climate change"
   },
   {
     "country": "Germany",
-    "code": "de"
+    "code": "de",
+    "newsSource": "https://www.thelocal.de/",
+    "keyword": "climate change"
   },
   {
     "country": "Spain",
-    "code": "es"
+    "code": "es",
+    "newsSource": "https://www.thelocal.de/",
+    "keyword": "climate change"
   },
   {
     "country": "France",
-    "code": "fr"
+    "code": "fr",
+    "newsSource": "https://www.lemonde.fr/",
+    "keyword":"climate change" 
   },
   {
     "country": "United Kingdom",
-    "code": "gb"
+    "code": "gb",
+    "newsSource": "https://www.bbc.co.uk/",
+    "keyword": "climate change"
   },
   {
     "country": "India",
-    "code": "in"
+    "code": "in",
+    "newsSource": "https://www.ndtv.com/",
+    "keyword": "climate change"
   },
   {
     "country": "Italy",
-    "code": "it"
+    "code": "it",
+    "newsSource": "*",
+    "keyword": "climate change"
   },
   {
     "country": "Japan",
