@@ -75,7 +75,7 @@ export default function Globe(props) {
                   props.setCountryCode("global");
                 }
               } else {
-                props.setCountry("Global");
+                props.setCountryCode("global");
               }
             });
         }
