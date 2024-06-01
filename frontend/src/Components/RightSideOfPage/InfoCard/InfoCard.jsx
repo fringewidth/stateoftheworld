@@ -19,7 +19,6 @@ import USA from "../../../assets/countries-white/us.png";
 
 function InfoCard(props) {
   const Info = props.newCountryData;
-  console.log(props.newCountryData);
 
   const countryToImage = {
     au: Australia,

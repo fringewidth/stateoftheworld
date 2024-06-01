@@ -2,13 +2,15 @@
 import "./Sentiment.css";
 
 function Sentiment(props) {
+  const newNews = props?.newCountryData?.news;
+  console.log(newNews);
   let sum = 0;
-  props?.countryData?.CountryNews?.forEach((news) => {
-    sum += news?.SentimentStatus;
+  newNews?.forEach((news) => {
+    sum += news?.sentiment;
   });
-  const OverallSentiment = (
-    sum / props?.countryData?.CountryNews?.length
-  )?.toFixed(2);
+  console.log(sum);
+  const OverallSentiment = (sum / newNews?.length)?.toFixed(2);
+  console.log(OverallSentiment);
 
   const PositiveGreenStyle = {
     margin: "100px",
