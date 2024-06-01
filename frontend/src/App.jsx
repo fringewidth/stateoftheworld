@@ -4,11 +4,14 @@ import RightSideOfPage from "./Components/RightSideOfPage/RightSideOfPage";
 import MiddleOfPage from "./Components/MiddleOfPage/MiddleOfPage";
 import { useEffect, useState } from "react";
 import data from "./assets/StateOfTheWorldData";
-// import WeatherData from "./assets/CountryLatnLongData";
 
 function App() {
-  const [country, setCountry] = useState("Global");
+  const [Data, setData] = useState(null);
+  const [country] = useState("Global");
+  const [countryCode, setCountryCode] = useState("global");
+  const [month, setMonth] = useState(1);
   const [message, setMessage] = useState(null);
+  const [countryIndexMap, setCountryIndexMap] = useState({});
 
   useEffect(() => {
     fetch(`http://localhost:2000/messages`)
@@ -18,11 +21,24 @@ function App() {
       });
   }, []);
 
-  const countryData = data[country];
-  // const [Monthlyagg, setMonthlyagg] = useState([]);
+  useEffect(() => {
+    fetch(`http://localhost:2000/months/${month}/2024`)
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data[0].countries);
 
-  // const reallyLongString =
-  //   "https://miro.medium.com/v2/resize:fit:720/format:webp/0*F9GANogspBRfY3sR.jpg";
+        const map = data[0].countries.reduce((acc, curr, index) => {
+          acc[curr.code] = index;
+          return acc;
+        }, {});
+        setCountryIndexMap(map);
+      });
+  }, [month]);
+
+  const countryData = data[country];
+  const newCountryData = Data ? Data[countryIndexMap[countryCode]] : null;
+
+  // TODO: Add a loading Spinner/Suspense to the page
 
   return (
     <>
@@ -34,10 +50,11 @@ function App() {
         </div>
         <LeftSideOfPage countryData={countryData} />
         <MiddleOfPage
-          setCountry={setCountry}
           UVMap={"src/assets/textures/earth_2k.jpg"}
+          setMonth={setMonth}
+          setCountryCode={setCountryCode}
         />
-        <RightSideOfPage countryData={countryData} country={country} />
+        <RightSideOfPage newCountryData={newCountryData} />
       </div>
     </>
   );

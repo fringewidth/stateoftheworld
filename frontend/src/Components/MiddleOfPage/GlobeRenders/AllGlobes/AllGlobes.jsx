@@ -9,7 +9,10 @@ function AllGlobes(props) {
     <>
       <div className=" max-[515px]:scale-75 max-[380px]:scale-[0.65]">
         {props.globe === 0 && (
-          <GlobeRender0 UVMap={props.UVMap} setCountry={props.setCountry} />
+          <GlobeRender0
+            UVMap={props.UVMap}
+            setCountryCode={props.setCountryCode}
+          />
         )}
         {props.globe == 1 && <GlobeRender1 globe={props.globe} />}
         {props.globe == 2 && <GlobeRender1 globe={props.globe} />}
