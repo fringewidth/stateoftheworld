@@ -6,7 +6,7 @@ const getSentiment = require("./getSentiment");
 
 function getGoogleNewsUrl(country, month, year) {
   country = country.replace(" ", "+");
-  return `https://www.google.com/search?q=climate+change+${country}+before%3A${year}-${month}-${getNumDays(
+  return `https://www.google.com/search?q=climate+change+news+${country}+before%3A${year}-${month}-${getNumDays(
     month
   )}+after%3A${year}-${month}-01`;
 }
@@ -20,7 +20,7 @@ async function getNews(month, year, code) {
   const newsPromises = elements.map(async (elem) => {
     const title = $(elem);
     const headline = title.text();
-    const link = title.parents().eq(2).prop("href").slice(7);
+    const link = title.parents().eq(2).prop("href").slice(7).split("&sa")[0];
     const content = title.parents().eq(3).next().text().split("�")[1] + "...";
     // const sentiment = await getSentiment(headline);
     return { headline, link, content };
@@ -33,6 +33,7 @@ async function getNews(month, year, code) {
     item.sentiment = sentiments[index];
   });
   console.log("Returning news for ", country.country, month, year);
+  console.log(news);
   return news;
 }
 
