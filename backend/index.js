@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const cors = require("cors");
 const monthsRoute = require("./routes/monthsRoute");
+const co2Route = require("./routes/co2Route");
 
 const app = express();
 const port = 2000;
@@ -21,3 +22,4 @@ app.listen(port, () => {
 });
 app.use(cors());
 app.use("/months", monthsRoute);
+app.use("/co2", co2Route);

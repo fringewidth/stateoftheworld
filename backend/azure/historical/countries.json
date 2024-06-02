@@ -2,82 +2,76 @@
   {
     "country": "Australia",
     "code": "au",
-    "newsSource": "https://abc.net.au",
-    "keyword": "climate change"
+    "2020co2": 14.7761369066259
   },
   {
     "country": "Brazil",
     "code": "br",
-    "newsSource": "https://sbtnews.sbt.com.br",
-    "keyword": "mudanças climáticas"
-
+    "2020co2": 1.942523356
   },
   {
     "country": "Canada",
     "code": "ca",
-    "newsSource": "https://cbc.ca",
-    "keyword": "climate change"
+    "2020co2": 13.59937492
   },
   {
     "country": "China",
     "code": "cn",
-    "newsSource": "https://www.caixinglobal.com/",
-    "keyword": "climate change"
+    "2020co2": 7.756137907
   },
   {
     "country": "Germany",
     "code": "de",
-    "newsSource": "https://www.thelocal.de/",
-    "keyword": "climate change"
+    "2020co2": 7.255221028
   },
   {
     "country": "Spain",
     "code": "es",
-    "newsSource": "https://www.thelocal.de/",
-    "keyword": "climate change"
+    "2020co2": 4.279594571
   },
   {
     "country": "France",
     "code": "fr",
-    "newsSource": "https://www.lemonde.fr/",
-    "keyword":"climate change" 
+    "2020co2": 3.953682452
   },
   {
     "country": "United Kingdom",
     "code": "gb",
-    "newsSource": "https://www.bbc.co.uk/",
-    "keyword": "climate change"
+    "2020co2": 4.601142251
   },
   {
     "country": "India",
     "code": "in",
-    "newsSource": "https://www.ndtv.com/",
-    "keyword": "climate change"
+    "2020co2": 1.576093232
   },
   {
     "country": "Italy",
     "code": "it",
-    "newsSource": "*",
-    "keyword": "climate change"
+    "2020co2": 4.732372771
   },
   {
     "country": "Japan",
-    "code": "jp"
+    "code": "jp",
+    "2020co2": 8.03149587
   },
   {
     "country": "South Korea",
-    "code": "kr"
+    "code": "kr",
+    "2020co2": 10.99002958
   },
   {
     "country": "Mexico",
-    "code": "mx"
+    "code": "mx",
+    "2020co2": 3.040766375
   },
   {
     "country": "Russia",
-    "code": "ru"
+    "code": "ru",
+    "2020co2": 11.23228807
   },
   {
     "country": "United States",
-    "code": "us"
+    "code": "us",
+    "2020co2": 13.03282795
   }
 ]
