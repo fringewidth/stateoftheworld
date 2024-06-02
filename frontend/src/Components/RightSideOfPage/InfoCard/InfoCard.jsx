@@ -71,7 +71,7 @@ function InfoCard(props) {
         </p>
 
         <p className="mb-3 font-normal">
-          <strong>CO2 Concentration:</strong> <br />
+          <strong>CO Concentration:</strong> <br />
           <span className="text-orange-500 font-semibold text-2xl">
             {Info?.coconc?.toFixed(2)}ppm
           </span>
