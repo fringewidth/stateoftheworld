@@ -1,0 +1,15 @@
+.bullet {
+  color: "lightgreen";
+  text-shadow: "0 0 10px green, 0 0 20px green, 0 0 30px green, 0 0 40px green";
+  margin-right: "5px";
+}
+
+.greencard:hover {
+  box-shadow: 0 0 10px 5px green;
+  transition: 0.2s;
+}
+
+.redcard:hover {
+  box-shadow: 0 0 10px 5px rgb(255, 87, 87);
+  transition: 0.2s;
+}
