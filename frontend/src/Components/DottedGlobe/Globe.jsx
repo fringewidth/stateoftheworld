@@ -10,7 +10,7 @@ import orbitControls from "../../utils/orbitControls.js";
 import atmVertexShader from "../../assets/shaders/atmVertex.glsl.js";
 import atmFragmentShader from "../../assets/shaders/atmFragment.glsl.js";
 import countriesData from "../../assets/StateOfTheWorldData.jsx";
-import globeLoading from "../../assets/images/globe-loading.gif";
+import globeLoading from "../../assets/images/globe-loading-text.gif";
 import PropTypes from "prop-types";
 
 Globe.propTypes = {
@@ -185,7 +185,14 @@ export default function Globe(props) {
     <>
       {isLoading && (
         <>
-          <img src={globeLoading} style={{ width: "20rem" }} />
+          <img
+            src={globeLoading}
+            style={{
+              width: "320px",
+              marginTop: "165px",
+              marginBottom: "165px",
+            }}
+          />
         </>
       )}
       <div ref={refDiv} />
