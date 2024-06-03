@@ -118,7 +118,15 @@ export default function Globe(props) {
     const raycaster = new THREE.Raycaster();
     raycaster.far = camera.position.z;
     const mouse = new THREE.Vector2();
+    let isDragging = false;
+    const onMouseMove = (event) => {
+      isDragging = true;
+    };
+    const onMouseDown = (event) => {
+      isDragging = false;
+    };
     const onClick = (event) => {
+      if (isDragging) return;
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -144,6 +152,8 @@ export default function Globe(props) {
     };
 
     window.addEventListener("click", onClick);
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mousedown", onMouseDown);
 
     for (let lat = -90; lat <= 90; lat += 180 / rows) {
       const radius = Math.cos(lat * DEG2RAD) * GLOBE_RADIUS * SCALE;
