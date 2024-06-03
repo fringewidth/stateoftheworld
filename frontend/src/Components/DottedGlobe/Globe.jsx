@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as THREE from "three";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import GeoJsonGeometriesLookup from "geojson-geometries-lookup";
 import Camera from "../../utils/camera.js";
 import Renderer from "../../utils/renderer.js";
@@ -17,13 +17,31 @@ Globe.propTypes = {
   globe: PropTypes.number, // 'globe' is a number
 };
 
+const countryNameToCode = {
+  India: "in",
+  France: "fr",
+  Canada: "ca",
+  Spain: "es",
+  Japan: "jp",
+  Italy: "it",
+  China: "cn",
+  Mexico: "mx",
+  Australia: "au",
+  Russia: "ru",
+  Brazil: "br",
+  Germany: "de",
+  UK: "gb",
+  USA: "us",
+  SouthKorea: "kr",
+  Global: "global",
+};
+
 export default function Globe(props) {
   const [isLoading, setisLoading] = useState(true);
   //maps function from (0,1) to (red, blue) hexcodes
   const statistics = [
     "",
     { title: "CarbonEmissions", min: 300, max: 1050 },
-    { title: "SeaLevelRise", min: 4, max: 19 },
     { title: "TemperatureAnomalies", min: 0.6, max: 2.1 },
   ];
 
@@ -61,13 +79,14 @@ export default function Globe(props) {
     const scene = new THREE.Scene();
 
     //define globe material
-    const globeMaterial = new THREE.MeshPhysicalMaterial({});
-    globeMaterial.color = new THREE.Color(0x333333);
-    globeMaterial.roughness = 0.5;
-    globeMaterial.metalness = 1;
-    globeMaterial.clearcoat = 0.8;
-    globeMaterial.clearcoatRoughness = 0.6;
-    globeMaterial.reflectivity = 0.5;
+    const globeMaterial = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color(0x333333),
+      roughness: 0.5,
+      metalness: 1,
+      clearcoat: 0.8,
+      clearcoatRoughness: 0.6,
+      reflectivity: 0.5,
+    });
 
     //create globe
     const globe = BaseGlobe();
@@ -91,9 +110,40 @@ export default function Globe(props) {
 
     //dot material for special countries
     const dotMaterialSpec = globeMaterial.clone();
-    dotMaterialSpec.color = new THREE.Color(0xffffff);
+    // dotMaterialSpec.color = new THREE.Color(0xffffff);
     dotMaterialSpec.emissive = new THREE.Color(0xffffff);
     dotMaterialSpec.emissiveIntensity = 0.6;
+
+    // define raycaster
+    const raycaster = new THREE.Raycaster();
+    raycaster.far = camera.position.z;
+    const mouse = new THREE.Vector2();
+    const onClick = (event) => {
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+
+      const intersects = raycaster.intersectObjects(scene.children);
+
+      if (intersects.length === 1) {
+        props.setCountryCode("global");
+      } else {
+        intersects.forEach((intersect) => {
+          if (intersect.object instanceof THREE.InstancedMesh) {
+            // console.log(intersect.object.country);
+            if (intersect.object.country === undefined) {
+              props.setCountryCode("global");
+              return;
+            }
+            const countryCode = countryNameToCode[intersect.object.country];
+            props.setCountryCode(countryCode);
+          }
+        });
+      }
+    };
+
+    window.addEventListener("click", onClick);
 
     for (let lat = -90; lat <= 90; lat += 180 / rows) {
       const radius = Math.cos(lat * DEG2RAD) * GLOBE_RADIUS * SCALE;
@@ -120,17 +170,22 @@ export default function Globe(props) {
       Object.entries(countriesData).forEach(([country, data]) => {
         const mat = globeMaterial.clone();
         let statistic = data["CountryInfo"][statistics[props.globe].title];
+
         statistic =
           (statistic - statistics[props.globe].min) /
           (statistics[props.globe].max - statistics[props.globe].min);
+
         const [r, g, b] = colorMap(statistic);
         statistic = new THREE.Color(r, g, b);
+
         mat.emissive = new THREE.Color(statistic);
+        mat.emissiveIntensity = 0.6;
         countryDots[country] = new THREE.InstancedMesh(
-          new THREE.SphereGeometry(circumference / dotsPerLat / 4, 2, 2),
+          new THREE.SphereGeometry((circumference / dotsPerLat) * 1.1, 4, 4),
           mat,
           dotsPerLat
         );
+        countryDots[country].country = country;
       });
 
       for (let x = 0; x <= dotsPerLat; x++) {
