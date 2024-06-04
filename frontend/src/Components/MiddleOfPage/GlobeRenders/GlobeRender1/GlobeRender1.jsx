@@ -7,7 +7,13 @@ export default function GlobeRender1(props) {
   return (
     <>
       {/* <Globe UVMap={props.UVMap} setCountry={props.setCountry} /> */}
-      <DottedGlobe globe={props.globe} setCountryCode={props.setCountryCode} />
+      <DottedGlobe
+        globe={props.globe}
+        data={props.data}
+        min={props.min}
+        max={props.max}
+        setCountryCode={props.setCountryCode}
+      />
     </>
   );
 }

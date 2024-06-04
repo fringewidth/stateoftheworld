@@ -11,26 +11,25 @@ import BaseAtm from "../../utils/baseAtm.js";
 import colorMap from "../../utils/colorMap.js";
 import orbitControls from "../../utils/orbitControls.js";
 
-import countriesData from "../../assets/StateOfTheWorldData.jsx";
 import globeLoading from "../../assets/images/globe-loading-text.gif";
 
-const countryNameToCode = {
-  India: "in",
-  France: "fr",
-  Canada: "ca",
-  Spain: "es",
-  Japan: "jp",
-  Italy: "it",
-  China: "cn",
-  Mexico: "mx",
-  Australia: "au",
-  Russia: "ru",
-  Brazil: "br",
-  Germany: "de",
-  UK: "gb",
-  USA: "us",
-  SouthKorea: "kr",
-  Global: "global",
+const countryCodeToName = {
+  in: "India",
+  fr: "France",
+  ca: "Canada",
+  es: "Spain",
+  jp: "Japan",
+  it: "Italy",
+  cn: "China",
+  mx: "Mexico",
+  au: "Australia",
+  ru: "Russia",
+  br: "Brazil",
+  de: "Germany",
+  gb: "UK",
+  us: "USA",
+  kr: "SouthKorea",
+  global: "Global",
 };
 
 const SCALE = 5;
@@ -119,36 +118,35 @@ export default function Globe(props) {
     const raycaster = new THREE.Raycaster();
     raycaster.far = camera.position.z;
 
+    const countryDots = {};
+    const commonDots = [];
     for (let lat = -90; lat <= 90; lat += 180 / ROWS) {
       const radius = Math.cos(lat * DEG2RAD) * GLOBE_RADIUS * SCALE;
       const circumference = radius * 2 * Math.PI;
       const dotsPerLat = circumference * DOT_DENSITY;
 
-      const commonDots = new THREE.InstancedMesh(
+      commonDots[lat] = new THREE.InstancedMesh(
         new THREE.SphereGeometry((circumference / dotsPerLat) * 0.25, 2, 2),
         COMMON_DOT_MAT,
         dotsPerLat
       );
 
-      const countryDots = {};
-      Object.entries(countriesData).forEach(([country, data]) => {
+      Object.entries(props.data).forEach(([country, data]) => {
         const mat = GLOBE_MATERIAL.clone();
-        let statistic = data["CountryInfo"][statistics[props.globe].title];
-
-        statistic =
-          (statistic - statistics[props.globe].min) /
-          (statistics[props.globe].max - statistics[props.globe].min);
-
-        const [r, g, b] = colorMap(statistic);
-        statistic = new THREE.Color(r, g, b);
-
-        mat.color = new THREE.Color(statistic);
+        const normData = data && (data - props.min) / (props.max - props.min);
+        const [r, g, b] = colorMap(normData && 1 - normData);
+        mat.color = new THREE.Color(r, g, b);
         mat.roughness = 0.2;
-        // mat.emissiveIntensity = 0.6;
         countryDots[country] = new THREE.InstancedMesh(
           new THREE.SphereGeometry((circumference / dotsPerLat) * 1.1, 4, 4),
           mat,
           dotsPerLat
+        );
+        console.log(
+          country,
+          data,
+          normData,
+          colorMap(normData && 1 - normData)
         );
         countryDots[country].country = country;
       });
@@ -167,13 +165,13 @@ export default function Globe(props) {
           Math.sin(lat * DEG2RAD) * GLOBE_RADIUS * SCALE,
           Math.cos(lon * DEG2RAD) * radius
         );
-        const countryName = properties.abbrev;
+        const countryName = properties.iso_a2.toLowerCase();
         dot.updateMatrix();
         if (countryType == "Admin-0 country") {
-          commonDots.setMatrixAt(x, dot.matrix);
-          scene.add(commonDots);
+          commonDots[lat].setMatrixAt(x, dot.matrix);
+          scene.add(commonDots[lat]);
         } else {
-          countryDots[countryName].setMatrixAt(x, dot.matrix);
+          countryDots[countryName]?.setMatrixAt(x, dot.matrix);
           scene.add(countryDots[countryName]);
         }
       }
@@ -203,11 +201,11 @@ export default function Globe(props) {
         Object.assign(tooltip.style, {
           opacity: 1.0,
           transition: `opacity ${TOOLTIP_TRANSITION_SEC}s`,
-          left: `${event.clientX + 10}px`,
-          top: `${event.clientY - 10}px`,
+          left: `${event.clientX - 60}px`,
+          top: `${event.clientY + 60}px`,
         });
 
-        tooltip.textContent = intersects[1].object.country;
+        tooltip.textContent = countryCodeToName[intersects[1].object.country];
       } else {
         tooltip.style.opacity = 0;
         setTimeout(() => {
@@ -224,8 +222,7 @@ export default function Globe(props) {
       if (intersects.length < 2) {
         props.setCountryCode("global");
       } else if (intersects[1].object instanceof THREE.InstancedMesh) {
-        const countryCode = countryNameToCode[intersects[1].object.country];
-        props.setCountryCode(countryCode);
+        props.setCountryCode(intersects[1].object.country);
       }
     };
 
