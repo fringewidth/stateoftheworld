@@ -130,7 +130,6 @@ export default function Globe(props) {
         COMMON_DOT_MAT,
         dotsPerLat
       );
-
       Object.entries(props.data).forEach(([country, data]) => {
         const mat = GLOBE_MATERIAL.clone();
         const normData = data && (data - props.min) / (props.max - props.min);
@@ -138,7 +137,7 @@ export default function Globe(props) {
         switch (props.globe) {
           case 1:
           case 2:
-            [r, g, b] = colorMap(normData && 1 - normData);
+            [r, g, b] = colorMap(normData !== null ? 1 - normData : null);
             break;
           case 3:
             [r, g, b] = colorMap(normData);

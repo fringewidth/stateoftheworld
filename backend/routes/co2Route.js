@@ -6,11 +6,14 @@ const countryData = require("../azure/historical/countries.json");
 
 router.get("/", async (req, res) => {
   try {
-    const response = countryData.reduce((acc, curr) => {
+    const response = {};
+    response.countries = countryData.reduce((acc, curr) => {
       acc[curr.code] = curr["2020co2"];
       return acc;
     }, {});
-    response.global = 4.465;
+    response.countries.global = 4.465;
+    response.min = Math.min(...Object.values(response.countries));
+    response.max = Math.max(...Object.values(response.countries));
 
     res.json(response);
   } catch (err) {

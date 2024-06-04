@@ -5,8 +5,10 @@ import MiddleOfPage from "./Components/MiddleOfPage/MiddleOfPage";
 import { useEffect, useState } from "react";
 import data from "./assets/StateOfTheWorldData";
 import { MonthContext } from "./Contexts/MonthData";
+import { co2Context } from "./Contexts/CO2";
 
 function App() {
+  const [_2020co2, set2020co2] = useState(null);
   const [Data, setData] = useState(null);
   const [country] = useState("Global");
   const [countryCode, setCountryCode] = useState("global");
@@ -28,6 +30,14 @@ function App() {
       });
   }, [month, year]);
 
+  useEffect(() => {
+    fetch(`http://localhost:2000/co2`)
+      .then((res) => res.json())
+      .then((data) => {
+        set2020co2(data);
+      });
+  });
+
   const countryData = data[country];
   const newCountryData = Data ? Data[countryIndexMap[countryCode]] : null;
 
@@ -40,14 +50,16 @@ function App() {
           newCountryData={newCountryData}
           countryData={countryData}
         />
-        <MiddleOfPage
-          UVMap={"src/assets/textures/earth_2k.jpg"}
-          setMonth={setMonth}
-          setCountryCode={setCountryCode}
-          setYear={setYear}
-          newCountryData={newCountryData}
-        />
-        <RightSideOfPage newCountryData={newCountryData} />
+        <co2Context.Provider value={_2020co2}>
+          <MiddleOfPage
+            UVMap={"src/assets/textures/earth_2k.jpg"}
+            setMonth={setMonth}
+            setCountryCode={setCountryCode}
+            setYear={setYear}
+            newCountryData={newCountryData}
+          />
+          <RightSideOfPage newCountryData={newCountryData} />
+        </co2Context.Provider>
       </div>
     </MonthContext.Provider>
   );

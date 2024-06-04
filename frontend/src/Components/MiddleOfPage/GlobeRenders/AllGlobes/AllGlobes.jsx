@@ -3,8 +3,11 @@ import GlobeRender0 from "../GlobeRender0/GlobeRender0";
 import GlobeRender1 from "../GlobeRender1/GlobeRender1";
 import { useContext, useEffect, useState } from "react";
 import { MonthContext } from "../../../../Contexts/MonthData";
+import { co2Context } from "../../../../Contexts/CO2";
+
 function AllGlobes(props) {
   const monthData = useContext(MonthContext);
+  const co2Data = useContext(co2Context);
   const [minMax, setMinMax] = useState({ min: null, max: null });
 
   useEffect(() => {
@@ -30,7 +33,6 @@ function AllGlobes(props) {
     return acc;
   }, {});
 
-  console.log(sentimentData);
   return (
     <>
       <div className=" max-[515px]:scale-75 max-[380px]:scale-[0.65]">
@@ -54,6 +56,9 @@ function AllGlobes(props) {
           <GlobeRender1
             globe={props.globe}
             setCountryCode={props.setCountryCode}
+            data={co2Data.countries}
+            min={co2Data.min}
+            max={co2Data.max}
           />
         )}
         {props.globe === 3 && (
