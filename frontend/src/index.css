@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.tooltip {
+  position: absolute;
+  background: #000;
+  font-family: "Trebuchet MS", sans-serif;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  outline: 1px solid #777;
+  transition: opacity 0.2s;
+}

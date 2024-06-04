@@ -32,6 +32,10 @@ function LeftSideOfPage(props) {
     scrollRef.current.addEventListener("mouseleave", startScroll);
   }, []);
 
+  useEffect(() => {
+    scrollRef.current.scrollTo(0, 0);
+  }, [newNews]);
+
   return (
     <>
       <div

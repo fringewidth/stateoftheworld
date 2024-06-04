@@ -36,6 +36,11 @@ const countryNameToCode = {
   Global: "global",
 };
 
+const tooltip = document.createElement("div");
+tooltip.className = "tooltip";
+tooltip.style.opacity = 0;
+document.body.appendChild(tooltip);
+
 export default function Globe(props) {
   const [isLoading, setisLoading] = useState(true);
   //maps function from (0,1) to (red, blue) hexcodes
@@ -81,7 +86,7 @@ export default function Globe(props) {
     //define globe material
     const globeMaterial = new THREE.MeshPhysicalMaterial({
       color: new THREE.Color(0x333333),
-      roughness: 0.5,
+      roughness: 0.4,
       metalness: 1,
       clearcoat: 0.8,
       clearcoatRoughness: 0.6,
@@ -102,26 +107,21 @@ export default function Globe(props) {
     frontLight.position.set(50 * SCALE, 100 * SCALE, 200 * SCALE);
     scene.add(frontLight);
 
+    const backLight = new THREE.DirectionalLight(0xffffff, 0.2);
+    backLight.position.set(-50 * SCALE, -100 * SCALE, -200 * SCALE);
+    scene.add(backLight);
+
     //draw dots
     //dot materials
     //normal dot material
     const dotMaterialNorm = globeMaterial.clone();
     dotMaterialNorm.color = new THREE.Color(0xffffff);
 
-    //dot material for special countries
-    const dotMaterialSpec = globeMaterial.clone();
-    // dotMaterialSpec.color = new THREE.Color(0xffffff);
-    dotMaterialSpec.emissive = new THREE.Color(0xffffff);
-    dotMaterialSpec.emissiveIntensity = 0.6;
-
     // define raycaster
     const raycaster = new THREE.Raycaster();
     raycaster.far = camera.position.z;
     const mouse = new THREE.Vector2();
     let isDragging = false;
-    const onMouseMove = (event) => {
-      isDragging = true;
-    };
     const onMouseDown = (event) => {
       isDragging = false;
     };
@@ -150,7 +150,29 @@ export default function Globe(props) {
         });
       }
     };
+    const onMouseMove = (event) => {
+      event.preventDefault();
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
+      raycaster.setFromCamera(mouse, camera);
+
+      const intersects = raycaster.intersectObjects(scene.children);
+
+      if (
+        intersects.length > 0 &&
+        intersects[1]?.object instanceof THREE.Mesh
+      ) {
+        tooltip.style.opacity = 1.0;
+        tooltip.style.left = `${event.clientX}px`;
+        tooltip.style.top = `${event.clientY}px`;
+        intersects[1].object.country &&
+          (tooltip.textContent = intersects[1].object.country);
+      } else {
+        tooltip.style.opacity = 0;
+        tooltip.textContent = "";
+      }
+    };
     window.addEventListener("click", onClick);
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mousedown", onMouseDown);
@@ -188,8 +210,9 @@ export default function Globe(props) {
         const [r, g, b] = colorMap(statistic);
         statistic = new THREE.Color(r, g, b);
 
-        mat.emissive = new THREE.Color(statistic);
-        mat.emissiveIntensity = 0.6;
+        mat.color = new THREE.Color(statistic);
+        mat.roughness = 0.2;
+        // mat.emissiveIntensity = 0.6;
         countryDots[country] = new THREE.InstancedMesh(
           new THREE.SphereGeometry((circumference / dotsPerLat) * 1.1, 4, 4),
           mat,
