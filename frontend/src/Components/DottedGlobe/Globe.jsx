@@ -134,19 +134,25 @@ export default function Globe(props) {
       Object.entries(props.data).forEach(([country, data]) => {
         const mat = GLOBE_MATERIAL.clone();
         const normData = data && (data - props.min) / (props.max - props.min);
-        const [r, g, b] = colorMap(normData && 1 - normData);
+        let r, g, b;
+        switch (props.globe) {
+          case 1:
+          case 2:
+            [r, g, b] = colorMap(normData && 1 - normData);
+            break;
+          case 3:
+            [r, g, b] = colorMap(normData);
+            break;
+          default:
+            [r, g, b] = colorMap(0.5);
+            break;
+        }
         mat.color = new THREE.Color(r, g, b);
         mat.roughness = 0.2;
         countryDots[country] = new THREE.InstancedMesh(
           new THREE.SphereGeometry((circumference / dotsPerLat) * 1.1, 4, 4),
           mat,
           dotsPerLat
-        );
-        console.log(
-          country,
-          data,
-          normData,
-          colorMap(normData && 1 - normData)
         );
         countryDots[country].country = country;
       });
@@ -202,7 +208,7 @@ export default function Globe(props) {
           opacity: 1.0,
           transition: `opacity ${TOOLTIP_TRANSITION_SEC}s`,
           left: `${event.clientX - 60}px`,
-          top: `${event.clientY + 60}px`,
+          top: `${event.clientY + 30}px`,
         });
 
         tooltip.textContent = countryCodeToName[intersects[1].object.country];

@@ -21,6 +21,16 @@ function AllGlobes(props) {
     return acc;
   }, {});
 
+  const sentimentData = monthData?.reduce((acc, curr) => {
+    acc[curr.code] =
+      curr.news.reduce((acc, curr) => {
+        acc += curr.sentiment;
+        return acc;
+      }, 0) / curr.news.length;
+    return acc;
+  }, {});
+
+  console.log(sentimentData);
   return (
     <>
       <div className=" max-[515px]:scale-75 max-[380px]:scale-[0.65]">
@@ -44,13 +54,15 @@ function AllGlobes(props) {
           <GlobeRender1
             globe={props.globe}
             setCountryCode={props.setCountryCode}
-            newCountryData={props.newCountryData}
           />
         )}
         {props.globe === 3 && (
           <GlobeRender1
             globe={props.globe}
             setCountryCode={props.setCountryCode}
+            data={sentimentData}
+            min={-1}
+            max={1}
           />
         )}
       </div>
