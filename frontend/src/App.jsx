@@ -4,6 +4,7 @@ import RightSideOfPage from "./Components/RightSideOfPage/RightSideOfPage";
 import MiddleOfPage from "./Components/MiddleOfPage/MiddleOfPage";
 import { useEffect, useState } from "react";
 import data from "./assets/StateOfTheWorldData";
+import { MonthContext } from "./Contexts/MonthData";
 
 function App() {
   const [Data, setData] = useState(null);
@@ -33,7 +34,7 @@ function App() {
   // TODO: Add a loading Spinner/Suspense to the page
 
   return (
-    <>
+    <MonthContext.Provider value={Data}>
       <div className="md:h-screen w-screen flex max-md:flex-col font-trebuchet">
         <LeftSideOfPage
           newCountryData={newCountryData}
@@ -44,10 +45,11 @@ function App() {
           setMonth={setMonth}
           setCountryCode={setCountryCode}
           setYear={setYear}
+          newCountryData={newCountryData}
         />
         <RightSideOfPage newCountryData={newCountryData} />
       </div>
-    </>
+    </MonthContext.Provider>
   );
 }
 

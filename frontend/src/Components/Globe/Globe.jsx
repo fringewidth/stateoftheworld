@@ -3,9 +3,8 @@
 import * as THREE from "three";
 import vertexShader from "../../assets/shaders/vertex.glsl.js";
 import fragmentShader from "../../assets/shaders/fragment.glsl.js";
-import { useEffect, useRef, useCallback } from "react";
-import atmVertexShader from "../../assets/shaders/atmVertex.glsl.js";
-import atmFragmentShader from "../../assets/shaders/atmFragment.glsl.js";
+import { useEffect, useRef } from "react";
+import BaseAtm from "../../utils/baseAtm.js";
 // import GeoJsonGeometriesLookup from "geojson-geometries-lookup";
 import Camera from "../../utils/camera.js";
 import Renderer from "../../utils/renderer.js";
@@ -109,15 +108,17 @@ export default function Globe(props) {
       },
     });
 
-    const bigAtmosphere = new THREE.Mesh(
-      new THREE.SphereGeometry(6.5, 50, 50),
-      new THREE.ShaderMaterial({
-        vertexShader: atmVertexShader,
-        fragmentShader: atmFragmentShader(0.1, 0.6, 1.0, 1.0),
-        blending: THREE.AdditiveBlending,
-        side: THREE.BackSide,
-      })
-    );
+    // const bigAtmosphere = new THREE.Mesh(
+    //   new THREE.SphereGeometry(6.5, 50, 50),
+    //   new THREE.ShaderMaterial({
+    //     vertexShader: atmVertexShader,
+    //     fragmentShader: atmFragmentShader(0.1, 0.6, 1.0, 1.0),
+    //     blending: THREE.AdditiveBlending,
+    //     side: THREE.BackSide,
+    //   })
+    // );
+
+    const bigAtmosphere = BaseAtm(0.1, 0.6, 1.0, 1.0);
 
     sphere.current.rotation.x = 0.2;
     sphere.current.rotation.y = -3.0125;

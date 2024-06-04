@@ -1,7 +1,7 @@
 import "./GlobeToggle.css";
 import co2 from "../../../assets/svg/co2.svg";
 import globe from "../../../assets/svg/globe.svg";
-// import sealevel from "../../../assets/svg/sealevel.svg";
+import sentiment from "../../../assets/svg/sentiment.svg";
 import thermometer from "../../../assets/svg/thermometer.svg";
 import PropTypes from "prop-types";
 
@@ -16,9 +16,9 @@ function GlobeToggle(props) {
   };
   const toggleButtons = [
     [globe, "EARTH"],
-    // [sealevel, "SEA LEVEL"],
     [thermometer, "TEMPERATURE"],
     [co2, "EMISSIONS"],
+    [sentiment, "SENTIMENT"],
   ].map((button, index) => {
     return (
       <div

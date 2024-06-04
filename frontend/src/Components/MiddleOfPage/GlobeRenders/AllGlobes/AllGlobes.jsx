@@ -8,12 +8,27 @@ function AllGlobes(props) {
   return (
     <>
       <div className=" max-[515px]:scale-75 max-[380px]:scale-[0.65]">
-        {props.globe === 0 ? (
+        {props.globe === 0 && (
           <GlobeRender0
             UVMap={props.UVMap}
             setCountryCode={props.setCountryCode}
           />
-        ) : (
+        )}
+        {props.globe === 1 && (
+          <GlobeRender1
+            globe={props.globe}
+            setCountryCode={props.setCountryCode}
+            newCountryData={props.newCountryData}
+          />
+        )}
+        {props.globe === 2 && (
+          <GlobeRender1
+            globe={props.globe}
+            setCountryCode={props.setCountryCode}
+            newCountryData={props.newCountryData}
+          />
+        )}
+        {props.globe === 3 && (
           <GlobeRender1
             globe={props.globe}
             setCountryCode={props.setCountryCode}

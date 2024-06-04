@@ -1,21 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useRef, useEffect, useState } from "react";
 import * as THREE from "three";
-import { useRef, useEffect, useState, useCallback } from "react";
+
 import GeoJsonGeometriesLookup from "geojson-geometries-lookup";
+
 import Camera from "../../utils/camera.js";
 import Renderer from "../../utils/renderer.js";
 import BaseGlobe from "../../utils/baseGlobe.js";
+import BaseAtm from "../../utils/baseAtm.js";
 import colorMap from "../../utils/colorMap.js";
 import orbitControls from "../../utils/orbitControls.js";
-import atmVertexShader from "../../assets/shaders/atmVertex.glsl.js";
-import atmFragmentShader from "../../assets/shaders/atmFragment.glsl.js";
+
 import countriesData from "../../assets/StateOfTheWorldData.jsx";
 import globeLoading from "../../assets/images/globe-loading-text.gif";
-import PropTypes from "prop-types";
-
-Globe.propTypes = {
-  globe: PropTypes.number, // 'globe' is a number
-};
 
 const countryNameToCode = {
   India: "in",
@@ -36,31 +33,59 @@ const countryNameToCode = {
   Global: "global",
 };
 
-const tooltip = document.createElement("div");
-tooltip.className = "tooltip";
-tooltip.style.opacity = 0;
-document.body.appendChild(tooltip);
+const SCALE = 5;
+const GLOBE_RADIUS = 1;
+const DEG2RAD = Math.PI / 180;
+const ROWS = 200;
+const DOT_DENSITY = 12;
+const TOOLTIP_TRANSITION_SEC = 0.2;
+const GLOBE_MATERIAL = new THREE.MeshPhysicalMaterial({
+  color: new THREE.Color(0x333333),
+  roughness: 0.4,
+  metalness: 1,
+  clearcoat: 0.8,
+  clearcoatRoughness: 0.6,
+  reflectivity: 0.5,
+});
+const COMMON_DOT_MAT = GLOBE_MATERIAL.clone();
+COMMON_DOT_MAT.color = new THREE.Color(0xffffff);
+
+function getLights() {
+  const frontLight = new THREE.DirectionalLight(0xffffff, 1);
+  frontLight.position.set(50 * SCALE, 100 * SCALE, 200 * SCALE);
+
+  const backLight = new THREE.DirectionalLight(0xffffff, 0.2);
+  backLight.position.set(-50 * SCALE, -100 * SCALE, -200 * SCALE);
+
+  return { frontLight, backLight };
+}
+
+function getMouseCoords(event, rect) {
+  return new THREE.Vector2(
+    (event.offsetX / rect.width) * 2 - 1,
+    -(event.offsetY / rect.height) * 2 + 1
+  );
+}
+
+function createTooltip() {
+  const tooltip = document.createElement("div");
+  tooltip.className = "tooltip";
+  tooltip.style.opacity = 0;
+  document.body.appendChild(tooltip);
+  return tooltip;
+}
+
+function getIntersects(raycaster, mouse, camera, scene) {
+  raycaster.setFromCamera(mouse, camera);
+  return raycaster.intersectObjects(scene.children);
+}
 
 export default function Globe(props) {
+  const globeRef = useRef(null);
+
   const [isLoading, setisLoading] = useState(true);
-  //maps function from (0,1) to (red, blue) hexcodes
-  const statistics = [
-    "",
-    { title: "CarbonEmissions", min: 300, max: 1050 },
-    { title: "TemperatureAnomalies", min: 0.6, max: 2.1 },
-  ];
-
-  //global constants
-  const SCALE = 5;
-  const GLOBE_RADIUS = 1;
-  const DEG2RAD = Math.PI / 180;
-  const rows = 200;
-  const dotDensity = 12;
-
-  const refDiv = useRef(null);
 
   useEffect(() => {
-    //initialise geojson lookup
     fetch("src/assets/geojson/c.geojson")
       .then((response) => response.json())
       .then((geojson) => {
@@ -68,139 +93,46 @@ export default function Globe(props) {
         buildGlobe(geojson);
       });
   }, []);
-  // }, [props.globe]);
+
+  const statistics = [
+    "",
+    { title: "CarbonEmissions", min: 300, max: 1050 },
+    { title: "TemperatureAnomalies", min: 0.6, max: 2.1 },
+  ];
 
   const buildGlobe = async (geojson) => {
-    const glookup = new GeoJsonGeometriesLookup(geojson);
-
-    //create camera
     const camera = Camera();
-
-    //create renderer
-    const renderer = Renderer();
-    refDiv.current?.appendChild(renderer.domElement);
-
-    //create scene
     const scene = new THREE.Scene();
-
-    //define globe material
-    const globeMaterial = new THREE.MeshPhysicalMaterial({
-      color: new THREE.Color(0x333333),
-      roughness: 0.4,
-      metalness: 1,
-      clearcoat: 0.8,
-      clearcoatRoughness: 0.6,
-      reflectivity: 0.5,
-    });
-
-    //create globe
-    const globe = BaseGlobe();
-    globe.material = globeMaterial;
+    const globe = BaseGlobe(GLOBE_RADIUS, SCALE);
+    globe.material = GLOBE_MATERIAL;
     scene.add(globe);
 
-    // Define ambient light
-    // const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    // scene.add(ambientLight);
+    const renderer = Renderer();
+    globeRef.current?.appendChild(renderer.domElement);
+    const boundingRect = globeRef.current?.getBoundingClientRect();
 
-    // Define directional lights
-    const frontLight = new THREE.DirectionalLight(0xffffff, 1);
-    frontLight.position.set(50 * SCALE, 100 * SCALE, 200 * SCALE);
+    const { frontLight, backLight } = getLights();
+
     scene.add(frontLight);
-
-    const backLight = new THREE.DirectionalLight(0xffffff, 0.2);
-    backLight.position.set(-50 * SCALE, -100 * SCALE, -200 * SCALE);
     scene.add(backLight);
 
-    //draw dots
-    //dot materials
-    //normal dot material
-    const dotMaterialNorm = globeMaterial.clone();
-    dotMaterialNorm.color = new THREE.Color(0xffffff);
-
-    // define raycaster
     const raycaster = new THREE.Raycaster();
     raycaster.far = camera.position.z;
-    const mouse = new THREE.Vector2();
-    let isDragging = false;
-    const onMouseDown = (event) => {
-      isDragging = false;
-    };
-    const onClick = (event) => {
-      if (isDragging) return;
-      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-      raycaster.setFromCamera(mouse, camera);
-
-      const intersects = raycaster.intersectObjects(scene.children);
-
-      if (intersects.length === 1) {
-        props.setCountryCode("global");
-      } else {
-        intersects.forEach((intersect) => {
-          if (intersect.object instanceof THREE.InstancedMesh) {
-            // console.log(intersect.object.country);
-            if (intersect.object.country === undefined) {
-              props.setCountryCode("global");
-              return;
-            }
-            const countryCode = countryNameToCode[intersect.object.country];
-            props.setCountryCode(countryCode);
-          }
-        });
-      }
-    };
-    const onMouseMove = (event) => {
-      event.preventDefault();
-      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-      raycaster.setFromCamera(mouse, camera);
-
-      const intersects = raycaster.intersectObjects(scene.children);
-
-      if (
-        intersects.length > 0 &&
-        intersects[1]?.object instanceof THREE.Mesh
-      ) {
-        tooltip.style.opacity = 1.0;
-        tooltip.style.left = `${event.clientX}px`;
-        tooltip.style.top = `${event.clientY}px`;
-        intersects[1].object.country &&
-          (tooltip.textContent = intersects[1].object.country);
-      } else {
-        tooltip.style.opacity = 0;
-        tooltip.textContent = "";
-      }
-    };
-    window.addEventListener("click", onClick);
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mousedown", onMouseDown);
-
-    for (let lat = -90; lat <= 90; lat += 180 / rows) {
+    for (let lat = -90; lat <= 90; lat += 180 / ROWS) {
       const radius = Math.cos(lat * DEG2RAD) * GLOBE_RADIUS * SCALE;
       const circumference = radius * 2 * Math.PI;
-      const dotsPerLat = circumference * dotDensity;
+      const dotsPerLat = circumference * DOT_DENSITY;
 
-      //define normal dots
-      const normaldots = new THREE.InstancedMesh(
-        new THREE.SphereGeometry(circumference / dotsPerLat / 4, 2, 2),
-        dotMaterialNorm,
-        //new THREE.MeshBasicMaterial({ color: 0xffffff }),
+      const commonDots = new THREE.InstancedMesh(
+        new THREE.SphereGeometry((circumference / dotsPerLat) * 0.25, 2, 2),
+        COMMON_DOT_MAT,
         dotsPerLat
       );
 
-      // //define special dots
-      // const specialdots = new THREE.InstancedMesh(
-      //   new THREE.SphereGeometry(circumference / dotsPerLat / 4, 2, 2),
-      //   dotMaterialSpec,
-      //   //new THREE.MeshBasicMaterial({ color: 0xffffff }),
-      //   dotsPerLat
-      // );
-
       const countryDots = {};
       Object.entries(countriesData).forEach(([country, data]) => {
-        const mat = globeMaterial.clone();
+        const mat = GLOBE_MATERIAL.clone();
         let statistic = data["CountryInfo"][statistics[props.globe].title];
 
         statistic =
@@ -221,9 +153,9 @@ export default function Globe(props) {
         countryDots[country].country = country;
       });
 
+      const glookup = new GeoJsonGeometriesLookup(geojson);
       for (let x = 0; x <= dotsPerLat; x++) {
         const lon = (x / dotsPerLat) * 360 - 180;
-        //define point for geojson lookup
         const point = { type: "Point", coordinates: [lon, lat] };
         const isInCountry = glookup.getContainers(point).features.length > 0;
         if (!isInCountry) continue;
@@ -238,27 +170,69 @@ export default function Globe(props) {
         const countryName = properties.abbrev;
         dot.updateMatrix();
         if (countryType == "Admin-0 country") {
-          normaldots.setMatrixAt(x, dot.matrix);
-          scene.add(normaldots);
+          commonDots.setMatrixAt(x, dot.matrix);
+          scene.add(commonDots);
         } else {
           countryDots[countryName].setMatrixAt(x, dot.matrix);
           scene.add(countryDots[countryName]);
         }
       }
     }
-    const bigAtmosphere = new THREE.Mesh(
-      new THREE.SphereGeometry(6.5, 50, 50),
-      new THREE.ShaderMaterial({
-        vertexShader: atmVertexShader,
-        fragmentShader: atmFragmentShader(0.65, 0.65, 0.69, 0.65),
-        blending: THREE.AdditiveBlending,
-        side: THREE.BackSide,
-      })
-    );
+
+    const bigAtmosphere = BaseAtm(0.65, 0.65, 0.69, 0.65);
     scene.add(bigAtmosphere);
 
-    // create orbit controls
     const controls = orbitControls(camera, renderer);
+
+    let isDragging = false;
+
+    const onMouseDown = () => {
+      isDragging = false;
+    };
+
+    const tooltip = createTooltip();
+    const onMouseMove = (event) => {
+      isDragging = true;
+      const mouse = getMouseCoords(event, boundingRect);
+      const intersects = getIntersects(raycaster, mouse, camera, scene);
+
+      if (
+        intersects.length > 1 &&
+        intersects[1]?.object instanceof THREE.InstancedMesh
+      ) {
+        Object.assign(tooltip.style, {
+          opacity: 1.0,
+          transition: `opacity ${TOOLTIP_TRANSITION_SEC}s`,
+          left: `${event.clientX + 10}px`,
+          top: `${event.clientY - 10}px`,
+        });
+
+        tooltip.textContent = intersects[1].object.country;
+      } else {
+        tooltip.style.opacity = 0;
+        setTimeout(() => {
+          tooltip.textContent = "";
+        }, TOOLTIP_TRANSITION_SEC * 1000);
+      }
+    };
+    const onClick = (event) => {
+      if (isDragging) return;
+
+      const mouse = getMouseCoords(event, boundingRect);
+      const intersects = getIntersects(raycaster, mouse, camera, scene);
+
+      if (intersects.length < 2) {
+        props.setCountryCode("global");
+      } else if (intersects[1].object instanceof THREE.InstancedMesh) {
+        const countryCode = countryNameToCode[intersects[1].object.country];
+        props.setCountryCode(countryCode);
+      }
+    };
+
+    globeRef.current.addEventListener("click", onClick);
+    globeRef.current.addEventListener("mousemove", onMouseMove);
+    globeRef.current.addEventListener("mousedown", onMouseDown);
+
     function animate() {
       requestAnimationFrame(animate);
       renderer.render(scene, camera);
@@ -268,7 +242,6 @@ export default function Globe(props) {
     animate();
   };
 
-  // return <div ref={refDiv} />
   return (
     <>
       {isLoading && (
@@ -283,7 +256,7 @@ export default function Globe(props) {
           />
         </>
       )}
-      <div ref={refDiv} />
+      <div ref={globeRef} />
     </>
   );
 }
