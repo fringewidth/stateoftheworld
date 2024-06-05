@@ -101,12 +101,6 @@ export default function Globe(props) {
     };
   }, []);
 
-  const statistics = [
-    "",
-    { title: "CarbonEmissions", min: 300, max: 1050 },
-    { title: "TemperatureAnomalies", min: 0.6, max: 2.1 },
-  ];
-
   const buildGlobe = async (geojson) => {
     const camera = Camera();
     const scene = new THREE.Scene();
@@ -204,27 +198,29 @@ export default function Globe(props) {
     const tooltip = createTooltip();
     const onMouseMove = (event) => {
       isDragging = true;
-      const mouse = getMouseCoords(event, boundingRect);
-      const intersects = getIntersects(raycaster, mouse, camera, scene);
+      requestAnimationFrame(() => {
+        const mouse = getMouseCoords(event, boundingRect);
+        const intersects = getIntersects(raycaster, mouse, camera, scene);
 
-      if (
-        intersects.length > 1 &&
-        intersects[1]?.object instanceof THREE.InstancedMesh
-      ) {
-        Object.assign(tooltip.style, {
-          opacity: 1.0,
-          transition: `opacity ${TOOLTIP_TRANSITION_SEC}s`,
-          left: `${event.clientX - 60}px`,
-          top: `${event.clientY + 30}px`,
-        });
+        if (
+          intersects.length > 1 &&
+          intersects[1]?.object instanceof THREE.InstancedMesh
+        ) {
+          Object.assign(tooltip.style, {
+            opacity: 1.0,
+            transition: `opacity ${TOOLTIP_TRANSITION_SEC}s`,
+            left: `${event.clientX - 60}px`,
+            top: `${event.clientY + 30}px`,
+          });
 
-        tooltip.textContent = countryCodeToName[intersects[1].object.country];
-      } else {
-        tooltip.style.opacity = 0;
-        setTimeout(() => {
-          tooltip.textContent = "";
-        }, TOOLTIP_TRANSITION_SEC * 1000);
-      }
+          tooltip.textContent = countryCodeToName[intersects[1].object.country];
+        } else {
+          tooltip.style.opacity = 0;
+          setTimeout(() => {
+            tooltip.textContent = "";
+          }, TOOLTIP_TRANSITION_SEC * 1000);
+        }
+      });
     };
     const onClick = (event) => {
       if (isDragging) return;
