@@ -9,13 +9,17 @@ function AllGlobes(props) {
   const monthData = useContext(MonthContext);
   const co2Data = useContext(co2Context);
   const [minMax, setMinMax] = useState({ min: null, max: null });
+  const [isMonthLoading, setIsMonthLoading] = useState(true);
+  const [isCO2Loading, setIsCO2Loading] = useState(true);
 
   useEffect(() => {
     if (monthData) {
+      // setIsMonthLoading(false);
       setMinMax({
         min: Math.min(...monthData?.map((x) => x.tempAnomaly)),
         max: Math.max(...monthData?.map((x) => x.tempAnomaly)),
       });
+      // if (co2Data) setIsCO2Loading(false);
     }
   }, [monthData]);
 
@@ -23,6 +27,8 @@ function AllGlobes(props) {
     acc[curr.code] = curr.tempAnomaly;
     return acc;
   }, {});
+
+  console.log(monthData, minMax);
 
   const sentimentData = monthData?.reduce((acc, curr) => {
     acc[curr.code] =
@@ -44,6 +50,10 @@ function AllGlobes(props) {
         )}
         {props.globe === 1 && (
           <GlobeRender1
+            loading={{
+              isLoading: isMonthLoading,
+              setIsLoading: setIsMonthLoading,
+            }}
             globe={props.globe}
             setCountryCode={props.setCountryCode}
             // newCountryData={props.newCountryData}
@@ -54,15 +64,23 @@ function AllGlobes(props) {
         )}
         {props.globe === 2 && (
           <GlobeRender1
+            loading={{
+              isLoading: isCO2Loading,
+              setIsLoading: setIsCO2Loading,
+            }}
             globe={props.globe}
             setCountryCode={props.setCountryCode}
-            data={co2Data.countries}
-            min={co2Data.min}
-            max={co2Data.max}
+            data={co2Data?.countries}
+            min={co2Data?.min}
+            max={co2Data?.max}
           />
         )}
         {props.globe === 3 && (
           <GlobeRender1
+            loading={{
+              isLoading: isMonthLoading,
+              setIsLoading: setIsMonthLoading,
+            }}
             globe={props.globe}
             setCountryCode={props.setCountryCode}
             data={sentimentData}

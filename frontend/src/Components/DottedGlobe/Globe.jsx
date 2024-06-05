@@ -82,15 +82,23 @@ function getIntersects(raycaster, mouse, camera, scene) {
 export default function Globe(props) {
   const globeRef = useRef(null);
 
-  const [isLoading, setisLoading] = useState(true);
+  const { isLoading, setIsLoading } = props.loading;
 
   useEffect(() => {
     fetch("src/assets/geojson/c.geojson")
       .then((response) => response.json())
       .then((geojson) => {
-        setisLoading(false);
-        buildGlobe(geojson);
+        if (props.data) {
+          setIsLoading(false);
+          buildGlobe(geojson);
+        }
       });
+
+    return () => {
+      const tooltip = document.querySelector(".tooltip");
+      tooltip && document.body.removeChild(tooltip);
+      setIsLoading(true);
+    };
   }, []);
 
   const statistics = [

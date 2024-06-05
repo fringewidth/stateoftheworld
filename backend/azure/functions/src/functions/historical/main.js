@@ -13,7 +13,7 @@ async function getMonthlyData(month, year, context) {
     });
     context.log("Returning countries");
     context.log("Received data for", month, 2024);
-    // await newMonth.save();
+    await newMonth.save();
   });
 }
 

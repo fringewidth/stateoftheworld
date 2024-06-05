@@ -67,7 +67,7 @@ function Sentiment(props) {
           OVERALL SENTIMENT
         </h1>
         <span className="text-[45px] m-2 font-bold tracking-[3px]">
-          {OverallSentiment}
+          {OverallSentiment === "NaN" ? "Loading..." : OverallSentiment}
         </span>
         <h1 className="text-2xl whitespace-nowrap font-bold tracking-[3px]">
           {OverallSentiment > 0.5
@@ -76,7 +76,9 @@ function Sentiment(props) {
             ? "NEGATIVE"
             : OverallSentiment >= 0 && OverallSentiment <= 0.5
             ? "MILDLY POSITIVE"
-            : "MILDLY NEGATIVE"}
+            : "MILDLY NEGATIVE"
+            ? OverallSentiment === NaN
+            : ""}
         </h1>
       </div>
     </>

@@ -19,7 +19,7 @@ function LeftSideOfPage(props) {
     let scrollInterval;
     const startScroll = () => {
       scrollInterval = setInterval(() => {
-        scrollRef.current.scrollBy({ top: 1, behavior: "smooth" });
+        scrollRef.current?.scrollBy({ top: 1, behavior: "smooth" });
       }, 100);
     };
     startScroll();

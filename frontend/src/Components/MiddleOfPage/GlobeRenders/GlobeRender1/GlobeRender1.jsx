@@ -13,6 +13,7 @@ export default function GlobeRender1(props) {
         min={props.min}
         max={props.max}
         setCountryCode={props.setCountryCode}
+        loading={props.loading}
       />
     </>
   );
