@@ -1,8 +1,10 @@
-frontend/yarn-error.log*
-frontend/pnpm-debug.log*
-frontend/lerna-debug.log*
+**/yarn-error.log*
+**/pnpm-debug.log*
+**/lerna-debug.log*
 
-*/node_modules
+**/node_modules
+**/jspm_packages
+
 frontend/dist
 frontend/dist-ssr
 frontend/*.local
@@ -15,6 +17,7 @@ frontend/.DS_Store
 frontend/*.suo
 frontend/*.ntvs*
 
-*/.env
+**/.env
 
 backend/azure/historical/deleteme.js
+backend/azure/functions/local.settings.json
