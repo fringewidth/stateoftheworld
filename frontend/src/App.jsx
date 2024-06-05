@@ -38,14 +38,12 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         set2020co2(data);
-        console.log(data.countries[countryCode]);
       });
   }, [countryCode]);
 
   const countryData = data[country];
   const newCountryData = Data ? Data[countryIndexMap[countryCode]] : null;
   const Co2Data = _2020co2 ? _2020co2?.countries[countryCode] : null;
-  // console.log(Co2Data);
 
   // TODO: Add a loading Spinner/Suspense to the page
 

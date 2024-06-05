@@ -1,32 +1,32 @@
+/* eslint-disable react/prop-types */
 import "./TitleAndMonth.css";
 
-import { useState } from "react";
-
-function TitleAndMonth() {
-  const currentDate = new Date();
-  const [date, setDate] = useState(currentDate);
-
+function TitleAndMonth(props) {
   const nextMonth = () => {
-    setDate((prevDate) => {
+    props.setDate((prevDate) => {
       let newDate = new Date(prevDate.getFullYear(), prevDate.getMonth() + 1);
       // Prevent going beyond the current month
-      if (newDate > currentDate) {
+      if (newDate > props.currentUpToDate) {
         return prevDate;
       }
+      props.setMonth(newDate.getMonth() + 1); // Months are 0-indexed
+      props.setYear(newDate.getFullYear());
       return newDate;
     });
   };
 
   const prevMonth = () => {
-    setDate((prevDate) => {
+    props.setDate((prevDate) => {
       let newDate = new Date(prevDate.getFullYear(), prevDate.getMonth() - 1);
-      // Prevent going back beyond March 2023
+      // Prevent going back beyond January 2024
       if (
-        newDate.getFullYear() < 2023 ||
-        (newDate.getFullYear() === 2023 && newDate.getMonth() < 2) // 2 = March, 3 = April and so on
+        newDate.getFullYear() < 2024 ||
+        (newDate.getFullYear() === 2024 && newDate.getMonth() < 0) // 2 = March, 3 = April and so on
       ) {
         return prevDate;
       }
+      props.setMonth(newDate.getMonth() + 1); // Months are 0-indexed
+      props.setYear(newDate.getFullYear());
       return newDate;
     });
   };
@@ -44,7 +44,8 @@ function TitleAndMonth() {
           &lt;
         </button>
         &nbsp;
-        {date.toLocaleString("en-US", { month: "long" })} {date.getFullYear()}
+        {props.date.toLocaleString("en-US", { month: "long" })}{" "}
+        {props.date.getFullYear()}
         &nbsp;
         <button className="text-2xl" onClick={nextMonth}>
           &gt;
