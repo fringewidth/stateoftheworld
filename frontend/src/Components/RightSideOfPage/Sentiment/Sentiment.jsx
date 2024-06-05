@@ -3,14 +3,13 @@ import "./Sentiment.css";
 
 function Sentiment(props) {
   const newNews = props?.newCountryData?.news;
-  // console.log(newNews);
   let sum = 0;
   newNews?.forEach((news) => {
     sum += news?.sentiment;
   });
-  // console.log(sum);
+
   const OverallSentiment = (sum / newNews?.length)?.toFixed(2);
-  // console.log(OverallSentiment);
+  console.log(OverallSentiment);
 
   const PositiveGreenStyle = {
     margin: "100px",
@@ -70,15 +69,17 @@ function Sentiment(props) {
           {OverallSentiment === "NaN" ? "Loading..." : OverallSentiment}
         </span>
         <h1 className="text-2xl whitespace-nowrap font-bold tracking-[3px]">
-          {OverallSentiment > 0.5
+          {OverallSentiment === "NaN"
+            ? ""
+            : OverallSentiment === "0.00"
+            ? "NEUTRAL"
+            : OverallSentiment > 0.5
             ? "POSITIVE"
             : OverallSentiment < -0.5
             ? "NEGATIVE"
             : OverallSentiment >= 0 && OverallSentiment <= 0.5
             ? "MILDLY POSITIVE"
-            : "MILDLY NEGATIVE"
-            ? OverallSentiment === NaN
-            : ""}
+            : "MILDLY NEGATIVE"}
         </h1>
       </div>
     </>
