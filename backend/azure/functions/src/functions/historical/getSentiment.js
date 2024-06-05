@@ -1,4 +1,3 @@
-require("dotenv").config({ path: "../../../.env" });
 const API_KEY = process.env.AZURE_LANGUAGE_KEY;
 
 async function getSentiment(headlines) {

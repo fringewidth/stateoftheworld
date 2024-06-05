@@ -16,12 +16,12 @@ async function getCountryData(month, year, context) {
       if (isNaN(updatedCountry.tempAnomaly)) {
         updatedCountry.tempAnomaly = null;
       }
-      const concData = await getConc(month, year, country.code);
+      const concData = await getConc(month, year, country.code, context);
       updatedCountry.coconc = concData.coconc || null;
       updatedCountry.no2conc = concData.no2conc || null;
       updatedCountry.o3conc = concData.o3conc || null;
       updatedCountry.so2conc = concData.so2conc || null;
-      updatedCountry.news = await getNews(month, year, country.code);
+      updatedCountry.news = await getNews(month, year, country.code, context);
       return updatedCountry;
     })
   );

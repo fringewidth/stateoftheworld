@@ -5,10 +5,9 @@ app.timer("monthlyUpdate", {
   schedule: "0 0 1 * *",
   handler: async (myTimer, context) => {
     const date = new Date();
-    let month = date.getMonth();
+    const month = date.getMonth() === 0 ? 12 : date.getMonth();
     const year = date.getFullYear();
-    month = month === 0 ? 12 : month;
     await getMonthlyData(month, year, context);
-    context.log("function has run");
+    context.log(`Data updated for ${month}/${year}`);
   },
 });
