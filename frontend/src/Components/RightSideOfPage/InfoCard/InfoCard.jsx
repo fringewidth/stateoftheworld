@@ -19,6 +19,8 @@ import USA from "../../../assets/countries-white/us.png";
 
 function InfoCard(props) {
   const Info = props.newCountryData;
+  // const Co2Info = props._2020co2;
+  // console.log(Co2Info);
 
   const countryToImage = {
     au: Australia,
@@ -66,35 +68,46 @@ function InfoCard(props) {
         <p className="mb-3 font-normal">
           <strong>Temperature Anomalies:</strong> <br />
           <span className="text-orange-500 font-semibold text-2xl">
-            +{Info?.tempAnomaly?.toFixed(2)}°C
+            {Info?.tempAnomaly
+              ? "+" + Info?.tempAnomaly?.toFixed(2) + "°C"
+              : "NA"}
+          </span>
+        </p>
+
+        <p className="mb-3 font-normal">
+          <strong>Annual CO2 Emissions:</strong> <br />
+          <span className="text-orange-500 font-semibold text-2xl">
+            {props?.Co2Data
+              ? props?.Co2Data?.toFixed(2) + " tons per capita"
+              : "NA"}
           </span>
         </p>
 
         <p className="mb-3 font-normal">
           <strong>CO Concentration:</strong> <br />
           <span className="text-orange-500 font-semibold text-2xl">
-            {Info?.coconc?.toFixed(2)}ppm
+            {Info?.coconc ? Info.coconc.toFixed(2) + "ppm" : "NA"}
           </span>
         </p>
 
         <p className="mb-3 font-normal">
           <strong>NO2 Concentration:</strong> <br />
           <span className="text-orange-500 font-semibold text-2xl">
-            {Info?.no2conc?.toFixed(2)}ppm
+            {Info?.no2conc ? Info.no2conc.toFixed(2) + "ppm" : "NA"}
           </span>
         </p>
 
         <p className="mb-3 font-normal">
           <strong>O3 Concentration:</strong> <br />
           <span className="text-orange-500 font-semibold text-2xl">
-            {Info?.o3conc?.toFixed(2)}ppm
+            {Info?.o3conc ? Info.o3conc.toFixed(2) + "ppm" : "NA"}
           </span>
         </p>
 
         <p className="mb-3 font-normal">
           <strong>SO2 Concentration:</strong> <br />
           <span className="text-orange-500 font-semibold text-2xl">
-            {Info?.so2conc?.toFixed(2)}ppm
+            {Info?.so2conc ? Info.so2conc.toFixed(2) + "ppm" : "NA"}
           </span>
         </p>
       </div>

@@ -9,7 +9,6 @@ function Sentiment(props) {
   });
 
   const OverallSentiment = (sum / newNews?.length)?.toFixed(2);
-  console.log(OverallSentiment);
 
   const PositiveGreenStyle = {
     margin: "100px",
