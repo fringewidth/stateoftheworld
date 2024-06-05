@@ -1,7 +1,7 @@
 // populates database with historical data from January 2024 to April 2024
-require("dotenv").config({ path: "../../.env" });
+require("dotenv").config({ path: "../../../.env" });
 
-const monthsModel = require("../../../../../models/months");
+const monthsModel = require("shared/models/months");
 const mongoose = require("mongoose");
 
 const getCountryData = require("./getCountryData");

@@ -7,8 +7,9 @@
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
-    "@azure/functions": "^4.0.0"
+    "@azure/functions": "^4.0.0",
+    "dotenv": "^16.4.5",
+    "shared": "1.0.0"
   },
-  "devDependencies": {},
   "main": "src/functions/*.js"
 }

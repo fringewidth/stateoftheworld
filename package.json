@@ -1,0 +1,9 @@
+{
+    "private": true,
+    "workspaces": [
+        "frontend",
+        "backend",
+        "shared",
+        "backend/azure/functions"
+    ]
+}

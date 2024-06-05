@@ -1,0 +1,11 @@
+{
+    "name": "shared",
+    "version": "1.0.0",
+    "files": [
+        "models",
+        "countries.json"
+    ],
+    "dependencies": {
+        "mongoose": "^8.4.1"
+    }
+}

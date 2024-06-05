@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-const countryData = require("../azure/historical/countries.json");
+const countryData = require("shared/countries.json");
 
 router.get("/", async (req, res) => {
   try {

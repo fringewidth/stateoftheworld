@@ -1,4 +1,4 @@
-require("dotenv").config({ path: "../../.env" });
+require("dotenv").config({ path: "../../../.env" });
 const getMonthRange = require("../utils/getMonthRange");
 const API_KEY = process.env.OWM_API_KEY;
 const countryCity = require("./countryCity.json");

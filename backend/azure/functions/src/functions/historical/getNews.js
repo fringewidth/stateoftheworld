@@ -1,5 +1,5 @@
 const cheerio = require("cheerio");
-const countries = require("./countries.json");
+const countries = require("shared/countries.json");
 
 const getNumDays = require("../utils/getNumDays");
 const getSentiment = require("./getSentiment");

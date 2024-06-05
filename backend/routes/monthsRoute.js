@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-const months = require("../models/months");
+const months = require("shared/models/months");
 
 router.get("/:month/:year", async (req, res) => {
   const month = Number(req.params.month);

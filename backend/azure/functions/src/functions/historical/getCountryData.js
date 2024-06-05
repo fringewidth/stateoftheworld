@@ -1,4 +1,4 @@
-const countries = require("./countries.json");
+const countries = require("shared/countries.json");
 const getTempAnomaly = require("./getTempAnomaly");
 const getConc = require("./getConc");
 const getNews = require("./getNews");
