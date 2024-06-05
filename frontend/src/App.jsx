@@ -36,7 +36,7 @@ function App() {
       .then((data) => {
         set2020co2(data);
       });
-  });
+  }, []);
 
   const countryData = data[country];
   const newCountryData = Data ? Data[countryIndexMap[countryCode]] : null;
