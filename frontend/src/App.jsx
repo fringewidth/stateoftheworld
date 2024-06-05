@@ -12,8 +12,11 @@ function App() {
   const [Data, setData] = useState(null);
   const [country] = useState("Global");
   const [countryCode, setCountryCode] = useState("global");
-  const [month, setMonth] = useState(1);
-  const [year, setYear] = useState(2024);
+  const currentUpToDate = new Date();
+  currentUpToDate.setMonth(currentUpToDate.getMonth() - 1);
+  const [date, setDate] = useState(currentUpToDate);
+  const [month, SetMonth] = useState(currentUpToDate.getMonth() + 1);
+  const [year, setYear] = useState(currentUpToDate.getFullYear());
   const [countryIndexMap, setCountryIndexMap] = useState({});
 
   useEffect(() => {
@@ -35,11 +38,14 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         set2020co2(data);
+        console.log(data.countries[countryCode]);
       });
-  }, []);
+  }, [countryCode]);
 
   const countryData = data[country];
   const newCountryData = Data ? Data[countryIndexMap[countryCode]] : null;
+  const Co2Data = _2020co2 ? _2020co2?.countries[countryCode] : null;
+  // console.log(Co2Data);
 
   // TODO: Add a loading Spinner/Suspense to the page
 
@@ -53,12 +59,15 @@ function App() {
         <co2Context.Provider value={_2020co2}>
           <MiddleOfPage
             UVMap={"src/assets/textures/earth_2k.jpg"}
-            setMonth={setMonth}
+            currentUpToDate={currentUpToDate}
+            setDate={setDate}
+            date={date}
+            setMonth={SetMonth}
             setCountryCode={setCountryCode}
             setYear={setYear}
             newCountryData={newCountryData}
           />
-          <RightSideOfPage newCountryData={newCountryData} />
+          <RightSideOfPage newCountryData={newCountryData} Co2Data={Co2Data} />
         </co2Context.Provider>
       </div>
     </MonthContext.Provider>
