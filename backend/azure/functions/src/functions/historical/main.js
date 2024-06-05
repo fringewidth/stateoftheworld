@@ -1,24 +1,25 @@
 // populates database with historical data from January 2024 to April 2024
 require("dotenv").config({ path: "../../../.env" });
+co.log("process.env.MONGODB_STRING", process.env.MONGODB_STRING);
 
 const monthsModel = require("shared/models/months");
 const mongoose = require("mongoose");
 
 const getCountryData = require("./getCountryData");
 
-mongoose.connect(process.env.MONGODB_STRING).then(async () => {
-  console.log("Connected to MongoDB");
-  const months = [1, 2, 3, 4];
-  const promises = months.map(async (month) => {
+async function getMonthlyData(month, year, context) {
+  context.log(process.env.MONGODB_STRING);
+  await mongoose.connect(process.env.MONGODB_STRING).then(async () => {
+    context.log("Connected to MongoDB");
     const newMonth = new monthsModel({
       month: month,
-      year: 2024,
-      countries: await getCountryData(month, 2024),
+      year: year,
+      countries: await getCountryData(month, year),
     });
-    console.log("Returning countries");
-    console.log("Saving data for", month, 2024);
-    await newMonth.save();
+    context.log("Returning countries");
+    context.log("Received data for", month, 2024);
+    // await newMonth.save();
   });
+}
 
-  await Promise.all(promises);
-});
+module.exports = getMonthlyData;

@@ -5,7 +5,7 @@ const countryCity = require("./countryCity.json");
 const geoCoder = require("../utils/geoCoder");
 
 async function getConc(month, year, countryCode) {
-  console.log("Getting concentration data for", countryCode, month, year);
+  // console.log("Getting concentration data for", countryCode, month, year);
   const city = countryCity[countryCode] + "," + countryCode;
   const { lat, lon } = await geoCoder(city);
 
@@ -30,14 +30,14 @@ async function getConc(month, year, countryCode) {
       conc.no2conc /= numEntries;
       conc.o3conc /= numEntries;
       conc.so2conc /= numEntries;
-      console.log(
-        "Done. Returning concentration data for",
-        countryCode,
-        month,
-        year,
-        ":",
-        conc
-      );
+      // console.log(
+      //   "Done. Returning concentration data for",
+      //   countryCode,
+      //   month,
+      //   year,
+      //   ":",
+      //   conc
+      // );
       return conc;
     });
 }

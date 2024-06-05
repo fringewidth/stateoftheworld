@@ -25,15 +25,15 @@ async function getNews(month, year, code) {
     // const sentiment = await getSentiment(headline);
     return { headline, link, content };
   });
-  console.log("Getting news for ", country.country, month, year);
+  // console.log("Getting news for ", country.country, month, year);
   const news = await Promise.all(newsPromises);
-  console.log("Getting sentiment for news");
+  // console.log("Getting sentiment for news");
   const sentiments = await getSentiment(news.map((item) => item.headline));
   news.forEach((item, index) => {
     item.sentiment = sentiments[index];
   });
-  console.log("Returning news for ", country.country, month, year);
-  console.log(news);
+  // console.log("Returning news for ", country.country, month, year);
+  // console.log(news);
   return news;
 }
 

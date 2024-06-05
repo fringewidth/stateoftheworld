@@ -21,3 +21,4 @@ frontend/*.ntvs*
 
 backend/azure/historical/deleteme.js
 backend/azure/functions/local.settings.json
+backend/azure/functions/src/functions/historical/deleteme.js

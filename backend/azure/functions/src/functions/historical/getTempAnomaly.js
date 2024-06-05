@@ -5,7 +5,7 @@ const countryCity = require("./countryCity.json");
 const geoCoder = require("../utils/geoCoder");
 
 async function getTempAnomaly(month, year, countryCode) {
-  console.log("Getting temperature anomaly for", countryCode, month, year);
+  // console.log("Getting temperature anomaly for", countryCode, month, year);
   const city = countryCity[countryCode] + "," + countryCode;
   const { lat, lon } = await geoCoder(city);
   const threshold = await fetch(
@@ -26,14 +26,14 @@ async function getTempAnomaly(month, year, countryCode) {
       accTemp = data.list[data.list.length - 1].temp;
       count = data.list[data.list.length - 1].count;
       const anomaly = accTemp / count - threshold;
-      console.log(
-        "Done. Returning anomaly for",
-        countryCode,
-        month,
-        year,
-        ":",
-        anomaly
-      );
+      // console.log(
+      //   "Done. Returning anomaly for",
+      //   countryCode,
+      //   month,
+      //   year,
+      //   ":",
+      //   anomaly
+      // );
       return anomaly;
     });
   return anomaly;

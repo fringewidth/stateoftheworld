@@ -38,11 +38,11 @@ async function getSentiment(headlines) {
   });
 
   if (!response.ok) {
-    console.log(
-      `Error with status code ${response.status} \nHeader: ${JSON.stringify(
-        response.headers
-      )}\nMessage: ${await response.text()}`
-    );
+    // console.log(
+    // `Error with status code ${response.status} \nHeader: ${JSON.stringify(
+    // response.headers
+    // )}\nMessage: ${await response.text()}`
+    // );
   }
 
   const oploc = response.headers.get("operation-location");

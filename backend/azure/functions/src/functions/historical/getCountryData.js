@@ -2,15 +2,16 @@ const countries = require("shared/countries.json");
 const getTempAnomaly = require("./getTempAnomaly");
 const getConc = require("./getConc");
 const getNews = require("./getNews");
-async function getCountryData(month, year) {
-  console.log("Getting data for month", month, "year", year);
+async function getCountryData(month, year, context) {
+  context.log("Getting data for month", month, "year", year);
   const updatedCountries = await Promise.all(
     countries.map(async (country) => {
       const updatedCountry = { ...country };
       updatedCountry.tempAnomaly = await getTempAnomaly(
         month,
         year,
-        country.code
+        country.code,
+        context
       );
       if (isNaN(updatedCountry.tempAnomaly)) {
         updatedCountry.tempAnomaly = null;
