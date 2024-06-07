@@ -36,6 +36,22 @@ function LeftSideOfPage(props) {
     scrollRef.current.scrollTo(0, 0);
   }, [newNews]);
 
+  let sentimentOverString = "";
+  if (props.newCountryData) {
+    console.log(props.newCountryData);
+    const isCodeMatched = ["uk", "us", "global"].includes(
+      props.newCountryData.code
+    );
+    if (isCodeMatched) {
+      sentimentOverString = "The";
+    }
+
+    sentimentOverString +=
+      props.newCountryData.country === "Global"
+        ? " World"
+        : ` ${props.newCountryData.country}`;
+  }
+
   return (
     <>
       <div
@@ -44,7 +60,7 @@ function LeftSideOfPage(props) {
       >
         <div className="legend max-md:flex sticky top-0 bg-black w-full">
           <span className="flex items-center text-sm text-xl font-bold text-gray-900 dark:text-white me-3">
-            Sentiment over [country/globe]
+            Sentiment over {sentimentOverString}
           </span>
           <span className="flex items-center text-sm font-medium text-gray-900 dark:text-white me-3">
             <span className="flex w-2.5 h-2.5 bg-red-600 rounded-full me-1.5 flex-shrink-0"></span>
@@ -55,7 +71,7 @@ function LeftSideOfPage(props) {
             Mildly Negative
           </span>
           <span className="flex items-center text-sm font-medium text-gray-900 dark:text-white me-3">
-            <span className="flex w-2.5 h-2.5 bg-blue-500 rounded-full me-1.5 flex-shrink-0"></span>
+            <span className="flex w-2.5 h-2.5 bg-green-300 rounded-full me-1.5 flex-shrink-0"></span>
             Mildly Positive
           </span>
           <span className="flex items-center text-sm font-medium text-gray-900 dark:text-white me-3">

@@ -37,13 +37,13 @@ function Sentiment(props) {
     boxShadow: "0 0 5000px 100px orange",
   };
 
-  const BlueStyle = {
+  const LightGreenStyle = {
     margin: "100px",
     width: "0.001px",
     height: "0.001px",
-    backgroundColor: "blue",
+    backgroundColor: "lightgreen",
     borderRadius: "50%",
-    boxShadow: "0 0 500px 100px blue",
+    boxShadow: "0 0 500px 100px lightgreen",
   };
 
   return (
@@ -56,7 +56,7 @@ function Sentiment(props) {
             : OverallSentiment < -0.5
             ? NegativeRedStyle
             : OverallSentiment >= 0 && OverallSentiment < 0.5
-            ? BlueStyle
+            ? LightGreenStyle
             : OrangeStyle
         }
       />
