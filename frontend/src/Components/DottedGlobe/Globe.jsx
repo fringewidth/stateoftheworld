@@ -135,10 +135,8 @@ export default function Globe(props) {
     fetch("src/assets/geojson/c.geojson")
       .then((response) => response.json())
       .then((geojson) => {
-        if (props.data) {
-          setIsLoading(false);
-          buildGlobe(geojson);
-        }
+        setIsLoading(false);
+        buildGlobe(geojson);
       });
 
     return () => {

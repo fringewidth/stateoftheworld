@@ -108,6 +108,10 @@ export default function Globe(props) {
       },
     });
 
+    refContainer.current.addEventListener("click", (event) => {
+      props.setCountryCode("global");
+    });
+
     // const bigAtmosphere = new THREE.Mesh(
     //   new THREE.SphereGeometry(6.5, 50, 50),
     //   new THREE.ShaderMaterial({

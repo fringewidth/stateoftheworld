@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 import "./TitleAndMonth.css";
+import leftArrow from "../../../assets/svg/leftarrow.svg";
+import rightArrow from "../../../assets/svg/rightarrow.svg";
 
 function TitleAndMonth(props) {
   const nextMonth = () => {
@@ -15,7 +17,7 @@ function TitleAndMonth(props) {
     });
   };
 
-  const prevMonth = () => {
+  const prevMonth = (e) => {
     props.setDate((prevDate) => {
       let newDate = new Date(prevDate.getFullYear(), prevDate.getMonth() - 1);
       // Prevent going back beyond January 2024
@@ -39,16 +41,26 @@ function TitleAndMonth(props) {
           WORLD
         </span>
       </h1>
-      <h2 className="text-xl font-semibold tracking-wide text-white uppercase">
-        <button className="text-2xl" onClick={prevMonth}>
-          &lt;
+      <h2
+        className="text-xl font-semibold tracking-wide text-white uppercase"
+        style={{
+          display: "flex",
+          alignContent: "center",
+          justifyContent: "center",
+          gap: "5px",
+        }}
+      >
+        <button className="hover:opacity-50" onClick={prevMonth}>
+          <img src={leftArrow} className="h-8" />
         </button>
-        &nbsp;
-        {props.date.toLocaleString("en-US", { month: "long" })}{" "}
-        {props.date.getFullYear()}
-        &nbsp;
+        <div className="w-48 text-center text-xl">
+          &nbsp;
+          {props.date.toLocaleString("en-US", { month: "long" })}{" "}
+          {props.date.getFullYear()}
+          &nbsp;
+        </div>
         <button className="text-2xl" onClick={nextMonth}>
-          &gt;
+          <img src={rightArrow} className="h-8" />
         </button>
       </h2>
     </div>

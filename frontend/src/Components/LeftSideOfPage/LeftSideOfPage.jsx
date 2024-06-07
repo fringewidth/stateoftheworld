@@ -39,11 +39,11 @@ function LeftSideOfPage(props) {
   let sentimentOverString = "";
   if (props.newCountryData) {
     console.log(props.newCountryData);
-    const isCodeMatched = ["uk", "us", "global"].includes(
+    const isCodeMatched = ["gb", "us", "global"].includes(
       props.newCountryData.code
     );
     if (isCodeMatched) {
-      sentimentOverString = "The";
+      sentimentOverString = "the";
     }
 
     sentimentOverString +=
