@@ -35,7 +35,7 @@ const countryCodeToName = {
 const SCALE = 5;
 const GLOBE_RADIUS = 1;
 const DEG2RAD = Math.PI / 180;
-const ROWS = 200;
+const ROWS = 180;
 const DOT_DENSITY = 12;
 const TOOLTIP_TRANSITION_SEC = 0.2;
 const GLOBE_MATERIAL = new THREE.MeshPhysicalMaterial({
@@ -120,43 +120,56 @@ export default function Globe(props) {
     const raycaster = new THREE.Raycaster();
     raycaster.far = camera.position.z;
 
-    const countryDots = {};
-    const commonDots = [];
+    const commonDots = new THREE.InstancedMesh(
+      new THREE.SphereGeometry((1 / DOT_DENSITY) * 0.25, 2, 2),
+      COMMON_DOT_MAT,
+      8192
+    );
+
+    console.log(4 * Math.PI * GLOBE_RADIUS * GLOBE_RADIUS * DOT_DENSITY);
+
+    let countryDots = {};
+
+    Object.entries(props.data).forEach(([country, data]) => {
+      const mat = GLOBE_MATERIAL.clone();
+      const normData = data && (data - props.min) / (props.max - props.min);
+      let r, g, b;
+      switch (props.globe) {
+        case 1:
+        case 2:
+          [r, g, b] = colorMap(normData !== null ? 1 - normData : null);
+          break;
+        case 3:
+          [r, g, b] = colorMap(normData);
+          break;
+        default:
+          [r, g, b] = colorMap(0.5);
+          break;
+      }
+      mat.color = new THREE.Color(r, g, b);
+      mat.roughness = 0.2;
+      countryDots[country] = new THREE.InstancedMesh(
+        new THREE.SphereGeometry((1 / DOT_DENSITY) * 1.1, 4, 4),
+        mat,
+        2048
+      );
+      countryDots[country].country = country;
+    });
+
+    const countryDotsCounts = Object.keys(countryDots).reduce(
+      (acc, country) => {
+        acc[country] = 0;
+        return acc;
+      },
+      {}
+    );
+
+    let commonDotsCount = 0;
+
     for (let lat = -90; lat <= 90; lat += 180 / ROWS) {
       const radius = Math.cos(lat * DEG2RAD) * GLOBE_RADIUS * SCALE;
       const circumference = radius * 2 * Math.PI;
       const dotsPerLat = circumference * DOT_DENSITY;
-
-      commonDots[lat] = new THREE.InstancedMesh(
-        new THREE.SphereGeometry((circumference / dotsPerLat) * 0.25, 2, 2),
-        COMMON_DOT_MAT,
-        dotsPerLat
-      );
-      Object.entries(props.data).forEach(([country, data]) => {
-        const mat = GLOBE_MATERIAL.clone();
-        const normData = data && (data - props.min) / (props.max - props.min);
-        let r, g, b;
-        switch (props.globe) {
-          case 1:
-          case 2:
-            [r, g, b] = colorMap(normData !== null ? 1 - normData : null);
-            break;
-          case 3:
-            [r, g, b] = colorMap(normData);
-            break;
-          default:
-            [r, g, b] = colorMap(0.5);
-            break;
-        }
-        mat.color = new THREE.Color(r, g, b);
-        mat.roughness = 0.2;
-        countryDots[country] = new THREE.InstancedMesh(
-          new THREE.SphereGeometry((circumference / dotsPerLat) * 1.1, 4, 4),
-          mat,
-          dotsPerLat
-        );
-        countryDots[country].country = country;
-      });
 
       const glookup = new GeoJsonGeometriesLookup(geojson);
       for (let x = 0; x <= dotsPerLat; x++) {
@@ -175,14 +188,18 @@ export default function Globe(props) {
         const countryName = properties.iso_a2.toLowerCase();
         dot.updateMatrix();
         if (countryType == "Admin-0 country") {
-          commonDots[lat].setMatrixAt(x, dot.matrix);
-          scene.add(commonDots[lat]);
+          commonDots.setMatrixAt(commonDotsCount, dot.matrix);
+          commonDotsCount++;
         } else {
-          countryDots[countryName]?.setMatrixAt(x, dot.matrix);
-          scene.add(countryDots[countryName]);
+          const countryCount = countryDotsCounts[countryName];
+          countryDots[countryName]?.setMatrixAt(countryCount, dot.matrix);
+          countryDotsCounts[countryName]++;
         }
       }
     }
+
+    scene.add(commonDots);
+    Object.values(countryDots).forEach((country) => scene.add(country));
 
     const bigAtmosphere = BaseAtm(0.65, 0.65, 0.69, 0.65);
     scene.add(bigAtmosphere);
@@ -222,6 +239,8 @@ export default function Globe(props) {
         }
       });
     };
+    let selectedCountry;
+
     const onClick = (event) => {
       if (isDragging) return;
 
@@ -230,8 +249,16 @@ export default function Globe(props) {
 
       if (intersects.length < 2) {
         props.setCountryCode("global");
+        if (selectedCountry)
+          selectedCountry.material.emissive = new THREE.Color(0x000000);
+        selectedCountry = null;
       } else if (intersects[1].object instanceof THREE.InstancedMesh) {
         props.setCountryCode(intersects[1].object.country);
+        if (selectedCountry)
+          selectedCountry.material.emissive = new THREE.Color(0x000000);
+        intersects[1].object.material.emissive =
+          intersects[1].object.material.color;
+        selectedCountry = intersects[1].object;
       }
     };
 
