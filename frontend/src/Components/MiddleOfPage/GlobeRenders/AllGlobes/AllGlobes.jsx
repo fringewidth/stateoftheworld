@@ -28,8 +28,6 @@ function AllGlobes(props) {
     return acc;
   }, {});
 
-  console.log(monthData, minMax);
-
   const sentimentData = monthData?.reduce((acc, curr) => {
     acc[curr.code] =
       curr.news.reduce((acc, curr) => {

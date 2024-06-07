@@ -59,6 +59,10 @@ function getLights() {
   return { frontLight, backLight };
 }
 
+function normaliseData(data, min, max) {
+  return data && (data - min) / (max - min);
+}
+
 function getMouseCoords(event, rect) {
   return new THREE.Vector2(
     (event.offsetX / rect.width) * 2 - 1,
@@ -79,10 +83,53 @@ function getIntersects(raycaster, mouse, camera, scene) {
   return raycaster.intersectObjects(scene.children);
 }
 
+function getColor(data, globe) {
+  let r, g, b;
+  switch (globe) {
+    case 1:
+    case 2:
+      [r, g, b] = colorMap(data !== null ? 1 - data : null);
+      break;
+    case 3:
+      [r, g, b] = colorMap(data);
+      break;
+    default:
+      [r, g, b] = colorMap(0.5);
+      break;
+  }
+
+  return [r, g, b];
+}
+
+function recalcMaterials(countryDots, data, globe) {
+  Object.entries(countryDots).forEach(([country, mesh]) => {
+    const [r, g, b] = getColor(data[country], globe);
+    mesh.material.color = new THREE.Color(r, g, b);
+  });
+}
+
 export default function Globe(props) {
   const globeRef = useRef(null);
 
   const { isLoading, setIsLoading } = props.loading;
+  const [countryDots, setCountryDots] = useState({});
+
+  useEffect(() => {
+    const countryMeshCount = Object.keys(countryDots).length;
+    if (countryMeshCount === 0) {
+      console.log("No country dots to update");
+      return;
+    }
+    const normalisedData = Object.fromEntries(
+      Object.entries(props.data).map(([country, data]) => {
+        const normData = normaliseData(data, props.min, props.max);
+        return [country, normData];
+      })
+    );
+
+    console.log(props.data, normalisedData);
+    recalcMaterials(countryDots, normalisedData, props.globe);
+  }, [props.data]);
 
   useEffect(() => {
     fetch("src/assets/geojson/c.geojson")
@@ -126,32 +173,16 @@ export default function Globe(props) {
       8192
     );
 
-    console.log(4 * Math.PI * GLOBE_RADIUS * GLOBE_RADIUS * DOT_DENSITY);
-
-    let countryDots = {};
-
     Object.entries(props.data).forEach(([country, data]) => {
       const mat = GLOBE_MATERIAL.clone();
-      const normData = data && (data - props.min) / (props.max - props.min);
-      let r, g, b;
-      switch (props.globe) {
-        case 1:
-        case 2:
-          [r, g, b] = colorMap(normData !== null ? 1 - normData : null);
-          break;
-        case 3:
-          [r, g, b] = colorMap(normData);
-          break;
-        default:
-          [r, g, b] = colorMap(0.5);
-          break;
-      }
+      const normData = normaliseData(data, props.min, props.max);
+      const [r, g, b] = getColor(normData, props.globe);
       mat.color = new THREE.Color(r, g, b);
       mat.roughness = 0.2;
       countryDots[country] = new THREE.InstancedMesh(
         new THREE.SphereGeometry((1 / DOT_DENSITY) * 1.1, 4, 4),
         mat,
-        2048
+        4096
       );
       countryDots[country].country = country;
     });
