@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import data from "./assets/StateOfTheWorldData";
 import { MonthContext } from "./Contexts/MonthData";
 import { co2Context } from "./Contexts/CO2";
+import UVMap from "./assets/textures/earth_2k.jpg";
 
 function App() {
   const [_2020co2, set2020co2] = useState(null);
@@ -56,7 +57,7 @@ function App() {
         />
         <co2Context.Provider value={_2020co2}>
           <MiddleOfPage
-            UVMap={"src/assets/textures/earth_2k.jpg"}
+            UVMap={UVMap}
             currentUpToDate={currentUpToDate}
             setDate={setDate}
             date={date}

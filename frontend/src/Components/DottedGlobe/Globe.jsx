@@ -132,7 +132,7 @@ export default function Globe(props) {
   }, [props.data]);
 
   useEffect(() => {
-    fetch("src/assets/geojson/c.geojson")
+    fetch("./c.geojson")
       .then((response) => response.json())
       .then((geojson) => {
         setIsLoading(false);
