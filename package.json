@@ -1,9 +1,15 @@
 {
-    "private": true,
-    "workspaces": [
-        "frontend",
-        "backend",
-        "shared",
-        "backend/azure/functions"
-    ]
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend",
+    "shared",
+    "backend/azure/functions"
+  ],
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "scripts": {
+    "start": "concurrently \"npm run build --prefix frontend\" \"node backend/index.js\""
+  }
 }
