@@ -4,6 +4,7 @@ require("dotenv").config();
 const cors = require("cors");
 const monthsRoute = require("./routes/monthsRoute");
 const co2Route = require("./routes/co2Route");
+const path = require("path");
 
 const app = express();
 app.set("port", process.env.PORT || 5000);
