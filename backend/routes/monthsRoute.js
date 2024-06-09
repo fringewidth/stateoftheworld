@@ -1,14 +1,20 @@
 const express = require("express");
-
+const nodeCache = require("node-cache");
+const dbCache = new nodeCache({ stdTTL: 600 });
 const router = express.Router();
 
 const months = require("shared/models/months");
 
 router.get("/:month/:year", async (req, res) => {
-  const month = Number(req.params.month);
-  const year = Number(req.params.year);
+  const month = req.params.month;
+  const year = req.params.year;
+
+  if (dbCache.has(month + year)) {
+    res.json(dbCache.get(month + year));
+    return;
+  }
   try {
-    const monthData = await months.find({ month: month, year: year });
+    const monthData = await months.find({ month: +month, year: +year });
     let global = {
       code: "global",
       country: "Global",
@@ -33,6 +39,8 @@ router.get("/:month/:year", async (req, res) => {
 
     monthData[0].countries.push(global);
 
+    dbCache.set(month + year, monthData);
+    res.set("Cache-Control", "public, max-age=86400"); // browser will cache it for a day
     res.json(monthData);
   } catch (err) {
     res.status(500).json({ message: err.message });
