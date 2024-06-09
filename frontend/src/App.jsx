@@ -21,7 +21,7 @@ function App() {
   const [countryIndexMap, setCountryIndexMap] = useState({});
 
   useEffect(() => {
-    fetch(`http://localhost:2000/months/${month}/${year}`)
+    fetch(`months/${month}/${year}`)
       .then((res) => res.json())
       .then((data) => {
         setData(data[0].countries);
@@ -35,7 +35,7 @@ function App() {
   }, [month, year]);
 
   useEffect(() => {
-    fetch(`http://localhost:2000/co2`)
+    fetch(`/co2`)
       .then((res) => res.json())
       .then((data) => {
         set2020co2(data);
