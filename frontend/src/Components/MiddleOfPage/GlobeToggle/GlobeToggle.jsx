@@ -3,12 +3,6 @@ import co2 from "../../../assets/svg/co2.svg";
 import globe from "../../../assets/svg/globe.svg";
 import sentiment from "../../../assets/svg/sentiment.svg";
 import thermometer from "../../../assets/svg/thermometer.svg";
-import PropTypes from "prop-types";
-
-// GlobeToggle.propTypes = {
-//   globe: PropTypes.number, // 'globe' is a number
-//   setGlobe: PropTypes.func, // 'setGlobe' is a function
-// };
 
 function GlobeToggle(props) {
   const changeGlobe = (index) => {

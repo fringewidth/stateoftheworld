@@ -19,8 +19,6 @@ import USA from "../../../assets/countries-white/us.png";
 
 function InfoCard(props) {
   const Info = props.newCountryData;
-  // const Co2Info = props._2020co2;
-  // console.log(Co2Info);
 
   const countryToImage = {
     au: Australia,

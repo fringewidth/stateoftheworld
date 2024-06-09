@@ -14,12 +14,10 @@ function AllGlobes(props) {
 
   useEffect(() => {
     if (monthData) {
-      // setIsMonthLoading(false);
       setMinMax({
         min: Math.min(...monthData?.map((x) => x.tempAnomaly)),
         max: Math.max(...monthData?.map((x) => x.tempAnomaly)),
       });
-      // if (co2Data) setIsCO2Loading(false);
     }
   }, [monthData]);
 

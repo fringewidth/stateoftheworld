@@ -11,7 +11,6 @@ function NewsFeedCard(props) {
               className="bullet"
               style={{
                 color: "lightgreen",
-                // fontSize: "30px",
                 textShadow:
                   "0 0 10px green, 0 0 20px green, 0 0 30px green, 0 0 40px green",
                 marginRight: "5px",

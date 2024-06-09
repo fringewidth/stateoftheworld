@@ -38,7 +38,6 @@ function LeftSideOfPage(props) {
 
   let sentimentOverString = "";
   if (props.newCountryData) {
-    console.log(props.newCountryData);
     const isCodeMatched = ["gb", "us", "global"].includes(
       props.newCountryData.code
     );

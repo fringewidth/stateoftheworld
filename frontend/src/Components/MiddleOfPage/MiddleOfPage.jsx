@@ -3,7 +3,6 @@ import "./MiddleOfPage.css";
 import TitleAndMonth from "./TitleAndMonth/TitleAndMonth";
 import AllGlobes from "./GlobeRenders/AllGlobes/AllGlobes";
 import GlobeToggle from "./GlobeToggle/GlobeToggle";
-// import CountryToggleButtons from "./CountryToggleButtons";
 import { useState } from "react";
 
 function MiddleOfPage(props) {
@@ -18,7 +17,6 @@ function MiddleOfPage(props) {
           setMonth={props.setMonth}
           setYear={props.setYear}
         />
-        {/* <CountryToggleButtons setCountry={props.setCountry} /> */}
         <AllGlobes
           UVMap={props.UVMap}
           setCountryCode={props.setCountryCode}

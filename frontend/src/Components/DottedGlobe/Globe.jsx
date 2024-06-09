@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useRef, useEffect, useState } from "react";
 import * as THREE from "three";
 
@@ -8,8 +7,8 @@ import Camera from "../../utils/camera.js";
 import Renderer from "../../utils/renderer.js";
 import BaseGlobe from "../../utils/baseGlobe.js";
 import BaseAtm from "../../utils/baseAtm.js";
-import colorMap from "../../utils/colorMap.js";
 import orbitControls from "../../utils/orbitControls.js";
+import colorMap from "../../utils/colorMap.js";
 
 import globeLoading from "../../assets/images/globe-loading-text.gif";
 
@@ -39,8 +38,8 @@ const ROWS = 180;
 const DOT_DENSITY = 12;
 const TOOLTIP_TRANSITION_SEC = 0.2;
 const GLOBE_MATERIAL = new THREE.MeshPhysicalMaterial({
-  color: new THREE.Color(0x333333),
-  roughness: 0.4,
+  color: new THREE.Color(0x030303),
+  roughness: 0.5,
   metalness: 1,
   clearcoat: 0.8,
   clearcoatRoughness: 0.6,
@@ -116,10 +115,8 @@ export default function Globe(props) {
 
   useEffect(() => {
     const countryMeshCount = Object.keys(countryDots).length;
-    if (countryMeshCount === 0) {
-      console.log("No country dots to update");
-      return;
-    }
+    if (countryMeshCount === 0) return;
+
     const normalisedData = Object.fromEntries(
       Object.entries(props.data).map(([country, data]) => {
         const normData = normaliseData(data, props.min, props.max);
@@ -127,7 +124,6 @@ export default function Globe(props) {
       })
     );
 
-    console.log(props.data, normalisedData);
     recalcMaterials(countryDots, normalisedData, props.globe);
   }, [props.data]);
 
