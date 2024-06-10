@@ -21,7 +21,7 @@ function App() {
   const [countryIndexMap, setCountryIndexMap] = useState({});
 
   useEffect(() => {
-    fetch(`${import.meta.env.SERVER_URL}/months/${month}/${year}`)
+    fetch(`${import.meta.env.VITE_SERVER_URL}/months/${month}/${year}`)
       .then((res) => res.json())
       .then((data) => {
         setData(data[0].countries);
@@ -35,7 +35,7 @@ function App() {
   }, [month, year]);
 
   useEffect(() => {
-    fetch(`${import.meta.env.SERVER_URL}/co2`)
+    fetch(`${import.meta.env.VITE_SERVER_URL}/co2`)
       .then((res) => res.json())
       .then((data) => {
         set2020co2(data);
