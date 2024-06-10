@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import "./InfoCard.css";
-import { PiGlobeStandLight } from "react-icons/pi";
+import global from "../../../assets/countries-white/global.png";
 import Australia from "../../../assets/countries-white/au.png";
 import Brazil from "../../../assets/countries-white/br.png";
 import Canada from "../../../assets/countries-white/ca.png";
@@ -21,6 +21,7 @@ function InfoCard(props) {
   const Info = props.newCountryData;
 
   const countryToImage = {
+    global: global,
     au: Australia,
     br: Brazil,
     ca: Canada,
@@ -44,15 +45,12 @@ function InfoCard(props) {
     <>
       <div className="max-w-sm">
         <div className="relative">
-          {Info?.code === "global" ? (
-            <PiGlobeStandLight size={200} />
-          ) : (
-            <img
-              className="max-md:h-[40vh]"
-              src={imageLink}
-              alt={`${Info?.country} Image`}
-            />
-          )}
+          <img
+            className="max-md:h-[40vh]"
+            src={imageLink}
+            alt={`${Info?.country} Image`}
+          />
+
           <div className="absolute top-2/4 right-[20%]">
             <h5
               style={{ WebkitTextStroke: "1.5px black" }}
