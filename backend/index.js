@@ -4,6 +4,7 @@ require("dotenv").config();
 const cors = require("cors");
 const monthsRoute = require("./routes/monthsRoute");
 const co2Route = require("./routes/co2Route");
+const path = require("path");
 
 const app = express();
 app.set("port", process.env.PORT || 5000);
@@ -23,8 +24,3 @@ app.listen(app.get("port"), () => {
 app.use(cors());
 app.use("/months", monthsRoute);
 app.use("/co2", co2Route);
-app.use(express.static("../frontend/dist"));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../frontend/dist", "index.html"));
-});
