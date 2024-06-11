@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
@@ -10,7 +11,7 @@ import Camera from "../../utils/camera.js";
 import Renderer from "../../utils/renderer.js";
 import orbitControls from "../../utils/orbitControls.js";
 
-import UVMap from "../../assets/textures/earth_2k.jpg";
+// import UVMap from "../../assets/textures/earth_1k.jpg";
 
 export default function Globe(props) {
   const globeRef = useRef(null);
@@ -27,12 +28,12 @@ export default function Globe(props) {
       fragmentShader,
       uniforms: {
         globeTexture: {
-          value: new THREE.TextureLoader().load(UVMap),
+          value: new THREE.TextureLoader().load(props.UVMap),
         },
       },
     });
 
-    globeRef.current.addEventListener("click", (event) => {
+    globeRef.current.addEventListener("click", () => {
       props.setCountryCode("global");
     });
 

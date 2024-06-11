@@ -43,10 +43,10 @@ function InfoCard(props) {
 
   return (
     <>
-      <div className="max-w-sm">
+      <div className="max-w-sm max-h-[80svh] p-2">
         <div className="relative">
           <img
-            className="max-md:h-[40vh]"
+            className="max-h-[35svh] p-4 max-lg:p-0 max-md:h-[40vh]"
             src={imageLink}
             alt={`${Info?.country} Image`}
           />
@@ -61,48 +61,66 @@ function InfoCard(props) {
           </div>
         </div>
 
-        <p className="mb-3 font-normal">
-          <strong>Temperature Anomalies:</strong> <br />
-          <span className="text-orange-500 font-semibold text-2xl">
+        <p className="mb-1 font-normal">
+          <strong className="max-lg:text-md max-[860px]:text-sm">
+            Temperature Anomalies:
+          </strong>{" "}
+          <br />
+          <span className="text-orange-500 font-semibold text-2xl max-lg:text-xl max-[860px]:text-md">
             {Info?.tempAnomaly
               ? "+" + Info?.tempAnomaly?.toFixed(2) + "°C"
               : "NA"}
           </span>
         </p>
 
-        <p className="mb-3 font-normal">
-          <strong>Annual CO2 Emissions:</strong> <br />
-          <span className="text-orange-500 font-semibold text-2xl">
+        <p className="mb-1 font-normal">
+          <strong className="max-lg:text-md max-[860px]:text-sm">
+            Annual CO2 Emissions:
+          </strong>{" "}
+          <br />
+          <span className="text-orange-500 font-semibold text-2xl max-lg:text-xl max-[860px]:text-md">
             {props?.Co2Data
               ? props?.Co2Data?.toFixed(2) + " tons per capita"
               : "NA"}
           </span>
         </p>
 
-        <p className="mb-3 font-normal">
-          <strong>CO Concentration:</strong> <br />
-          <span className="text-orange-500 font-semibold text-2xl">
+        <p className="mb-1 font-normal">
+          <strong className="max-lg:text-md max-[860px]:text-sm">
+            CO Concentration:
+          </strong>{" "}
+          <br />
+          <span className="text-orange-500 font-semibold text-2xl max-lg:text-xl max-[860px]:text-md">
             {Info?.coconc ? Info.coconc.toFixed(2) + "ppm" : "NA"}
           </span>
         </p>
 
-        <p className="mb-3 font-normal">
-          <strong>NO2 Concentration:</strong> <br />
-          <span className="text-orange-500 font-semibold text-2xl">
+        <p className="mb-1 font-normal">
+          <strong className="max-lg:text-md max-[860px]:text-sm">
+            NO2 Concentration:
+          </strong>{" "}
+          <br />
+          <span className="text-orange-500 font-semibold text-2xl max-lg:text-xl max-[860px]:text-md">
             {Info?.no2conc ? Info.no2conc.toFixed(2) + "ppm" : "NA"}
           </span>
         </p>
 
-        <p className="mb-3 font-normal">
-          <strong>O3 Concentration:</strong> <br />
-          <span className="text-orange-500 font-semibold text-2xl">
+        <p className="mb-1 font-normal">
+          <strong className="max-lg:text-md max-[860px]:text-sm">
+            O3 Concentration:
+          </strong>{" "}
+          <br />
+          <span className="text-orange-500 font-semibold text-2xl max-lg:text-xl max-[860px]:text-md">
             {Info?.o3conc ? Info.o3conc.toFixed(2) + "ppm" : "NA"}
           </span>
         </p>
 
-        <p className="mb-3 font-normal">
-          <strong>SO2 Concentration:</strong> <br />
-          <span className="text-orange-500 font-semibold text-2xl">
+        <p className="mb-1 font-normal">
+          <strong className="max-lg:text-md max-[860px]:text-sm">
+            SO2 Concentration:
+          </strong>{" "}
+          <br />
+          <span className="text-orange-500 font-semibold text-2xl max-lg:text-xl max-[860px]:text-md">
             {Info?.so2conc ? Info.so2conc.toFixed(2) + "ppm" : "NA"}
           </span>
         </p>

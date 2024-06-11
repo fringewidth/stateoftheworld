@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import "./GlobeToggle.css";
 import co2 from "../../../assets/svg/co2.svg";
 import globe from "../../../assets/svg/globe.svg";
@@ -21,6 +22,7 @@ function GlobeToggle(props) {
         className={props.globe === index ? "active" : "inactive"}
       >
         <img src={button[0]} alt={button[1]} />
+        {/* Warning: validateDOMNesting(...): <caption> cannot appear as a child of <div>. */}
         <caption>{button[1]}</caption>
       </div>
     );

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import data from "./assets/StateOfTheWorldData";
 import { MonthContext } from "./Contexts/MonthData";
 import { co2Context } from "./Contexts/CO2";
-import UVMap from "./assets/textures/earth_2k.jpg";
+import UVMap from "./assets/textures/earth_1k.jpg";
 
 function App() {
   const [_2020co2, set2020co2] = useState(null);
@@ -50,7 +50,7 @@ function App() {
 
   return (
     <MonthContext.Provider value={Data}>
-      <div className="md:h-screen w-screen flex max-md:flex-col font-trebuchet">
+      <div className="md:h-screen md:overflow-hidden w-screen flex max-md:flex-col font-trebuchet">
         <LeftSideOfPage
           newCountryData={newCountryData}
           countryData={countryData}

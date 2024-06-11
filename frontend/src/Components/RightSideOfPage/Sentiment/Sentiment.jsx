@@ -49,7 +49,7 @@ function Sentiment(props) {
   return (
     <>
       <div
-        className="absolute -z-10 top-0 right-0"
+        className="absolute -z-10 top-0 right-0 max-md:absolute max-md:top-0 max-md:right-[35%]"
         style={
           OverallSentiment > 0.5
             ? PositiveGreenStyle
@@ -60,14 +60,14 @@ function Sentiment(props) {
             : OrangeStyle
         }
       />
-      <div className="flex flex-col text-right justify-end mt-4">
-        <h1 className=" text-sm font-medium whitespace-nowrap tracking-[3px] mr-[-25px]">
+      <div className="absolute top-0 right-0 max-md:absolute max-md:top-0 max-md:right-[35%] flex flex-col justify-end items-center mt-4 mb-36">
+        <h1 className="max-lg:text-xs text-sm font-medium whitespace-nowrap tracking-[3px] mr-[-25px]">
           OVERALL SENTIMENT
         </h1>
-        <span className="text-[45px] m-2 font-bold tracking-[3px]">
+        <span className="max-lg:text-[30px] text-[45px] m-2 font-bold tracking-[3px]">
           {OverallSentiment === "NaN" ? "Loading..." : OverallSentiment}
         </span>
-        <h1 className="text-2xl whitespace-nowrap font-bold tracking-[3px]">
+        <h1 className="max-lg:text-lg text-xl whitespace-nowrap font-bold tracking-[3px]">
           {OverallSentiment === "NaN"
             ? ""
             : OverallSentiment === "0.00"

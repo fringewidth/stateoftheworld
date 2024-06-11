@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable react/prop-types */
 import GlobeRender0 from "../GlobeRender0/GlobeRender0";
 import GlobeRender1 from "../GlobeRender1/GlobeRender1";
