@@ -4,7 +4,7 @@ import "./NewsFeedCard.css";
 function NewsFeedCard(props) {
   const PositiveGreenCard = (
     <>
-      <a href={props?.NewsLink}>
+      <a href={props?.NewsLink} target="_blank" rel="noreferrer">
         <div className="greencard max-w-sm p-6 bg-green-900 bg-opacity-50 rounded-lg shadow m-4">
           <h5 className="mb-2 font-times font-bold text-xl max-lg:text-lg max-md:text-2xl tracking-tight text-white">
             <span
@@ -28,7 +28,7 @@ function NewsFeedCard(props) {
 
   const MildlyNegativeYellowCard = (
     <>
-      <a href={props?.NewsLink}>
+      <a href={props?.NewsLink} target="_blank" rel="noreferrer">
         <div className="max-w-sm p-6 bg-yellow-900 bg-opacity-50 border border-yellow-700 rounded-lg shadow m-4">
           <h5 className="mb-2 font-times text-xl font-medium max-lg:text-lg max-md:text-2xl tracking-tight text-white">
             <span
@@ -53,7 +53,7 @@ function NewsFeedCard(props) {
 
   const NegativeRedCard = (
     <>
-      <a href={props?.NewsLink}>
+      <a href={props?.NewsLink} target="_blank" rel="noreferrer">
         <div className="redcard max-w-sm p-6 bg-red-900 bg-opacity-50 rounded-lg shadow m-4">
           <h5 className="mb-2 font-times text-xl font-bold max-lg:text-lg max-md:text-2xl tracking-tight text-white">
             <span
@@ -76,7 +76,7 @@ function NewsFeedCard(props) {
 
   const MildlyPositiveBlueCard = (
     <>
-      <a href={props?.NewsLink}>
+      <a href={props?.NewsLink} target="_blank" rel="noreferrer">
         <div className="max-w-sm p-6 bg-blue-900 bg-opacity-50 border border-blue-700 rounded-lg shadow m-4">
           <h5 className="mb-2 font-times text-xl font-medium max-lg:text-lg max-md:text-2xl tracking-tight text-white">
             <span
