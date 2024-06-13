@@ -9,7 +9,7 @@ function MiddleOfPage(props) {
   const [globe, setGlobe] = useState(0);
   return (
     <>
-      <div className="text-white flex items-center justify-end flex-col p-2 h-auto max-md:overflow-x-hidden order-2 max-md:order-1 w-3/5 max-md:w-[100lvw] max-md:h-[100lvh] ">
+      <div className="text-white flex items-center justify-between flex-col p-2 h-auto max-md:overflow-x-hidden order-2 max-md:order-1 w-3/5 max-md:w-[100lvw] max-md:h-[100lvh] ">
         <TitleAndMonth
           currentUpToDate={props.currentUpToDate}
           setDate={props.setDate}
