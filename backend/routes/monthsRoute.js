@@ -1,6 +1,6 @@
 const express = require("express");
 const nodeCache = require("node-cache");
-const dbCache = new nodeCache({ stdTTL: 600 });
+const dbCache = new nodeCache({ stdTTL: 3600 });
 const router = express.Router();
 
 const months = require("shared/models/months");
@@ -40,7 +40,7 @@ router.get("/:month/:year", async (req, res) => {
     monthData[0].countries.push(global);
 
     dbCache.set(month + year, monthData);
-    res.set("Cache-Control", "public, max-age=86400"); // browser will cache it for a day
+    res.set("Cache-Control", "public, max-age=43200"); // browser will cache it for a day
     res.json(monthData);
   } catch (err) {
     res.status(500).json({ message: err.message });
