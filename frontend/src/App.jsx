@@ -50,7 +50,7 @@ function App() {
 
   return (
     <MonthContext.Provider value={Data}>
-      <div className="md:h-screen md:overflow-hidden w-screen flex max-md:flex-col font-trebuchet">
+      <div className="md:max-h-screen md:min-h-screen md:overflow-hidden w-screen flex max-md:flex-col font-trebuchet">
         <LeftSideOfPage
           newCountryData={newCountryData}
           countryData={countryData}
