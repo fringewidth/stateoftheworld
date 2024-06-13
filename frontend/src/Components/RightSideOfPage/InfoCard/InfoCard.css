@@ -1,0 +1,6 @@
+@media (max-height: 780px) {
+  .InfoCard {
+    /* height: 75%; */
+    scale: 0.85;
+  }
+}

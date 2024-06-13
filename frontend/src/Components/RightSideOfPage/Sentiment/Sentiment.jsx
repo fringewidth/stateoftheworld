@@ -49,7 +49,7 @@ function Sentiment(props) {
   return (
     <>
       <div
-        className="absolute -z-10 top-0 right-0 max-md:absolute max-md:top-0 max-md:right-[35%]"
+        className="absolute -z-10 top-4 right-4 max-md:absolute max-md:top-0 max-md:right-[35%]"
         style={
           OverallSentiment > 0.5
             ? PositiveGreenStyle
@@ -60,7 +60,7 @@ function Sentiment(props) {
             : OrangeStyle
         }
       />
-      <div className="absolute top-0 right-0 max-md:absolute max-md:top-0 max-md:right-[35%] flex flex-col justify-end items-center mt-4 mb-36">
+      <div className="absolute top-0 right-7 max-md:absolute max-md:top-0 max-md:right-[35%] flex flex-col justify-end items-center mt-4 mb-36">
         <h1 className="max-lg:text-xs text-sm font-medium whitespace-nowrap tracking-[3px] mr-[-25px]">
           OVERALL SENTIMENT
         </h1>
