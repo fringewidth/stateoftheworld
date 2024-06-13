@@ -30,6 +30,11 @@ function LeftSideOfPage(props) {
 
     scrollRef.current.addEventListener("mouseover", stopScroll);
     scrollRef.current.addEventListener("mouseleave", startScroll);
+
+    return () => {
+      scrollRef.current.removeEventListener("mouseover", stopScroll);
+      scrollRef.current.removeEventListener("mouseleave", startScroll);
+    };
   }, []);
 
   useEffect(() => {
