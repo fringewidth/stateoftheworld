@@ -33,6 +33,13 @@ function TitleAndMonth(props) {
     });
   };
 
+  const isAtBackwardLimit =
+    props.date.getFullYear() <= 2024 && props.date.getMonth() === 0;
+  const isAtForwardLimit =
+    props.date.getMonth() === props.currentUpToDate.getMonth();
+  console.log(props.date, props.currentUpToDate);
+  console.log(isAtBackwardLimit, isAtForwardLimit);
+
   return (
     <div className="titleAndMonth mb-[-10px] max-[380px]:mb-[-100px] max-[515px]:mb-[-100px] text-center">
       <h1 className="mb-2 mt-2 text-3xl font-extrabold text-white md:text-4xl min-[810px]:text-5xl lg:text-6xl whitespace-nowrap">
@@ -50,7 +57,12 @@ function TitleAndMonth(props) {
           gap: "5px",
         }}
       >
-        <button className="hover:opacity-50" onClick={prevMonth}>
+        <button
+          className={`hover:opacity-50 ${
+            isAtBackwardLimit ? "opacity-50" : ""
+          }`}
+          onClick={prevMonth}
+        >
           <img src={leftArrow} className="h-8" />
         </button>
         <div className="w-48 text-center text-xl">
@@ -59,7 +71,10 @@ function TitleAndMonth(props) {
           {props.date.getFullYear()}
           &nbsp;
         </div>
-        <button className="text-2xl" onClick={nextMonth}>
+        <button
+          className={`hover:opacity-50 ${isAtForwardLimit ? "opacity-50" : ""}`}
+          onClick={nextMonth}
+        >
           <img src={rightArrow} className="h-8" />
         </button>
       </h2>
