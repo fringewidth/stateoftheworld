@@ -43,18 +43,18 @@ The colors on each component (either red, green or yellow) reflect the general c
 
 ### Core Azure Services
 
-#### Azure CosmosDB
+#### _I. Azure CosmosDB_
 
 As the project requires to draw data on monthly news headlines and climate statistics of various countries, we chose _Azure CosmosDB for MongoDB_ to store this data in a NoSQL format in the cloud.
 
 This data is queried by month every time a user requests it through the front end.
 
 <img src="images/datasample.png"/>
-<p align="center"><em>A sample document stored in CosmosDB</em></p>
+<p align="center"><em>A screenshot of the CosmosDB data explorer, showing a sample document</em></p>
 
 We chose CosmosDB for MongoDB as we wanted real time fetching of data in a specific format(JSON) only.
 
-#### Azure Functions
+#### _II. Azure Functions_
 
 To update the database with the complete statistics and headlines of the prior month, we leveraged the event driven nature of _Azure functions_, particularly the timer trigger.
 
@@ -65,7 +65,7 @@ We configured the data fetch functions to trigger on the 1st of every new month.
 
 ### Azure AI Service
 
-#### Azure AI Language Service
+#### _Azure AI Language Service_
 
 To estimate the overall sentiment of the monthly news headlines mined for each country, we utilised _Custom Text Classification_ of the Azure AI Language Suite. This involved manually labelling 930+ headlines as "Good News" or "Bad News", and training a custom text multilingual classification model on this dataset through the Language Studio UI.
 
@@ -96,10 +96,10 @@ The project is divided into three main directories:
 
 The tech stack for the project includes:
 
-- MongoDB as the database hosted through Azure CosmosDB
-- Node and Express server backend deployed to Azure Web Apps.
-- Serverless Azure Functions that are triggered every month.for updating the database.
-- React App on the front end using Three.js for 3D rendering and tailwind for styling, served online via Vercel.
+- **MongoDB** as the database hosted through **Azure CosmosDB**
+  **Node** and **Express** server backend deployed to **Azure Web Apps**.
+- Serverless **Azure Functions** that are triggered every month for updating the database.
+- **React** on the front end using **Three.js** for 3D rendering and **Tailwind** for styling, served deployed through **Vercel**.
   <!-- <p>
       <img src="images/cosmodbinstance.png">
   </p> -->
@@ -108,10 +108,10 @@ The tech stack for the project includes:
   </p> -->
   <h2 id="features">Features</h2>
 
-1. Monthly temparature anomalies of countries are calculated from data obtained from the OpenWeatherMap historical and accumulated parameters API.
-1. Monthly average of CO, NO2, SO2 and O3 emissions of countries are calculated from the OpenWeather pollution API.
+1. Monthly temparature anomalies of countries are calculated from data obtained from the OpenWeatherMap [historical](https://openweathermap.org/history) and [accumulated parameters](https://openweathermap.org/api/accumulated-parameters) API.
+1. Monthly average of CO, NO2, SO2 and O3 emissions of countries are calculated from the OpenWeather [air pollution](https://openweathermap.org/api/air-pollution) API.
 1. Climate change news for each month is fetched via scraping advanced Google search results.
-1. Classification of news headline done by a custom trained text classification Machine Learning algorithm implemented in the Azure Language Studio.
+1. Classification of news headline done by a custom trained text classification Machine Learning algorithm implemented in the Azure AI Language Studio.
 <p>
     <img src="images/aimodelresults.png">
 </p>
@@ -119,7 +119,9 @@ The tech stack for the project includes:
     <img src="images/aimodelresults2.png">
 </p>
 
-1. Serverside code caches data received from the database for an hour, to prevent unnecessary database queries.
+5. This data is displayed intuitively on multiple globes we have devised for this project.
+1. The data is updated automatically every month.
+1. Additionally, the serverside code caches data received from the database for an hour, to prevent unnecessary database queries.
 1. On the client side, the browser is set to cache data received for 12 hours.
 
 <p>
@@ -162,7 +164,7 @@ cd backend && node index.js
 
 - Tested the project throughout every stage of development
 - Prepared Codebase for hosting
-- Hosted node.js server on Azure App Services
+- Hosted Node.js server on Azure App Services
 - Deployed the web app to Vercel
 
 ### Dhyaan Kotian[[Dhyaan1](https://github.com/Dhyaan1)]
@@ -173,6 +175,6 @@ cd backend && node index.js
 
 ### Hrishik Sai [[fringewidth](https://github.com/fringewidth)]
 
-- Developed the main backend functionality, including data fetching through Azure functions, custom API endpoints, and the database.
-- Implemented all globes and their functionality using Three.js
+- Developed the main backend functionality, including data fetching through Azure functions, custom API endpoints, and the CosmosDB.
+- Implemented all globes using Three.js
 - Designed the Website UI
