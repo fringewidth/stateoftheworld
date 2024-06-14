@@ -5,7 +5,6 @@ import GlobeRender1 from "../GlobeRender1/GlobeRender1";
 import { useContext, useEffect, useState } from "react";
 import { MonthContext } from "../../../../Contexts/MonthData";
 import { co2Context } from "../../../../Contexts/CO2";
-import "./AllGlobes.css";
 
 function AllGlobes(props) {
   const monthData = useContext(MonthContext);
@@ -39,7 +38,7 @@ function AllGlobes(props) {
 
   return (
     <>
-      <div className="allGlobes mb-[-40px] max-[515px]:scale-75 max-[380px]:scale-[0.65]">
+      <div className=" max-[515px]:scale-75 max-[380px]:scale-[0.65]">
         {props.globe === 0 && (
           <GlobeRender0
             UVMap={props.UVMap}

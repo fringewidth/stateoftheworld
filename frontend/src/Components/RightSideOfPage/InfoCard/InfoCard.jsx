@@ -43,7 +43,7 @@ function InfoCard(props) {
 
   return (
     <>
-      <div className="InfoCard mt-4 max-w-sm max-h-[80svh] p-2">
+      <div className="max-w-sm max-h-[80svh] p-2">
         <div className="relative">
           <img
             className="max-h-[35svh] p-4 max-lg:p-0 max-md:h-[40vh]"
