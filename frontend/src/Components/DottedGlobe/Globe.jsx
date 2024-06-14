@@ -64,16 +64,9 @@ function normaliseData(data, min, max) {
 }
 
 function getMouseCoords(event, rect) {
-  const offsetX =
-    window.innerWidth > 768
-      ? event.offsetX
-      : event.touches[0].target.offsetLeft;
-  const offsetY =
-    window.innerWidth > 768 ? event.offsetY : event.touches[0].target.offsetTop;
-
   return new THREE.Vector2(
-    (offsetX / rect.width) * 2 - 1,
-    -(offsetY / rect.height) * 2 + 1
+    (event.offsetX / rect.width) * 2 - 1,
+    -(event.offsetY / rect.height) * 2 + 1
   );
 }
 
@@ -119,13 +112,7 @@ export default function Globe(props) {
   const globeRef = useRef(null);
 
   const { isLoading, setIsLoading } = props.loading;
-  const countryDots = {};
-
-  const handlerRef = useRef({
-    onClick: null,
-    onMouseMove: null,
-    onMouseDown: null,
-  });
+  const [countryDots, setCountryDots] = useState({});
 
   useEffect(() => {
     const countryMeshCount = Object.keys(countryDots).length;
@@ -153,11 +140,6 @@ export default function Globe(props) {
       const tooltip = document.querySelector(".tooltip");
       tooltip && document.body.removeChild(tooltip);
       setIsLoading(true);
-      const { onClick, onMouseMove, onMouseDown } = handlerRef.current;
-      globeRef.current?.removeChild(globeRef.current?.firstChild);
-      globeRef.current?.removeEventListener("click", onClick);
-      globeRef.current?.removeEventListener("mousemove", onMouseMove);
-      globeRef.current?.removeEventListener("mousedown", onMouseDown);
     };
   }, []);
 
@@ -286,7 +268,6 @@ export default function Globe(props) {
     let selectedCountry;
 
     const onClick = (event) => {
-      console.log("click");
       if (isDragging) return;
 
       const mouse = getMouseCoords(event, boundingRect);
@@ -307,13 +288,9 @@ export default function Globe(props) {
       }
     };
 
-    globeRef.current?.addEventListener("click", onClick);
-    console.log("click added");
-    if (window.innerWidth >= 768)
-      globeRef.current?.addEventListener("mousemove", onMouseMove);
-    globeRef.current?.addEventListener("mousedown", onMouseDown);
-
-    handlerRef.current = { onClick, onMouseMove, onMouseDown };
+    globeRef.current.addEventListener("click", onClick);
+    globeRef.current.addEventListener("mousemove", onMouseMove);
+    globeRef.current.addEventListener("mousedown", onMouseDown);
 
     function animate() {
       requestAnimationFrame(animate);

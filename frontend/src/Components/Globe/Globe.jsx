@@ -51,10 +51,6 @@ export default function Globe(props) {
     }
 
     animate();
-    return () => {
-      globeRef.current?.removeChild(renderer.domElement);
-      globeRef.current?.removeEventListener("click", onClick);
-    };
   }, []);
 
   return <div ref={globeRef} />;
