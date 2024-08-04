@@ -37,8 +37,6 @@ function TitleAndMonth(props) {
     props.date.getFullYear() <= 2024 && props.date.getMonth() === 0;
   const isAtForwardLimit =
     props.date.getMonth() === props.currentUpToDate.getMonth();
-  console.log(props.date, props.currentUpToDate);
-  console.log(isAtBackwardLimit, isAtForwardLimit);
 
   return (
     <div className="max-[380px]:mb-[-100px] max-[515px]:mb-[-100px] text-center">
