@@ -123,7 +123,7 @@ The tech stack for the project includes:
 1. The data is updated automatically every month.
 1. Additionally, the serverside code caches data received from the database for an hour, to prevent unnecessary database queries.
 1. On the client side, the browser is set to cache data received for 12 hours.
-
+ 
 <p>
     <img src="images/bar.png">
 </p>
