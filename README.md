@@ -1,4 +1,4 @@
-<h1 align="center"> State of the World <a href="https://stateoftheworld.vercel.app">[Live Link]</a> | <a href="https://drive.google.com/file/d/1O7H_h5-T2hSbDf5F3ZfJA5Sk2455sEJB/view?usp=sharing">[Demo Video]</a></h1>
+<h1 align="center"> State of the World <a href="https://stateoftheworld.vercel.app">[Live Link]</a>
 <p align="center">
     <img src="images/state.png" alt = "Main Page">
 </p>
