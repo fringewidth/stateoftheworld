@@ -1,6 +1,6 @@
 const express = require("express");
 const nodeCache = require("node-cache");
-const dbCache = new nodeCache({ stdTTL: 3600 });
+const dbCache = new nodeCache({ stdTTL: 43200 }); // Cache for 12 hours (43200 seconds) TTL = Time to Live
 const router = express.Router();
 
 const months = require("shared/models/months");
@@ -14,7 +14,9 @@ router.get("/:month/:year", async (req, res) => {
     return;
   }
   try {
-    const monthData = await months.find({ month: +month, year: +year });
+    const monthData = await months.find({ month: +month, year: +year }); // Find is a mongoose method
+
+    // For Global Data Calculation
     let global = {
       code: "global",
       country: "Global",
