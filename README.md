@@ -82,7 +82,7 @@ We used the Azure Language REST API to programmatically classify headlines that 
 
 We deployed the backend server on Azure Web Apps from Node.js. Our backend server consisted of two custom API endpoints that we created for querying the [months data](https://sotwserver.azurewebsites.net/months/1/2024) from the database, as well as fetching [annual CO2 emissions](https://sotwserver.azurewebsites.net/co2) of countries.
 
-These API endpoints are live at `https://sotwserver.azurewebsites.net/months/{month}/{year}`, and `https://sotwserver.azurewebsites.net/co2` respectively.
+These API endpoints are live at `https://sotw.azurewebsites.net/months/{month}/{year}`, and `https://sotw.azurewebsites.net/co2` respectively.
 
 _Note: The month data was only mined for the year 2024._
 
@@ -131,7 +131,7 @@ The tech stack for the project includes:
 <h2 id="installation">Installation and Usage</h2>
 
 The website can be accessed at http://stateoftheworld.vercel.app/ <br>
-The data can be accessed at https://sotwserver.azurewebsites.net/months/ ... followed by the required month and year
+The data can be accessed at https://sotw.azurewebsites.net/months/ ... followed by the required month and year
 
 You can also build the website from source locally:
 
