@@ -1,8 +1,5 @@
 <h1 align="center"> State of the World <a href="https://stateoftheworld.vercel.app">[Live Link]</a>
-<p align="center">
-    <!-- Replace with a new project screenshot if available -->
-    <img src="frontend/public/favicon.ico" alt="Logo" width="100">
-</p>
+
 <h3 align="center"> A one-stop platform to track the global fight against climate change. </h3>
 
 ## Contents
@@ -103,4 +100,4 @@ The project is pre-configured for **Vercel**.
 
 <h2 id="credits">Original Credits</h2>
 Ideated and developed by Hrishik Sai, Dhyaan Kotian, and Dharmisht SVK.
-Refactored for Serverless & OWM 3.0 by ~Hrishik Sai~ (Gemini 3 Flash lmao).
+Refactored for Serverless & OWM 3.0 by ~~Hrishik Sai~~ (Gemini 3 Flash lmao).
