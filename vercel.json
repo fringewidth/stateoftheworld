@@ -1,0 +1,18 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron",
+      "schedule": "0 0 1 * *"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/months/:path*",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/co2",
+      "destination": "/api/index"
+    }
+  ]
+}

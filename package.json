@@ -1,9 +1,18 @@
 {
-    "private": true,
-    "workspaces": [
-        "frontend",
-        "backend",
-        "shared",
-        "backend/azure/functions"
-    ]
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "shared"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace=frontend",
+    "start": "npm run dev --workspace=frontend"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^8.4.0",
+    "cors": "^2.8.5",
+    "cheerio": "^1.0.0-rc.12",
+    "dotenv": "^16.4.5"
+  }
 }
