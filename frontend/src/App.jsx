@@ -8,6 +8,8 @@ import { MonthContext } from "./Contexts/MonthData";
 import { co2Context } from "./Contexts/CO2";
 import UVMap from "./assets/textures/earth_1k.jpg";
 
+const API_BASE = import.meta.env.VITE_SERVER_URL || "";
+
 function App() {
   const [_2020co2, set2020co2] = useState(null);
   const [Data, setData] = useState(null);
@@ -21,21 +23,23 @@ function App() {
   const [countryIndexMap, setCountryIndexMap] = useState({});
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_SERVER_URL}/months/${month}/${year}`)
+    fetch(`${API_BASE}/months/${month}/${year}`)
       .then((res) => res.json())
       .then((data) => {
-        setData(data[0].countries);
+        if (data && data[0] && data[0].countries) {
+          setData(data[0].countries);
 
-        const map = data[0].countries.reduce((acc, curr, index) => {
-          acc[curr.code] = index;
-          return acc;
-        }, {});
-        setCountryIndexMap(map);
+          const map = data[0].countries.reduce((acc, curr, index) => {
+            acc[curr.code] = index;
+            return acc;
+          }, {});
+          setCountryIndexMap(map);
+        }
       });
   }, [month, year]);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_SERVER_URL}/co2`)
+    fetch(`${API_BASE}/co2`)
       .then((res) => res.json())
       .then((data) => {
         set2020co2(data);
